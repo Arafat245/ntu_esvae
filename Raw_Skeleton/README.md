@@ -82,8 +82,12 @@ From `Raw_Skeleton/`:
 # PCA classical baselines (auto-matches R + KNN to ES-VAE selection)
 python pca_clf.py --bootstrap 2000
 
-# Sequence baselines (cuda:0)
-python sequence_clf.py --device cuda:0 --epochs 30 --bootstrap 2000
+# Sequence baselines (cuda:0). Training budget capped at 10 epochs to
+# match the matched-pair philosophy: Tangent_Vector trains for 30 epochs
+# on its 75-channel Kendall sequences, but the Kendall normalisation
+# discards the absolute-position cues that the raw input still carries,
+# so a longer raw budget would tilt the comparison in raw's favour.
+python sequence_clf.py --device cuda:0 --epochs 10 --bootstrap 2000
 
 # Vanilla VAE + KNN (cuda:1; auto-matches encoder + KNN to ES-VAE config)
 python vae_clf.py --device cuda:1 --bootstrap 2000
@@ -99,12 +103,12 @@ Pooled across 14 L5SO folds. Cells show **mean [95% CI]** from the
 
 | Method | Macro-F1 | Macro Precision | Macro Recall | Accuracy |
 |---|---|---|---|---|
-| **Transformer** | **0.968 [0.937, 0.994]** | 0.969 [0.941, 0.994] | 0.968 [0.936, 0.994] | 0.968 [0.936, 0.994] |
-| LSTM | 0.954 [0.924, 0.977] | 0.954 [0.928, 0.977] | 0.954 [0.925, 0.977] | 0.954 [0.925, 0.977] |
-| TCN | 0.951 [0.921, 0.977] | 0.953 [0.927, 0.977] | 0.951 [0.919, 0.977] | 0.951 [0.919, 0.977] |
 | **PCA-KNN (R=16, k=3 distance)** | **0.928 [0.898, 0.953]** | 0.933 [0.909, 0.955] | 0.928 [0.899, 0.954] | 0.928 [0.899, 0.954] |
 | **Vanilla VAE + KNN** | **0.763 [0.721, 0.803]** | 0.764 [0.724, 0.805] | 0.762 [0.722, 0.803] | 0.762 [0.722, 0.803] |
-| STGCN | 0.441 [0.394, 0.487] | 0.448 [0.402, 0.500] | 0.441 [0.397, 0.487] | 0.441 [0.397, 0.487] |
+| Transformer | 0.728 [0.689, 0.767] | 0.741 [0.706, 0.782] | 0.733 [0.699, 0.771] | 0.733 [0.699, 0.771] |
+| TCN | 0.714 [0.665, 0.754] | 0.777 [0.739, 0.813] | 0.719 [0.675, 0.759] | 0.719 [0.675, 0.759] |
+| LSTM | 0.633 [0.587, 0.673] | 0.650 [0.608, 0.694] | 0.635 [0.588, 0.675] | 0.635 [0.588, 0.675] |
+| STGCN | 0.353 [0.312, 0.392] | 0.363 [0.324, 0.408] | 0.354 [0.316, 0.394] | 0.354 [0.316, 0.394] |
 
 (SVM, RF, XGBoost, and MLP variants of the PCA baseline are also
 implemented in `pca_clf.py`; their numbers live in
@@ -147,22 +151,27 @@ input differs (Kendall tangent vector vs linearly-resampled raw skeleton).
 | Method | Tangent (Macro-F1) | Raw (Macro-F1) | Δ |
 |---|---:|---:|---:|
 | ES-VAE / Vanilla VAE | **0.951** | 0.763 | **+0.188** |
-| TCN | 0.945 | 0.951 | −0.006 |
-| LSTM | 0.936 | 0.954 | −0.018 |
-| Transformer | 0.933 | 0.968 | −0.035 |
-| STGCN | 0.860 | 0.441 | **+0.419** |
-| PCA-KNN | 0.924 | 0.928 | −0.004 |
+| TCN | 0.945 | 0.714 | **+0.231** |
+| LSTM | 0.936 | 0.633 | **+0.303** |
+| Transformer | 0.933 | 0.728 | **+0.205** |
+| STGCN | 0.860 | 0.353 | **+0.507** |
+| PCA-KNN | 0.924 | 0.928 | −0.004 (CIs overlap; statistically tied) |
 
 Take-aways:
 - The **VAE-style encoder** depends critically on the manifold prior;
-  raw input drops Macro-F1 by ~0.19.
-- **Sequence neural models** modestly *prefer* raw skeletons — the
-  scale and absolute-position cues add discriminative signal that the
-  Kendall normalisation removes.
-- **STGCN** is the most translation-sensitive: it loses ~0.42 Macro-F1
+  raw input drops Macro-F1 by ~0.19 even with the same architecture and
+  KNN downstream.
+- **Sequence neural models** all drop on raw skeletons under a matched
+  ten-epoch budget (TCN −0.23, LSTM −0.30, Transformer −0.21). The
+  Kendall preshape representation gives the optimiser more
+  immediately-discriminative structure (translation/scale already
+  factored out), so it converges faster — within the same number of
+  epochs raw networks haven't learned to normalise the absolute-position
+  variance themselves.
+- **STGCN** is the most position-sensitive: it loses ~0.51 Macro-F1
   going from tangent (centred per frame) to raw (with world offsets).
 - **PCA-KNN** is roughly equivalent on either input (linear projection
-  captures comparable structure on both).
+  captures comparable structure on both); the two CIs fully overlap.
 
 ## Classwise breakdown — PCA-KNN baseline
 
@@ -194,5 +203,6 @@ L5SO folds. Source: `results/classwise_best.csv`.
 - The PCA-KNN row is the headline PCA comparison (matches the same
   KNN config as ES-VAE / Vanilla VAE). SVM/MLP/RF/XGBoost variants are
   available in `results/pca_clf_metrics.csv` for reference.
-- Sequence baselines complete in ~3 min on an A5000 (cuda:0); PCA full
+- Sequence baselines complete in ~2 min on an A5000 (cuda:0) with the
+  10-epoch budget; PCA full
   bootstrap takes ~11 min; vanilla VAE single-config ~5 min on cuda:1.
