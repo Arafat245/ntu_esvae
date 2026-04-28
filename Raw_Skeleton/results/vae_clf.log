@@ -1,0 +1,38 @@
+Device: cuda:1
+X_flat: (345, 7500), y: (345,)
+Folds: 14  sizes=[5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 4]
+Matched encoder + KNN to ES-VAE config from /mnt/sdb/arafat/activity_recognition/Tangent_Vector/results/esvae_clf_config.json: enc={'seed': 42, 'R': 16, 'epochs': 150, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 512}, knn={'n_neighbors': 3, 'weights': 'distance'}
+
+Single config: enc={'seed': 42, 'R': 16, 'epochs': 150, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 512}  knn={'n_neighbors': 3, 'weights': 'distance'}
+  fold 01/14  k=3,distance:0.740
+  fold 02/14  k=3,distance:0.800
+  fold 03/14  k=3,distance:0.745
+  fold 04/14  k=3,distance:0.753
+  fold 05/14  k=3,distance:0.631
+  fold 06/14  k=3,distance:0.838
+  fold 07/14  k=3,distance:0.802
+  fold 08/14  k=3,distance:0.617
+  fold 09/14  k=3,distance:0.642
+  fold 10/14  k=3,distance:0.842
+  fold 11/14  k=3,distance:0.838
+  fold 12/14  k=3,distance:0.792
+  fold 13/14  k=3,distance:0.833
+  fold 14/14  k=3,distance:0.698
+
+Pooled  acc=0.762  macroF1=0.763
+     method  Accuracy mean  Accuracy ci_low  Accuracy ci_high  F1 (weighted) mean  F1 (weighted) ci_low  F1 (weighted) ci_high  F1 (macro) mean  F1 (macro) ci_low  F1 (macro) ci_high  Precision (weighted) mean  Precision (weighted) ci_low  Precision (weighted) ci_high  Precision (macro) mean  Precision (macro) ci_low  Precision (macro) ci_high  Recall (weighted) mean  Recall (weighted) ci_low  Recall (weighted) ci_high  Recall (macro) mean  Recall (macro) ci_low  Recall (macro) ci_high
+Vanilla VAE         0.7623           0.7217            0.8029              0.7629                0.7209                 0.8028           0.7629             0.7209              0.8028                     0.7641                       0.7241                        0.8054                  0.7641                    0.7241                     0.8054                  0.7623                    0.7217                     0.8029               0.7623                 0.7217                  0.8029
+
+sklearn classification_report:
+                      precision    recall  f1-score   support
+
+     A080 squat_down     0.8529    0.8406    0.8467        69
+    A097 arm_circles     0.6515    0.6232    0.6370        69
+     A098 arm_swings     0.6216    0.6667    0.6434        69
+  A100 kick_backward     0.8310    0.8551    0.8429        69
+A101 cross_toe_touch     0.8636    0.8261    0.8444        69
+
+            accuracy                         0.7623       345
+           macro avg     0.7641    0.7623    0.7629       345
+        weighted avg     0.7641    0.7623    0.7629       345
+
