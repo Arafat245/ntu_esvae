@@ -69,7 +69,7 @@ the two pipelines really do use the same fold splits.
     F1/Prec/Recall + Accuracy and 95% CIs, sorted by Macro-F1.
   - `summary_all_methods.csv` — full version including weighted metrics.
   - `classwise_best.csv` — sklearn `classification_report` for the best
-    method **with saved OOF predictions** (currently PCA-SVM; sequence
+    method **with saved OOF predictions** (currently PCA-KNN; sequence
     baselines do not persist per-sample OOF, so the headline-best
     Transformer is summarised in its own `sequence_clf_classwise_best.csv`).
 - **Logs**: `*.log` — per-fold training prints.
@@ -99,16 +99,17 @@ Pooled across 14 L5SO folds. Cells show **mean [95% CI]** from the
 
 | Method | Macro-F1 | Macro Precision | Macro Recall | Accuracy |
 |---|---|---|---|---|
-| **PCA-SVM (RBF)** | **0.971 [0.951, 0.988]** | 0.972 [0.954, 0.989] | 0.971 [0.951, 0.988] | 0.971 [0.951, 0.988] |
 | **Transformer** | **0.968 [0.937, 0.994]** | 0.969 [0.941, 0.994] | 0.968 [0.936, 0.994] | 0.968 [0.936, 0.994] |
 | LSTM | 0.954 [0.924, 0.977] | 0.954 [0.928, 0.977] | 0.954 [0.925, 0.977] | 0.954 [0.925, 0.977] |
 | TCN | 0.951 [0.921, 0.977] | 0.953 [0.927, 0.977] | 0.951 [0.919, 0.977] | 0.951 [0.919, 0.977] |
-| PCA-MLP | 0.951 [0.921, 0.977] | 0.952 [0.924, 0.977] | 0.951 [0.919, 0.977] | 0.951 [0.919, 0.977] |
 | **PCA-KNN (R=16, k=3 distance)** | **0.928 [0.898, 0.953]** | 0.933 [0.909, 0.955] | 0.928 [0.899, 0.954] | 0.928 [0.899, 0.954] |
-| PCA-RF | 0.925 [0.891, 0.954] | 0.927 [0.897, 0.954] | 0.925 [0.890, 0.954] | 0.925 [0.890, 0.954] |
-| PCA-XGBoost | 0.922 [0.890, 0.953] | 0.926 [0.897, 0.956] | 0.922 [0.890, 0.954] | 0.922 [0.890, 0.954] |
 | **Vanilla VAE + KNN** | **0.763 [0.721, 0.803]** | 0.764 [0.724, 0.805] | 0.762 [0.722, 0.803] | 0.762 [0.722, 0.803] |
 | STGCN | 0.441 [0.394, 0.487] | 0.448 [0.402, 0.500] | 0.441 [0.397, 0.487] | 0.441 [0.397, 0.487] |
+
+(SVM, RF, XGBoost, and MLP variants of the PCA baseline are also
+implemented in `pca_clf.py`; their numbers live in
+`results/pca_clf_metrics.csv` but are omitted here so the headline PCA
+row uses the same KNN classifier as ES-VAE / Vanilla VAE.)
 
 ### Headline note on STGCN
 
@@ -151,8 +152,6 @@ input differs (Kendall tangent vector vs linearly-resampled raw skeleton).
 | Transformer | 0.933 | 0.968 | −0.035 |
 | STGCN | 0.860 | 0.441 | **+0.419** |
 | PCA-KNN | 0.924 | 0.928 | −0.004 |
-| PCA-MLP | 0.960 | 0.951 | +0.009 |
-| PCA-SVM | 0.954 | 0.971 | −0.017 |
 
 Take-aways:
 - The **VAE-style encoder** depends critically on the manifold prior;
@@ -162,28 +161,29 @@ Take-aways:
   Kendall normalisation removes.
 - **STGCN** is the most translation-sensitive: it loses ~0.42 Macro-F1
   going from tangent (centred per frame) to raw (with world offsets).
-- **PCA-based classifiers** are roughly equivalent on either input
-  (linear projection captures comparable structure on both).
+- **PCA-KNN** is roughly equivalent on either input (linear projection
+  captures comparable structure on both).
 
-## Classwise breakdown — best **headline** model with saved OOF (PCA-SVM)
+## Classwise breakdown — PCA-KNN baseline
 
-`sklearn.metrics.classification_report` on pooled OOF predictions across
-all 14 L5SO folds. Source: `results/classwise_best.csv`.
+`sklearn.metrics.classification_report` on pooled OOF predictions of
+the headline PCA classifier (KNN, matched to ES-VAE) across all 14
+L5SO folds. Source: `results/classwise_best.csv`.
 
 | Class | Precision | Recall | F1-score | Support |
 |---|---:|---:|---:|---:|
-| A080 squat_down | 1.0000 | 0.9710 | 0.9853 | 69 |
-| A097 arm_circles | 0.9848 | 0.9420 | 0.9630 | 69 |
-| A098 arm_swings | 0.9577 | 0.9855 | 0.9714 | 69 |
-| A100 kick_backward | 0.9452 | 1.0000 | 0.9718 | 69 |
-| A101 cross_toe_touch | 0.9706 | 0.9565 | 0.9635 | 69 |
+| A080 squat_down | 0.9571 | 0.9710 | 0.9640 | 69 |
+| A097 arm_circles | 0.9683 | 0.8841 | 0.9242 | 69 |
+| A098 arm_swings | 0.9143 | 0.9275 | 0.9209 | 69 |
+| A100 kick_backward | 0.8415 | 1.0000 | 0.9139 | 69 |
+| A101 cross_toe_touch | 0.9833 | 0.8551 | 0.9147 | 69 |
 |  |  |  |  |  |
-| accuracy |  |  | 0.9710 | 345 |
-| macro avg | 0.9717 | 0.9710 | 0.9710 | 345 |
-| weighted avg | 0.9717 | 0.9710 | 0.9710 | 345 |
+| accuracy |  |  | 0.9275 | 345 |
+| macro avg | 0.9329 | 0.9275 | 0.9276 | 345 |
+| weighted avg | 0.9329 | 0.9275 | 0.9276 | 345 |
 
-(For Transformer, which slightly trails PCA-SVM at 0.968 but has the
-best per-fold prints, see `sequence_clf_classwise_best.csv`.)
+(For the headline-best Transformer model — Macro-F1 0.968 — see
+`results/sequence_clf_classwise_best.csv`.)
 
 ## Notes
 
@@ -192,7 +192,7 @@ best per-fold prints, see `sequence_clf_classwise_best.csv`.)
   two folders are matched-pair valid.
 - Per-fold prints are in the `*.log` files for reproducibility.
 - The PCA-KNN row is the headline PCA comparison (matches the same
-  KNN config as ES-VAE / Vanilla VAE). PCA-SVM/MLP/RF/XGBoost rows are
-  reported for reference.
+  KNN config as ES-VAE / Vanilla VAE). SVM/MLP/RF/XGBoost variants are
+  available in `results/pca_clf_metrics.csv` for reference.
 - Sequence baselines complete in ~3 min on an A5000 (cuda:0); PCA full
   bootstrap takes ~11 min; vanilla VAE single-config ~5 min on cuda:1.

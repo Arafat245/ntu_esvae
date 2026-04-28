@@ -154,24 +154,20 @@ A080 and A097 are recovered with high precision; A101 (cross-toe touch) is
 the hardest class on recall — it is occasionally confused with A100
 (kick-backward), which shares the unilateral-leg-extension motif.
 
-## Full PCA classifier table
+## PCA classifier (matched to ES-VAE)
 
-For reference. PCA features are the top-16 PCs of the tangent matrix
-(matched to ES-VAE's R). The headline PCA comparison uses **KNN** so it is
-on the same footing as ES-VAE.
+PCA features are the top-16 PCs of the tangent matrix (matched to
+ES-VAE's R). The reported PCA classifier is **KNN with the same config
+as ES-VAE** (`n_neighbors=3, weights="distance"`), so the comparison
+isolates the contribution of the **encoder** (geodesic-loss latent
+vs linear projection) by holding the downstream classifier fixed.
 
 | PCA classifier | Macro-F1 | Macro Precision | Macro Recall | Accuracy |
 |---|---|---|---|---|
 | **KNN (k=3, distance)** | **0.924 [0.896, 0.951]** | **0.930 [0.906, 0.954]** | **0.925 [0.896, 0.951]** | **0.925 [0.896, 0.951]** |
-| SVM (RBF) | 0.954 [0.923, 0.980] | 0.955 [0.926, 0.980] | 0.954 [0.922, 0.980] | 0.954 [0.922, 0.980] |
-| RF | 0.951 [0.919, 0.977] | 0.952 [0.923, 0.977] | 0.951 [0.919, 0.977] | 0.951 [0.919, 0.977] |
-| XGBoost | 0.913 [0.876, 0.948] | 0.914 [0.878, 0.948] | 0.913 [0.875, 0.948] | 0.913 [0.875, 0.948] |
-| MLP | 0.960 [0.937, 0.980] | 0.960 [0.939, 0.980] | 0.959 [0.936, 0.980] | 0.959 [0.936, 0.980] |
 
-Note: SVM/RF/MLP outperform PCA-KNN because they can model nonlinear
-boundaries on top of linear PCA features. The headline ES-VAE vs PCA-KNN
-comparison isolates the contribution of the **encoder** (geodesic-loss
-latent vs linear projection) by holding the downstream classifier fixed.
+(SVM, RF, XGBoost, and MLP are also implemented in `pca_clf.py` for
+exploration; their numbers live in `results/pca_clf_metrics.csv`.)
 
 ## Sequence baselines (intentionally lightweight)
 
