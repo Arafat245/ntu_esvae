@@ -48,17 +48,6 @@ def get_models(seed: int, knn_cfg: dict | None = None):
     knn_cfg = knn_cfg or {}
     return {
         "KNN": KNeighborsClassifier(**knn_cfg),
-        "SVM": SVC(kernel="rbf", C=4.0, gamma="scale", random_state=seed),
-        "RF": RandomForestClassifier(n_estimators=400, random_state=seed, n_jobs=-1),
-        "XGBoost": xgb.XGBClassifier(
-            n_estimators=400, max_depth=5, learning_rate=0.05,
-            objective="multi:softprob", num_class=5, eval_metric="mlogloss",
-            random_state=seed, tree_method="hist", n_jobs=-1, verbosity=0,
-        ),
-        "MLP": MLPClassifier(
-            hidden_layer_sizes=(128, 64), max_iter=2000,
-            early_stopping=False, random_state=seed,
-        ),
     }
 
 

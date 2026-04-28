@@ -13,5 +13,5 @@
     "n_neighbors": 3,
     "weights": "distance"
   },
-  "pooled_macroF1": 0.7628821192324843
+  "pooled_macroF1": 0.5915573124801695
 }

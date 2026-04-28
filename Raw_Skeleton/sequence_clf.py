@@ -326,7 +326,7 @@ def main():
     ap.add_argument("--device", type=str, default=None)
     ap.add_argument("--models", type=str, default="TCN,LSTM,TRANSFORMER,STGCN",
                     help="Comma-separated subset of MODEL_BUILDERS keys.")
-    ap.add_argument("--epochs", type=int, default=20)
+    ap.add_argument("--epochs", type=int, default=30)
     ap.add_argument("--batch-size", type=int, default=64)
     ap.add_argument("--lr", type=float, default=2e-3)
     ap.add_argument("--weight-decay", type=float, default=1e-4)

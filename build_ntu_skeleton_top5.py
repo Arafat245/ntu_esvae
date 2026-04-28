@@ -1,21 +1,33 @@
 #!/usr/bin/env python3
+"""Curate NTU 120 skeletons into a 5-class, common-subject subset.
+
+Default behaviour selects the lexicographically smallest valid candidate
+per (subject, class), which collapses cameras/replications to mostly
+C001/R001. Pass --seed N to instead pick a deterministically varied
+candidate per pair, spreading the selection across all available
+(camera, replication) combinations. Same 69 subjects × 5 classes = 345
+samples are produced either way.
+"""
 
 from __future__ import annotations
 
+import argparse
 import csv
+import random
 import shutil
 from collections import defaultdict
 from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parent
+DATA_ROOT = REPO_ROOT / "data"
 SOURCE_DIRS = [
-    REPO_ROOT / "nturgbd_skeletons_s001_to_s017" / "nturgb+d_skeletons",
-    REPO_ROOT / "nturgbd_skeletons_s018_to_s032",
+    DATA_ROOT / "nturgbd_skeletons_s001_to_s017" / "nturgb+d_skeletons",
+    DATA_ROOT / "nturgbd_skeletons_s018_to_s032",
 ]
 MISSING_LISTS = [
-    REPO_ROOT / "ntu_rgbd120_missing_incomplete_skeletons_s001_to_s017.txt",
-    REPO_ROOT / "ntu_rgbd120_missing_incomplete_skeletons_s018_to_s032.txt",
+    DATA_ROOT / "ntu_rgbd120_missing_incomplete_skeletons_s001_to_s017.txt",
+    DATA_ROOT / "ntu_rgbd120_missing_incomplete_skeletons_s018_to_s032.txt",
 ]
 OUTPUT_DIR = REPO_ROOT / "ntu_skeleton"
 
@@ -33,6 +45,8 @@ TARGET_CLASSES = {
 def load_missing_paths() -> set[str]:
     missing_paths: set[str] = set()
     for list_path in MISSING_LISTS:
+        if not list_path.exists():
+            continue
         for raw_line in list_path.read_text(encoding="utf-8").splitlines():
             line = raw_line.strip()
             if line:
@@ -99,7 +113,9 @@ def collect_valid_candidates() -> tuple[dict[tuple[str, str], list[Path]], dict[
             if class_id not in TARGET_CLASSES:
                 continue
 
-            relative_path = path.relative_to(REPO_ROOT).as_posix()
+            # Missing-incomplete txt lists paths relative to DATA_ROOT
+            # (e.g. "nturgbd_skeletons_s018_to_s032/S019C001P046R001A075.skeleton").
+            relative_path = path.relative_to(DATA_ROOT).as_posix()
             if relative_path in missing_paths:
                 continue
 
@@ -119,7 +135,34 @@ def reset_output_dir() -> None:
     OUTPUT_DIR.mkdir()
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=None,
+        help="If set, deterministically pick a varied (camera, replication) "
+             "candidate per (subject, class) instead of the sorted-first one. "
+             "Selection is per-pair: the candidate list is shuffled with "
+             "seed=(args.seed, person_id, class_id) and the first element "
+             "is taken — same input -> same output, but the choice spreads "
+             "across all available (camera, replication) combinations.",
+    )
+    return parser.parse_args()
+
+
+def select_candidate(paths: list[Path], person_id: str, class_id: str,
+                     seed: int | None) -> Path:
+    if seed is None:
+        return paths[0]
+    rng = random.Random((seed, person_id, class_id))
+    perm = list(paths)
+    rng.shuffle(perm)
+    return perm[0]
+
+
 def main() -> int:
+    args = parse_args()
     candidates, subjects_by_class = collect_valid_candidates()
     common_subjects = sorted(set.intersection(*(subjects_by_class[class_id] for class_id in TARGET_CLASSES)))
 
@@ -132,7 +175,9 @@ def main() -> int:
         class_dir.mkdir()
 
         for person_id in common_subjects:
-            selected_path = candidates[(person_id, class_id)][0]
+            selected_path = select_candidate(
+                candidates[(person_id, class_id)], person_id, class_id, args.seed
+            )
             output_path = class_dir / selected_path.name
             shutil.copy2(selected_path, output_path)
 
