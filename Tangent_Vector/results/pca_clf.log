@@ -1,0 +1,20 @@
+Loaded KNN config from /mnt/sdb/arafat/activity_recognition/Tangent_Vector/results/best_knn_cfg.json: {'n_neighbors': 3, 'weights': 'distance'}
+Matching PCA R to ES-VAE encoder R from /mnt/sdb/arafat/activity_recognition/Tangent_Vector/results/esvae_clf_config.json: 16
+tangent_flat: (7500, 345), y: (345,), R=16
+Folds: 14 (sizes=[5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 4])
+KNN model details: KNeighborsClassifier(n_neighbors=3, weights='distance')
+L5SO folds:   0%|          | 0/14 [00:00<?, ?it/s]L5SO folds:   7%|▋         | 1/14 [02:58<38:36, 178.19s/it]L5SO folds:  14%|█▍        | 2/14 [04:14<23:40, 118.35s/it]L5SO folds:  21%|██▏       | 3/14 [05:13<16:41, 91.04s/it] L5SO folds:  29%|██▊       | 4/14 [06:10<12:56, 77.70s/it]L5SO folds:  36%|███▌      | 5/14 [07:12<10:48, 72.10s/it]L5SO folds:  43%|████▎     | 6/14 [08:13<09:05, 68.18s/it]L5SO folds:  50%|█████     | 7/14 [10:29<10:33, 90.56s/it]L5SO folds:  57%|█████▋    | 8/14 [11:16<07:39, 76.50s/it]L5SO folds:  64%|██████▍   | 9/14 [11:57<05:26, 65.36s/it]L5SO folds:  71%|███████▏  | 10/14 [15:46<07:44, 116.14s/it]L5SO folds:  79%|███████▊  | 11/14 [16:47<04:57, 99.26s/it] L5SO folds:  86%|████████▌ | 12/14 [17:41<02:50, 85.41s/it]L5SO folds:  93%|█████████▎| 13/14 [18:44<01:18, 78.44s/it]L5SO folds: 100%|██████████| 14/14 [19:34<00:00, 69.96s/it]L5SO folds: 100%|██████████| 14/14 [19:34<00:00, 83.89s/it]
+KNN         Acc=0.925  Macro-F1=0.924
+SVM         Acc=0.954  Macro-F1=0.954
+RF          Acc=0.951  Macro-F1=0.951
+XGBoost     Acc=0.913  Macro-F1=0.913
+MLP         Acc=0.959  Macro-F1=0.959
+
+Saved /mnt/sdb/arafat/activity_recognition/Tangent_Vector/results/pca_clf_metrics.csv
+Best PCA model: MLP
+class  precision  recall     f1  support model
+ A080     0.9306  0.9710 0.9504       69   MLP
+ A097     0.9853  0.9710 0.9781       69   MLP
+ A098     0.9710  0.9710 0.9710       69   MLP
+ A100     0.9429  0.9565 0.9496       69   MLP
+ A101     0.9697  0.9275 0.9481       69   MLP

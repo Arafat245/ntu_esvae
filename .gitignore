@@ -1,0 +1,29 @@
+# --- Big data folders (ignored entirely) ---
+aligned_data/
+data/
+ntu_skeleton/
+papers/
+
+# --- File types ignored everywhere ---
+*.pkl
+*.csv
+*.pdf
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.Python
+
+# --- Notebooks ---
+.ipynb_checkpoints/
+
+# --- Tooling / IDE ---
+.claude/
+.codex
+.vscode/
+.idea/
+
+# --- OS ---
+.DS_Store
+Thumbs.db

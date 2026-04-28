@@ -1,0 +1,19 @@
+{
+  "encoder": {
+    "seed": 42,
+    "R": 16,
+    "epochs": 150,
+    "lr": 0.001,
+    "batch_size": 64,
+    "beta_kl": 0.0001,
+    "dropout": 0.1,
+    "hidden": 512,
+    "k_knn": 5
+  },
+  "knn": {
+    "n_neighbors": 3,
+    "weights": "distance"
+  },
+  "pooled_macroF1": 0.9505613834380666,
+  "pooled_acc": 0.9507246376811594
+}

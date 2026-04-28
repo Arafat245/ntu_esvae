@@ -1,0 +1,39 @@
+Loaded config from /mnt/sdb/arafat/activity_recognition/Tangent_Vector/results/esvae_clf_config.json
+Encoder: {'seed': 42, 'R': 16, 'epochs': 150, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 512, 'k_knn': 5}
+KNN:     {'n_neighbors': 3, 'weights': 'distance'}
+Device: cuda:1
+Folds: 14  sizes=[5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 4]
+  fold 01/14  acc=0.880  macroF1=0.873
+  fold 02/14  acc=1.000  macroF1=1.000
+  fold 03/14  acc=0.960  macroF1=0.960
+  fold 04/14  acc=0.920  macroF1=0.914
+  fold 05/14  acc=0.960  macroF1=0.960
+  fold 06/14  acc=0.960  macroF1=0.960
+  fold 07/14  acc=0.960  macroF1=0.960
+  fold 08/14  acc=1.000  macroF1=1.000
+  fold 09/14  acc=1.000  macroF1=1.000
+  fold 10/14  acc=0.840  macroF1=0.825
+  fold 11/14  acc=0.960  macroF1=0.960
+  fold 12/14  acc=1.000  macroF1=1.000
+  fold 13/14  acc=0.960  macroF1=0.960
+  fold 14/14  acc=0.900  macroF1=0.899
+
+Pooled  acc=0.951  macroF1=0.951
+       method  Accuracy mean  Accuracy ci_low  Accuracy ci_high  F1 (weighted) mean  F1 (weighted) ci_low  F1 (weighted) ci_high  F1 (macro) mean  F1 (macro) ci_low  F1 (macro) ci_high  Precision (weighted) mean  Precision (weighted) ci_low  Precision (weighted) ci_high  Precision (macro) mean  Precision (macro) ci_low  Precision (macro) ci_high  Recall (weighted) mean  Recall (weighted) ci_low  Recall (weighted) ci_high  Recall (macro) mean  Recall (macro) ci_low  Recall (macro) ci_high
+ES-VAE (best)         0.9507           0.9304             0.971              0.9506                0.9291                  0.971           0.9506             0.9291               0.971                     0.9535                       0.9352                        0.9721                  0.9535                    0.9352                     0.9721                  0.9507                    0.9304                      0.971               0.9507                 0.9304                   0.971
+
+sklearn classification_report:
+              precision    recall  f1-score   support
+
+        A080     0.9701    0.9420    0.9559        69
+        A097     0.9710    0.9710    0.9710        69
+        A098     0.9315    0.9855    0.9577        69
+        A100     0.8947    0.9855    0.9379        69
+        A101     1.0000    0.8696    0.9302        69
+
+    accuracy                         0.9507       345
+   macro avg     0.9535    0.9507    0.9506       345
+weighted avg     0.9535    0.9507    0.9506       345
+
+
+Saved: esvae_best_metrics.csv, esvae_best_classwise.csv, classwise_best.csv (sklearn report), esvae_best_oof.json, esvae_best_used_cfg.json
