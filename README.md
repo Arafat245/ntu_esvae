@@ -2,10 +2,18 @@
 
 A controlled comparison of **Kendall preshape tangent vectors** (with
 SRVF time-warp normalization) against **raw 3D joint coordinates** for
-action classification on the NTU RGB+D dataset. We use a 10-class subset
-designed to expose where the manifold prior helps most, and evaluate
-under three cross-validation protocols (cross-subject, cross-view,
-cross-setup).
+action classification on the **NTU RGB+D 60** dataset. We use a 10-class
+subset designed to expose where the manifold prior helps most, and
+evaluate under three cross-validation protocols (cross-subject,
+cross-view, cross-setup).
+
+**Scope: NTU-60 only.** Our 10 chosen classes (A001–A031) all fall
+within NTU-60's A001–A060 range, our 40 subjects (P001–P040 in
+S001–S017) are exactly the NTU-60 subject pool, and the curation script
+reads only from `data/nturgbd_skeletons_s001_to_s017/`. NTU-120's
+expansion (S018–S032, A061–A120, subjects P041–P106) is **not** used.
+The relevant SOTA reference for our setup is therefore the NTU-60
+column of published leaderboards (X-Sub / X-View), not NTU-120.
 
 ## What's the manifold prior?
 
@@ -18,11 +26,13 @@ of raw coordinates. The hypothesis: when nuisance variation
 manifold prior strips it analytically and lets the downstream classifier
 focus on trajectory shape.
 
-## Dataset (10-class top10)
+## Dataset (10-class top10, NTU-60 only)
 
-400 single-person trials = 40 NTU 60 subjects × 10 classes (perfectly
-balanced). Curated by `build_ntu_skeleton_top10.py` to maximise the
-|Tangent − Raw| gap:
+400 single-person trials = **40 NTU-60 subjects × 10 NTU-60 classes**
+(perfectly balanced). All trials come from setups S001–S017 and class
+ids A001–A031 — entirely inside the NTU-60 partition; NTU-120's added
+classes/subjects (A061–A120, P041–P106) are not used. Curated by
+`build_ntu_skeleton_top10.py` to maximise the |Tangent − Raw| gap:
 
 | Group | Classes | Why |
 |---|---|---|
@@ -173,20 +183,23 @@ NeurIPS-style tables (Macro F1 / Precision / Recall).
 
 Published NTU leaderboards (e.g. ProtoGCN, CVPR 2025;
 [github.com/firework8/ProtoGCN](https://github.com/firework8/ProtoGCN))
-report top-1
-accuracies of **93.8% on NTU-60 X-Sub, 97.8% X-View, 90.9% on NTU-120
-X-Sub, 92.2% X-Set**. Our top10 numbers (subject 55.7% / view 48.7%) are
-~40 percentage points below these. The gap is structural, not a model
+report top-1 accuracies of **93.8% on NTU-60 X-Sub, 97.8% NTU-60 X-View**
+(NTU-120 numbers are 90.9% X-Sub, 92.2% X-Set, but those are over a
+different subject/class pool — not directly comparable to our setup).
+Since our 10 classes and 40 subjects are entirely within NTU-60, the
+relevant comparison is **NTU-60 X-Sub** for our cross-subject result
+and **NTU-60 X-View** for our cross-view result. Our top10 numbers
+(subject 55.7% / view 48.7%) sit ~40 percentage points below these. The gap is structural, not a model
 quality issue — six reasons, with sample counts that quantify how much
 harder our setup is:
 
 ### 1. Drastically less training data per fold (~115× fewer trials)
 
-| | Total trials | Train per fold | Test per fold | Classes |
-|---|---:|---:|---:|---:|
-| **Standard NTU-60 X-Sub** | 56,880 | **40,320** (20 subjects × 60 classes × ~33 cam/rep variants) | 16,560 | 60 |
-| **Standard NTU-120 X-Sub** | 114,480 | ~63,026 (53 subjects) | ~51,454 | 120 |
-| **Ours, top10 L5SO** | 400 | **350** (35 subjects × 10 classes × 1 trial) | 50 | 10 |
+| | Total trials | Train per fold | Test per fold | Classes | Subjects |
+|---|---:|---:|---:|---:|---:|
+| **Standard NTU-60 X-Sub** (apples-to-apples reference) | 56,880 | **40,320** (20 subjects × 60 classes × ~33 cam/rep variants) | 16,560 | 60 | 40 |
+| Standard NTU-120 X-Sub (different pool) | 114,480 | ~63,026 (53 subjects) | ~51,454 | 120 | 106 |
+| **Ours, top10 L5SO (NTU-60 subset)** | 400 | **350** (35 subjects × 10 classes × 1 trial) | 50 | 10 | 40 |
 
 Deep skeleton models reach 90%+ only with ≳10⁴ training trials. 350 is
 essentially few-shot territory. ProtoGCN trains on **115× more** trials
