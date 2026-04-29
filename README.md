@@ -124,7 +124,7 @@ NeurIPS-style tables (Macro F1 / Precision / Recall).
 |---|---|---|
 | Raw Skeleton | **ProtoGCN (official adaptation, 20 epochs)** | **0.617 (0.573, 0.659)** |
 |  | Sparse-ST-GCN (official adaptation, 20 epochs) | 0.489 (0.440, 0.537) |
-| Raw Skeleton | PCA + k-NN | 0.483 (0.438, 0.525) |
+|  | PCA + k-NN | 0.483 (0.438, 0.525) |
 |  | VAE + k-NN | 0.265 (0.223, 0.308) |
 |  | TCN | 0.210 (0.169, 0.251) |
 |  | LSTM | 0.197 (0.163, 0.231) |
