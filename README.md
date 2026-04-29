@@ -169,6 +169,94 @@ NeurIPS-style tables (Macro F1 / Precision / Recall).
    each). The dataset was deliberately designed to make this contrast
    visible.
 
+## Context vs published NTU SOTA
+
+Published NTU leaderboards (e.g. ProtoGCN, ICCV 2025) report top-1
+accuracies of **93.8% on NTU-60 X-Sub, 97.8% X-View, 90.9% on NTU-120
+X-Sub, 92.2% X-Set**. Our top10 numbers (subject 55.7% / view 48.7%) are
+~40 percentage points below these. The gap is structural, not a model
+quality issue — six reasons, with sample counts that quantify how much
+harder our setup is:
+
+### 1. Drastically less training data per fold (~115× fewer trials)
+
+| | Total trials | Train per fold | Test per fold | Classes |
+|---|---:|---:|---:|---:|
+| **Standard NTU-60 X-Sub** | 56,880 | **40,320** (20 subjects × 60 classes × ~33 cam/rep variants) | 16,560 | 60 |
+| **Standard NTU-120 X-Sub** | 114,480 | ~63,026 (53 subjects) | ~51,454 | 120 |
+| **Ours, top10 L5SO** | 400 | **350** (35 subjects × 10 classes × 1 trial) | 50 | 10 |
+
+Deep skeleton models reach 90%+ only with ≳10⁴ training trials. 350 is
+essentially few-shot territory. ProtoGCN trains on **115× more** trials
+than we do per fold.
+
+### 2. One trial per (subject, class), not all available
+
+Standard pipelines use every available (subject, class, camera,
+replication) combination as a separate training trial:
+- NTU-60 has ~948 trials per class on average → ~57k trials total.
+- Our `build_ntu_skeleton_top10.py --seed 42` picks **one** trial per
+  (subject, class) and discards the rest, dropping us from a possible
+  9,480 trials (40 subj × 10 classes × ~24 cam/rep variants) to **400**.
+  We deliberately do this to avoid same-trial leakage across CV folds
+  while keeping the dataset compact for the controlled comparison.
+
+### 3. Adversarially hard 10-class subset
+
+The 6 hand-to-face classes (drink, eat, brush teeth, brush hair, phone
+call, play with phone) are among the *hardest* single-person actions in
+NTU because they share standing-upright posture and one-arm-raised-to-
+face geometry. Published averages cover all 60/120 classes including
+easy locomotion (walking, sitting, jumping, falling) that pull the mean
+to >90%. We picked these 10 specifically to expose the manifold-prior
+advantage on confusable trajectory-shape classes.
+
+### 4. L5SO ≠ standard X-Sub
+
+Standard X-Sub uses one fixed 20-train / 20-test subject split. We use
+leave-5-subjects-out across 40 subjects with 8 folds — much higher
+variance, smaller per-fold train, and we report **pooled** metrics
+across all 8 folds rather than best-fold or single-split numbers.
+
+### 5. Tiny architectures + no augmentation + no ensemble
+
+Our sequence baselines are intentionally small for matched-pair
+comparison: ST-GCN channels=(16, 32) vs SOTA (64, 64, 128, 128, 256, 256,
+256). No random rotation/scaling/temporal cropping during training. No
+bone-stream / motion-stream fusion. ProtoGCN's 93.8% is a 6-stream
+ensemble (joint + bone + joint-motion + bone-motion + 2 more); the
+single-stream ProtoGCN is ~92.6%.
+
+### 6. No standard NTU training recipe
+
+SOTA pipelines use SGD + Nesterov momentum 0.9, weight decay 5e-4,
+cosine LR over 150 epochs, batch 64, label smoothing, mixup, etc. — many
+small tricks. We use AdamW with cosine LR and no other augmentation.
+
+### Why the comparison still works for us
+
+Our goal is **not** to beat the leaderboard — it's a controlled
+head-to-head: same architecture, same training data, same CV folds, same
+KNN — only the input representation differs. The 0.29-F1 gap between
+TV ES-VAE (0.557) and RS Vanilla VAE (0.265) is meaningful precisely
+because everything else is matched. ProtoGCN and other NTU SOTA papers
+do not compare against Kendall tangent-space methods, so the two
+research questions are orthogonal:
+
+- **NTU SOTA papers** ask: *given full training data and freedom in
+  architecture/augmentation/ensembles, how high can accuracy go on raw
+  skeletons?* → 93.8%.
+- **This work** asks: *with everything else held constant, does the
+  Kendall preshape representation help?* → +0.29 macro-F1 in the
+  matched-encoder isolation test, and TV beats RS on every method × CV
+  mode pair (18/18 wins).
+
+To produce numbers comparable to ProtoGCN's table, we would need (a)
+all 60/120 classes, (b) all available trials per class, (c) the
+official X-Sub/X-View/X-Set splits, (d) larger architectures, (e)
+standard augmentation, (f) multi-stream ensembles. That is a different
+paper.
+
 ## How to reproduce
 
 Once `data/data_ntu.pkl` and `aligned_data/` are populated (see Pipeline
