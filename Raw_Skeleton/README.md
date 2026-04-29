@@ -92,19 +92,20 @@ Pooled across 8 L5SO folds. Cells show **mean [95% CI]** from the
 
 | Method | Macro-F1 | Macro Precision | Macro Recall |
 |---|---|---|---|
-| PCA-KNN (R=48, k=5 distance) | **0.483 [0.438, 0.525]** | 0.545 [0.491, 0.604] | 0.495 [0.453, 0.537] |
+| ProtoGCN (official adaptation, 20 epochs) | **0.617 [0.573, 0.659]** | 0.624 [0.581, 0.671] | 0.628 [0.583, 0.670] |
+| Sparse-ST-GCN (official adaptation, 20 epochs) | 0.489 [0.440, 0.537] | 0.518 [0.466, 0.574] | 0.508 [0.462, 0.553] |
+| PCA-KNN (R=48, k=5 distance) | 0.483 [0.438, 0.525] | 0.545 [0.491, 0.604] | 0.495 [0.453, 0.537] |
 | Transformer | 0.333 [0.286, 0.379] | 0.339 [0.284, 0.404] | 0.360 [0.318, 0.405] |
 | Vanilla VAE + KNN | 0.265 [0.223, 0.308] | 0.262 [0.221, 0.311] | 0.270 [0.230, 0.312] |
 | TCN | 0.210 [0.169, 0.251] | 0.227 [0.178, 0.285] | 0.228 [0.188, 0.268] |
 | LSTM | 0.197 [0.163, 0.231] | 0.209 [0.162, 0.258] | 0.215 [0.185, 0.245] |
 | STGCN | 0.105 [0.079, 0.129] | 0.132 [0.082, 0.179] | 0.110 [0.085, 0.135] |
 
-PCA-KNN takes the headline because the linear baseline is the only model
-that gets reasonable mileage out of raw 3D coordinates. Transformer is
-the best NN; STGCN collapses (raw skeletons preserve world translation
-which the small ST-GCN cannot normalise away). The Vanilla VAE on raw
-3D coords sits well below all of these — exactly the contrast we use to
-isolate the manifold prior in the ES-VAE comparison below.
+The adapted official ProtoGCN run is the strongest raw-skeleton model on
+this subset. Within the older in-repo baselines, PCA-KNN still remains
+the strongest classical/raw baseline; Transformer is the best of the
+small local sequence models; STGCN collapses because raw skeletons
+preserve world translation which the small ST-GCN cannot normalise away.
 
 ## ES-VAE vs Vanilla VAE — the manifold-loss isolation test
 
@@ -133,6 +134,8 @@ tangent vector vs linearly-resampled raw skeleton).
 | Method | Tangent (Macro-F1) | Raw (Macro-F1) | Δ |
 |---|---:|---:|---:|
 | ES-VAE / Vanilla VAE | 0.557 | 0.265 | **+0.292** |
+| ProtoGCN (official adaptation, 20 epochs) | 0.551 | 0.617 | **-0.066** |
+| Sparse-ST-GCN (official adaptation, 20 epochs) | 0.501 | 0.489 | +0.011 |
 | PCA-KNN | 0.498 | 0.483 | +0.015 |
 | TCN | 0.390 | 0.210 | +0.180 |
 | LSTM | 0.379 | 0.197 | +0.182 |
@@ -152,35 +155,13 @@ Take-aways:
   comparable structure on either input) — neither representation gives
   the linear baseline a meaningful edge.
 
-The same Δ pattern holds under cross-view and cross-setup CV (every TV
-method beats its RS counterpart in all three protocols, 18/18 head-to-head
-wins). See `../results_tables_top10.md` for the full subject and view
-tables in NeurIPS-paper format.
-
-## Official recent-model comparison
-
-The repo also contains `../official_compare/`, which adapts the
-**official GitHub implementations** of ProtoGCN (CVPR 2025) and
-Sparse-ST-GCN (CVPR 2025) to this same 400-sample subset while keeping
-the identical 8 L5SO subject folds.
-
-Under the adapted `20`-epoch subject-CV benchmark:
-
-| Official model | Raw Top-1 | Raw Macro-F1 | 95% CI |
-|---|---:|---:|---:|
-| ProtoGCN | **0.6275** | **0.6167** | [0.5732, 0.6592] |
-| Sparse-ST-GCN | 0.5075 | 0.4893 | [0.4397, 0.5367] |
-
-Compared against the matching tangent-input runs:
-
-| Official model | Raw | Tangent | Δ (RS - TV) |
-|---|---:|---:|---:|
-| ProtoGCN | 0.6167 | 0.5510 | **+0.0656** |
-| Sparse-ST-GCN | 0.4893 | 0.5006 | **-0.0113** |
-
-So for these newer official backbones on this tiny subset, **ProtoGCN
-benefits more from raw coordinates**, while **Sparse-ST-GCN is nearly
-tied and slightly prefers tangent vectors**.
+Within the older matched local baselines, the same Δ pattern holds under
+cross-view and cross-setup CV (every TV method beats its RS counterpart
+in all three protocols, 18/18 head-to-head wins). The two adapted
+official-model runs are subject-CV only and show a mixed picture:
+ProtoGCN prefers raw coordinates, while Sparse-ST-GCN is nearly tied and
+slightly prefers tangent vectors. See `../results_tables_top10.md` for
+the full subject and view tables in NeurIPS-paper format.
 
 ## Classwise breakdown — Vanilla VAE (manifold-loss ablation)
 

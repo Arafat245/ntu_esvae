@@ -122,18 +122,26 @@ NeurIPS-style tables (Macro F1 / Precision / Recall).
 
 | Input Representation | Method | Macro F1 (95% CI) |
 |---|---|---|
+| Raw Skeleton | **ProtoGCN (official adaptation, 20 epochs)** | **0.617 (0.573, 0.659)** |
+|  | Sparse-ST-GCN (official adaptation, 20 epochs) | 0.489 (0.440, 0.537) |
 | Raw Skeleton | PCA + k-NN | 0.483 (0.438, 0.525) |
 |  | VAE + k-NN | 0.265 (0.223, 0.308) |
 |  | TCN | 0.210 (0.169, 0.251) |
 |  | LSTM | 0.197 (0.163, 0.231) |
 |  | Transformer | 0.333 (0.286, 0.379) |
 |  | ST-GCN | 0.105 (0.079, 0.129) |
-| Tangent Vector | PCA + k-NN | 0.498 (0.451, 0.539) |
+| Tangent Vector | **ES-VAE + k-NN (proposed)** | **0.557 (0.516, 0.598)** |
+|  | ProtoGCN (official adaptation, 20 epochs) | 0.551 (0.502, 0.594) |
+|  | Sparse-ST-GCN (official adaptation, 20 epochs) | 0.501 (0.460, 0.542) |
+|  | PCA + k-NN | 0.498 (0.451, 0.539) |
 |  | TCN | 0.390 (0.349, 0.428) |
 |  | LSTM | 0.379 (0.334, 0.422) |
 |  | Transformer | 0.442 (0.403, 0.479) |
 |  | ST-GCN | 0.411 (0.370, 0.451) |
-|  | **ES-VAE + k-NN (proposed)** | **0.557 (0.516, 0.598)** |
+
+Official-model rows come from the adapted runners in `official_compare/`
+and are subject-CV only; they are included here for direct comparison
+with the older in-repo baselines.
 
 ### Cross-View (Leave-One-Camera-Out, 3 folds)
 
@@ -157,6 +165,8 @@ NeurIPS-style tables (Macro F1 / Precision / Recall).
 | Method pair | Tangent | Raw | Δ |
 |---|---:|---:|---:|
 | ES-VAE / Vanilla VAE (matched architecture) | 0.557 | 0.265 | **+0.292** |
+| ProtoGCN (official adaptation, 20 epochs) | 0.551 | 0.617 | **-0.066** |
+| Sparse-ST-GCN (official adaptation, 20 epochs) | 0.501 | 0.489 | +0.011 |
 | ST-GCN | 0.411 | 0.105 | **+0.306** |
 | LSTM | 0.379 | 0.197 | +0.182 |
 | TCN | 0.390 | 0.210 | +0.180 |
@@ -165,66 +175,29 @@ NeurIPS-style tables (Macro F1 / Precision / Recall).
 
 ### Key findings
 
-1. **Tangent vector beats raw skeleton on every method, every CV mode** (18/18
-   head-to-head wins). The result is consistent under cross-subject,
-   cross-view, and cross-setup.
-2. **The manifold-loss isolation test** — same architecture and KNN, only
+1. **Within the original matched local pipeline, tangent vector beats raw
+   skeleton on every method and every CV mode** (18/18 head-to-head
+   wins). That result is consistent under cross-subject, cross-view, and
+   cross-setup.
+2. **The adapted official-model benchmark is mixed on this tiny subset**:
+   ProtoGCN prefers raw coordinates, while Sparse-ST-GCN gives a slight
+   edge to tangent vectors.
+3. **The manifold-loss isolation test** — same architecture and KNN, only
    the reconstruction loss differs (geodesic on Kendall preshape vs MSE
    on raw coords) — produces a **+0.29 macro-F1** gap. The unconstrained
    MSE-on-raw VAE essentially fails (near 10-class chance of 0.10) on
    the hand-to-face classes.
-3. **ST-GCN is the most position-sensitive baseline** — it loses 0.31
+4. **ST-GCN is the most position-sensitive baseline** — it loses 0.31
    F1 going from tangent to raw because raw NTU skeletons preserve
    world translation that the small ST-GCN cannot normalize away. On
    tangent vectors ST-GCN is competitive with the other sequence models.
-4. **PCA + k-NN closes the gap most narrowly** (+0.015) — the linear
+5. **PCA + k-NN closes the gap most narrowly among the older local
+   baselines** (+0.015) — the linear
    projection captures comparable structure on either input.
-5. **The 4 whole-body anchors carry a high macro-F1 floor** (≈0.79 each
+6. **The 4 whole-body anchors carry a high macro-F1 floor** (≈0.79 each
    under TV ES-VAE); the 6 hand-to-face classes drive the spread (≈0.40
    each). The dataset was deliberately designed to make this contrast
    visible.
-
-## Official-model comparison on the 400-sample subset
-
-To test whether the tangent-vs-raw pattern survives under newer
-NTU-optimised architectures, this repo also includes **adapted
-implementations of the official GitHub releases** for:
-
-- **ProtoGCN** (CVPR 2025) — adapted from
-  `firework8/ProtoGCN`
-- **Sparse-ST-GCN** (CVPR 2025) — adapted from
-  `davelailai/Sparse-ST-GCN`
-
-These are not thin wrappers around the old local baselines. The local
-`official_compare/` runners port the official backbone / head / loss /
-graph / sampling logic into a lightweight training harness that can read
-our `data/data_ntu.pkl` and `aligned_data/tangent_vecs100.pkl` directly,
-while preserving the same **8 L5SO subject folds** used everywhere else
-in the repo.
-
-Because the subset is only **400 samples total**, we report a pragmatic
-`20`-epoch single-stream subject-CV benchmark rather than the papers'
-full 100/150-epoch NTU-60 schedules:
-
-| Model | Input | Top-1 | Macro-F1 | 95% CI |
-|---|---|---:|---:|---:|
-| ProtoGCN | **Raw skeleton** | **0.6275** | **0.6167** | [0.5732, 0.6592] |
-| ProtoGCN | Tangent vector | 0.5525 | 0.5510 | [0.5024, 0.5941] |
-| Sparse-ST-GCN | Raw skeleton | 0.5075 | 0.4893 | [0.4397, 0.5367] |
-| Sparse-ST-GCN | **Tangent vector** | **0.5150** | **0.5006** | [0.4595, 0.5421] |
-
-This official-model check changes the picture slightly:
-
-1. **ProtoGCN prefers raw skeletons on this tiny subset** at the 20-epoch
-   budget (`+0.0656` Macro-F1 raw over tangent).
-2. **Sparse-ST-GCN gives a small edge to tangent vectors**
-   (`+0.0113` Macro-F1 tangent over raw).
-3. The older matched local comparison still answers the original
-   representation-isolation question best, because it keeps architecture
-   and training recipe nearly identical across raw and tangent inputs.
-   The official-model benchmark instead asks a different question:
-   *what happens when recent NTU architectures are adapted to this
-   400-sample subset?*
 
 ## Context vs published NTU SOTA
 
