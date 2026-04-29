@@ -52,6 +52,11 @@ activity_recognition/
 ├── build_results_tables.py       emit NeurIPS-style markdown tables
 ├── results_tables_top10.md       combined subject + view tables
 ├── functionsgpu_fast.py          shared geomstats Kendall/SRVF utilities
+├── official_compare/             adapted official ProtoGCN / Sparse-ST-GCN runners
+│   ├── common.py                 shared data adapters, sampling, metrics, graph utils
+│   ├── protogcn_runner.py        official ProtoGCN backbone/head/loss adapted to top10
+│   ├── sparse_stgcn_runner.py    official Sparse-ST-GCN backbone adapted to top10
+│   └── results/                  subject-CV JSON outputs for raw / tangent runs
 ├── Tangent_Vector/               classification on tangent vectors
 │   ├── cv_utils.py               loaders + L5SO/view/setup folds + bootstrap CIs
 │   ├── esvae_clf.py              ES-VAE with squared-geodesic recon loss
@@ -179,6 +184,48 @@ NeurIPS-style tables (Macro F1 / Precision / Recall).
    each). The dataset was deliberately designed to make this contrast
    visible.
 
+## Official-model comparison on the 400-sample subset
+
+To test whether the tangent-vs-raw pattern survives under newer
+NTU-optimised architectures, this repo also includes **adapted
+implementations of the official GitHub releases** for:
+
+- **ProtoGCN** (CVPR 2025) — adapted from
+  `firework8/ProtoGCN`
+- **Sparse-ST-GCN** (CVPR 2025) — adapted from
+  `davelailai/Sparse-ST-GCN`
+
+These are not thin wrappers around the old local baselines. The local
+`official_compare/` runners port the official backbone / head / loss /
+graph / sampling logic into a lightweight training harness that can read
+our `data/data_ntu.pkl` and `aligned_data/tangent_vecs100.pkl` directly,
+while preserving the same **8 L5SO subject folds** used everywhere else
+in the repo.
+
+Because the subset is only **400 samples total**, we report a pragmatic
+`20`-epoch single-stream subject-CV benchmark rather than the papers'
+full 100/150-epoch NTU-60 schedules:
+
+| Model | Input | Top-1 | Macro-F1 | 95% CI |
+|---|---|---:|---:|---:|
+| ProtoGCN | **Raw skeleton** | **0.6275** | **0.6167** | [0.5732, 0.6592] |
+| ProtoGCN | Tangent vector | 0.5525 | 0.5510 | [0.5024, 0.5941] |
+| Sparse-ST-GCN | Raw skeleton | 0.5075 | 0.4893 | [0.4397, 0.5367] |
+| Sparse-ST-GCN | **Tangent vector** | **0.5150** | **0.5006** | [0.4595, 0.5421] |
+
+This official-model check changes the picture slightly:
+
+1. **ProtoGCN prefers raw skeletons on this tiny subset** at the 20-epoch
+   budget (`+0.0656` Macro-F1 raw over tangent).
+2. **Sparse-ST-GCN gives a small edge to tangent vectors**
+   (`+0.0113` Macro-F1 tangent over raw).
+3. The older matched local comparison still answers the original
+   representation-isolation question best, because it keeps architecture
+   and training recipe nearly identical across raw and tangent inputs.
+   The official-model benchmark instead asks a different question:
+   *what happens when recent NTU architectures are adapted to this
+   400-sample subset?*
+
 ## Context vs published NTU SOTA
 
 Published NTU leaderboards (e.g. ProtoGCN, CVPR 2025;
@@ -299,6 +346,13 @@ done
 # Build the combined NeurIPS-style table
 cd ..
 python build_results_tables.py   # writes results_tables_top10.md
+
+# Official recent-model comparison on the same 400-sample subset
+# Run the two official-model adaptations on separate GPUs.
+python official_compare/protogcn_runner.py --representation raw     --epochs 20 --batch-size 32 --device cuda:0
+python official_compare/protogcn_runner.py --representation tangent --epochs 20 --batch-size 32 --device cuda:0
+python official_compare/sparse_stgcn_runner.py --representation raw     --epochs 20 --batch-size 32 --device cuda:1
+python official_compare/sparse_stgcn_runner.py --representation tangent --epochs 20 --batch-size 32 --device cuda:1
 ```
 
 ES-VAE GPU is `cuda:1` because `functionsgpu_fast.py` (the geomstats
@@ -313,6 +367,11 @@ Sequence baselines use `cuda:0`.
 - `Tangent_Vector/cv_utils.py` is the source of truth for class labels
   (`CLASS_ORDER`, `CLASS_NAMES`); `NUM_CLASSES = len(CLASS_ORDER)` across
   all scripts.
+- `official_compare/` ports the official ProtoGCN / Sparse-ST-GCN model
+  logic into a lighter local runner instead of using the original
+  PYSKL/MMCV training harness directly. The model backbones / heads /
+  losses are kept close to the official repos, but the data loader and
+  experiment harness are adapted to this repo's 400-sample subset.
 - Per-fold logs in `logs_top10/` (gitignored).
 - Curation, alignment, and result CSVs are deterministic given the same
   seed and source NTU dataset.

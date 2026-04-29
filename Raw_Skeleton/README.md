@@ -77,6 +77,14 @@ python vae_clf.py --cv-mode subject
 python sequence_clf.py --cv-mode subject
 ```
 
+For the adapted official recent-model comparison on the same raw
+skeleton input, run from repo root:
+
+```bash
+python official_compare/protogcn_runner.py --representation raw --epochs 20 --batch-size 32 --device cuda:0
+python official_compare/sparse_stgcn_runner.py --representation raw --epochs 20 --batch-size 32 --device cuda:1
+```
+
 ## Headline comparison (cross-subject, L5SO, 8 folds)
 
 Pooled across 8 L5SO folds. Cells show **mean [95% CI]** from the
@@ -149,6 +157,31 @@ method beats its RS counterpart in all three protocols, 18/18 head-to-head
 wins). See `../results_tables_top10.md` for the full subject and view
 tables in NeurIPS-paper format.
 
+## Official recent-model comparison
+
+The repo also contains `../official_compare/`, which adapts the
+**official GitHub implementations** of ProtoGCN (CVPR 2025) and
+Sparse-ST-GCN (CVPR 2025) to this same 400-sample subset while keeping
+the identical 8 L5SO subject folds.
+
+Under the adapted `20`-epoch subject-CV benchmark:
+
+| Official model | Raw Top-1 | Raw Macro-F1 | 95% CI |
+|---|---:|---:|---:|
+| ProtoGCN | **0.6275** | **0.6167** | [0.5732, 0.6592] |
+| Sparse-ST-GCN | 0.5075 | 0.4893 | [0.4397, 0.5367] |
+
+Compared against the matching tangent-input runs:
+
+| Official model | Raw | Tangent | Δ (RS - TV) |
+|---|---:|---:|---:|
+| ProtoGCN | 0.6167 | 0.5510 | **+0.0656** |
+| Sparse-ST-GCN | 0.4893 | 0.5006 | **-0.0113** |
+
+So for these newer official backbones on this tiny subset, **ProtoGCN
+benefits more from raw coordinates**, while **Sparse-ST-GCN is nearly
+tied and slightly prefers tangent vectors**.
+
 ## Classwise breakdown — Vanilla VAE (manifold-loss ablation)
 
 `sklearn.metrics.classification_report` on pooled OOF predictions of the
@@ -179,6 +212,10 @@ the discriminative work for trajectory-shape classes.
 
 - The L5SO / view / setup partitions are identical to `Tangent_Vector/`,
   so per-method comparisons across the two folders are matched-pair valid.
+- `../official_compare/protogcn_runner.py` and
+  `../official_compare/sparse_stgcn_runner.py` port the official recent
+  NTU backbones into a local runner that can read this repo's raw
+  skeleton `data_ntu.pkl` directly.
 - Per-fold prints are in `*.log` files.
 - Sequence baselines complete in ~3–5 min on an A5000 (cuda:0); PCA-KNN
   full bootstrap takes ~1 min; Vanilla VAE single-config ~3 min on cuda:1.

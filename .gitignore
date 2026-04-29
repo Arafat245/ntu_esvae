@@ -5,12 +5,14 @@ ntu_skeleton/
 ntu_skeleton_top10/
 papers/
 logs_top10/
+external/
 
 # --- File types ignored everywhere ---
 *.pkl
 *.csv
 *.pdf
 *.skeleton
+ntu_classwise_table.txt
 
 # --- Python ---
 __pycache__/
