@@ -1,0 +1,27 @@
+Device: cuda:1
+tangent (25, 3, 100, 345), betas (345, 25, 3, 100), mu (25, 3, 100), y (345,)
+CV mode: view (leave-one-camera-out); folds: 3  sizes=[1, 1, 1]
+
+[Encoder 1/1] cfg={'seed': 42, 'R': 20, 'epochs': 150, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 512, 'k_knn': 5}
+  fold 01/3  k=1,uniform:0.830  k=3,uniform:0.811  k=5,uniform:0.743  k=7,uniform:0.719  k=3,distance:0.813  k=5,distance:0.756  k=7,distance:0.767
+  fold 02/3  k=1,uniform:0.720  k=3,uniform:0.657  k=5,uniform:0.677  k=7,uniform:0.639  k=3,distance:0.679  k=5,distance:0.706  k=7,distance:0.658
+  fold 03/3  k=1,uniform:0.772  k=3,uniform:0.731  k=5,uniform:0.706  k=7,uniform:0.712  k=3,distance:0.764  k=5,distance:0.743  k=7,distance:0.730
+  -> k=1,uniform           acc=0.780 macroF1=0.776
+  -> k=3,uniform           acc=0.751 macroF1=0.737
+  -> k=5,uniform           acc=0.736 macroF1=0.709
+  -> k=7,uniform           acc=0.725 macroF1=0.692
+  -> k=3,distance          acc=0.765 macroF1=0.755
+  -> k=5,distance          acc=0.754 macroF1=0.735
+  -> k=7,distance          acc=0.745 macroF1=0.723
+
+Best combo -> enc={'seed': 42, 'R': 20, 'epochs': 150, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 512, 'k_knn': 5}  knn={'n_neighbors': 1, 'weights': 'uniform'}  macroF1=0.776
+
+Saved /mnt/sdb/arafat/activity_recognition/Tangent_Vector/results/esvae_clf_metrics_xview.csv
+           method  Accuracy mean  Accuracy ci_low  Accuracy ci_high  F1 (weighted) mean  F1 (weighted) ci_low  F1 (weighted) ci_high  F1 (macro) mean  F1 (macro) ci_low  F1 (macro) ci_high  Precision (weighted) mean  Precision (weighted) ci_low  Precision (weighted) ci_high  Precision (macro) mean  Precision (macro) ci_low  Precision (macro) ci_high  Recall (weighted) mean  Recall (weighted) ci_low  Recall (weighted) ci_high  Recall (macro) mean  Recall (macro) ci_low  Recall (macro) ci_high
+ES-VAE (geodesic)         0.7797           0.7362            0.8232              0.7758                0.7304                 0.8194           0.7758             0.7304              0.8194                     0.8128                       0.7744                        0.8505                  0.8128                    0.7744                     0.8505                  0.7797                    0.7362                     0.8232               0.7797                 0.7362                  0.8232
+class  precision  recall     f1  support  model
+ A080     0.8364  0.6667 0.7419       69 ES-VAE
+ A097     0.8507  0.8261 0.8382       69 ES-VAE
+ A098     0.7765  0.9565 0.8571       69 ES-VAE
+ A100     0.6263  0.8986 0.7381       69 ES-VAE
+ A101     0.9744  0.5507 0.7037       69 ES-VAE

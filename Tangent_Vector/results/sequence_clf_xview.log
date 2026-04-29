@@ -1,0 +1,40 @@
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/utils/weight_norm.py:143: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/modules/transformer.py:379: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/utils/weight_norm.py:143: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/modules/transformer.py:379: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/utils/weight_norm.py:143: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/modules/transformer.py:379: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(
+Device: cuda:0
+X: (345, 75, 100), y: (345,), classes: [69 69 69 69 69]
+CV mode: view (leave-one-camera-out); folds: 3  sizes=[1, 1, 1]
+Fold 01/3 | TCN         | acc=0.840 macroF1=0.838
+Fold 01/3 | LSTM        | acc=0.899 macroF1=0.896
+Fold 01/3 | TRANSFORMER | acc=0.908 macroF1=0.907
+Fold 01/3 | STGCN       | acc=0.739 macroF1=0.721
+Fold 02/3 | TCN         | acc=0.775 macroF1=0.781
+Fold 02/3 | LSTM        | acc=0.694 macroF1=0.687
+Fold 02/3 | TRANSFORMER | acc=0.757 macroF1=0.751
+Fold 02/3 | STGCN       | acc=0.622 macroF1=0.626
+Fold 03/3 | TCN         | acc=0.774 macroF1=0.777
+Fold 03/3 | LSTM        | acc=0.739 macroF1=0.733
+Fold 03/3 | TRANSFORMER | acc=0.661 macroF1=0.661
+Fold 03/3 | STGCN       | acc=0.591 macroF1=0.582
+TCN         pooled  Acc=0.797  MacroF1=0.797  MacroPrec=0.805  MacroRec=0.797
+LSTM        pooled  Acc=0.780  MacroF1=0.777  MacroPrec=0.783  MacroRec=0.780
+TRANSFORMER pooled  Acc=0.777  MacroF1=0.776  MacroPrec=0.779  MacroRec=0.777
+STGCN       pooled  Acc=0.652  MacroF1=0.644  MacroPrec=0.656  MacroRec=0.652
+
+Saved /mnt/sdb/arafat/activity_recognition/Tangent_Vector/results/sequence_clf_metrics_xview.csv
+Best sequence model: TCN
+class  precision  recall     f1  support model
+ A080     0.7969  0.7391 0.7669       69   TCN
+ A097     0.8571  0.7826 0.8182       69   TCN
+ A098     0.7831  0.9420 0.8553       69   TCN
+ A100     0.6923  0.7826 0.7347       69   TCN
+ A101     0.8947  0.7391 0.8095       69   TCN

@@ -1,18 +1,14 @@
-Loaded KNN config from /mnt/sdb/arafat/activity_recognition/Tangent_Vector/results/best_knn_cfg.json: {'n_neighbors': 3, 'weights': 'distance'}
-Matching PCA R to ES-VAE encoder R from /mnt/sdb/arafat/activity_recognition/Tangent_Vector/results/esvae_clf_config.json: 16
-flat shape: (7500, 345), y: (345,), R=16
-Folds: 14 (sizes=[5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 4])
+PCA KNN config (default k=3 distance): {'n_neighbors': 3, 'weights': 'distance'}
+Matching PCA R to ES-VAE encoder R from /mnt/sdb/arafat/activity_recognition/Tangent_Vector/results/esvae_clf_config.json: 20
+flat shape: (7500, 345), y: (345,), R=20
+CV mode: subject (L5SO); folds: 14 (sizes=[5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 4])
 KNN model: KNeighborsClassifier(n_neighbors=3, weights='distance')
-L5SO folds:   0%|          | 0/14 [00:00<?, ?it/s]L5SO folds:   7%|▋         | 1/14 [00:05<01:07,  5.19s/it]L5SO folds:  14%|█▍        | 2/14 [00:10<01:01,  5.15s/it]LL5SO folds:  21%|██▏       | 3/14 [11:04<41:51, 228.32s/it]L5SO folds:  29%|██▊       | 4/14 [12:39<29:16, 175.65s/it]L5SO folds:  36%|███▌      | 5/14 [14:05<21:29, 143.28s/it]L5SO folds:  43%|████▎     | 6/14 [14:48<14:33, 109.21s/it]L5SO folds:  50%|█████     | 7/14 [16:22<12:11, 104.45s/it]L5SO folds:  57%|█████▋    | 8/14 [17:53<09:59, 100.00s/it]L5SO folds:  64%|██████▍   | 9/14 [20:00<09:02, 108.58s/it]L5SO folds:  71%|███████▏  | 10/14 [33:08<21:12, 318.25s/it]L5SO folds:  79%|███████▊  | 11/14 [55:15<31:21, 627.03s/it]L5SO folds:  86%|████████▌ | 12/14 [1:14:35<26:18, 789.14s/it]L5SO folds:  93%|█████████▎| 13/14 [1:32:37<14:37, 877.83s/it]L5SO folds: 100%|██████████| 14/14 [1:50:50<00:00, 942.88s/it]L5SO folds: 100%|██████████| 14/14 [1:50:50<00:00, 475.04s/it]
-KNN         Acc=0.823  Macro-F1=0.822
-SVM         Acc=0.916  Macro-F1=0.916
-RF          Acc=0.884  Macro-F1=0.884
-XGBoost     Acc=0.867  Macro-F1=0.866
-MLP         Acc=0.901  Macro-F1=0.901
-Best PCA model: SVM
+subject (L5SO):   0%|          | 0/14 [00:00<?, ?it/s]subject (L5SO):   7%|▋         | 1/14 [00:35<07:47, 35.98s/it]subject (L5SO):  14%|█▍        | 2/14 [01:08<06:48, 34.04s/it]subject (L5SO):  21%|██▏       | 3/14 [01:23<04:39, 25.42s/it]subject (L5SO):  29%|██▊       | 4/14 [01:36<03:23, 20.40s/it]subject (L5SO):  36%|███▌      | 5/14 [01:49<02:38, 17.59s/it]subject (L5SO):  43%|████▎     | 6/14 [02:00<02:04, 15.55s/it]subject (L5SO):  50%|█████     | 7/14 [02:16<01:48, 15.48s/it]subject (L5SO):  57%|█████▋    | 8/14 [02:32<01:34, 15.80s/it]subject (L5SO):  64%|██████▍   | 9/14 [02:47<01:18, 15.61s/it]subject (L5SO):  71%|███████▏  | 10/14 [02:58<00:56, 14.09s/it]subject (L5SO):  79%|███████▊  | 11/14 [03:10<00:40, 13.42s/it]subject (L5SO):  86%|████████▌ | 12/14 [03:21<00:25, 12.65s/it]subject (L5SO):  93%|█████████▎| 13/14 [03:23<00:09,  9.66s/it]subject (L5SO): 100%|██████████| 14/14 [03:27<00:00,  7.68s/it]subject (L5SO): 100%|██████████| 14/14 [03:27<00:00, 14.79s/it]
+KNN         Acc=0.858  Macro-F1=0.860
+Best PCA model: KNN
 class  precision  recall     f1  support model
- A080     0.9714  0.9855 0.9784       69   SVM
- A097     0.8429  0.8551 0.8489       69   SVM
- A098     0.8507  0.8261 0.8382       69   SVM
- A100     0.9706  0.9565 0.9635       69   SVM
- A101     0.9429  0.9565 0.9496       69   SVM
+ A080     0.8592  0.8841 0.8714       69   KNN
+ A097     0.9375  0.8696 0.9023       69   KNN
+ A098     0.9310  0.7826 0.8504       69   KNN
+ A100     0.6939  0.9855 0.8144       69   KNN
+ A101     0.9815  0.7681 0.8618       69   KNN

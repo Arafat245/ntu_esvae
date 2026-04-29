@@ -7,12 +7,11 @@
     "batch_size": 64,
     "beta_kl": 0.0001,
     "dropout": 0.1,
-    "hidden": 768,
-    "k_knn": 5
+    "hidden": 768
   },
   "knn": {
     "n_neighbors": 5,
     "weights": "distance"
   },
-  "pooled_macroF1": 0.5568345016328291
+  "pooled_macroF1": 0.18425170600369875
 }

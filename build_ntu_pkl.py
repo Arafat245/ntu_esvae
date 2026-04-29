@@ -12,7 +12,7 @@ from pathlib import Path
 import numpy as np
 
 REPO_ROOT = Path(__file__).resolve().parent
-NTU_DIR = REPO_ROOT / "ntu_skeleton"
+NTU_DIR = REPO_ROOT / "ntu_skeleton_top10"
 NUM_JOINTS = 25
 
 

@@ -45,6 +45,7 @@ from functionsgpu_fast import (  # noqa: E402
 from cv_utils import (  # noqa: E402
     classwise_report,
     fold_indices,
+    get_folds_and_axis,
     leave_5_subjects_out_folds,
     load_data,
     metrics_summary_df,
@@ -52,7 +53,7 @@ from cv_utils import (  # noqa: E402
     CLASS_ORDER,
 )
 
-NUM_CLASSES = 5
+NUM_CLASSES = len(CLASS_ORDER)
 SEED = 42
 
 
@@ -182,7 +183,7 @@ def _knn_key(knn_cfg: dict) -> str:
     return f"k={knn_cfg['n_neighbors']},{knn_cfg['weights']}"
 
 
-def run_cv(enc_cfg, knn_grid, tangent, X_man_np, mu_shape, y, subj, folds, K, M, T, device, dtype):
+def run_cv(enc_cfg, knn_grid, tangent, X_man_np, mu_shape, y, subj, folds, K, M, T, device, dtype, fold_axis=None):
     """Train the encoder once per fold; evaluate every KNN config on the same latents.
 
     Returns: dict[knn_key] -> {"targets","preds","subjects","cfg"}.
@@ -198,8 +199,9 @@ def run_cv(enc_cfg, knn_grid, tangent, X_man_np, mu_shape, y, subj, folds, K, M,
         for kc in knn_grid
     }
 
+    fold_axis_arr = subj if fold_axis is None else fold_axis
     for k, test_subjects in enumerate(folds):
-        train_idx, test_idx = fold_indices(subj, test_subjects)
+        train_idx, test_idx = fold_indices(fold_axis_arr, test_subjects)
         seed = enc_cfg["seed"] + k
         model = train_esvae_fold(
             X_tan_full[train_idx], X_man_full[train_idx], mu_shape,
@@ -253,6 +255,7 @@ def main():
                     help="Kept for compatibility; KNN classifier always uses sklearn defaults to match PCA.")
     ap.add_argument("--sweep", action="store_true",
                     help="Tiny grid search over (R, epochs).")
+    ap.add_argument("--cv-mode", choices=["subject", "view", "setup"], default="subject")
     ap.add_argument("--output-dir", type=str,
                     default=str(Path(__file__).resolve().parent / "results"))
     args = ap.parse_args()
@@ -267,8 +270,8 @@ def main():
     print(f"tangent {tangent.shape}, betas {betas.shape}, mu {mu_arr.shape}, y {y.shape}")
 
     mu_shape = torch.from_numpy(mu_arr.reshape(-1).astype(np.float32)).to(device=device, dtype=dtype)
-    folds = leave_5_subjects_out_folds(subj, seed=args.seed)
-    print(f"Folds: {len(folds)}  sizes={[len(f) for f in folds]}")
+    folds, fold_axis, mode_label = get_folds_and_axis(args.cv_mode, subj, seed=args.seed)
+    print(f"CV mode: {mode_label}; folds: {len(folds)}  sizes={[len(f) for f in folds]}")
 
     base_cfg = dict(
         seed=args.seed, R=args.R, epochs=args.epochs, lr=args.lr,
@@ -278,16 +281,13 @@ def main():
 
     if args.sweep:
         enc_grid = []
-        # Extended sweep on the new alignment: push R and hidden up since the prior
-        # best (R=20, h=512, ep=150) sat at the edge of the previous grid.
-        for R in [20, 24, 32]:
-            for ep, hidden, drop in [
-                (150, 512, 0.10),
-                (200, 768, 0.10),
-                (250, 768, 0.05),
-                (300, 1024, 0.10),
-            ]:
-                enc_grid.append({**base_cfg, "R": R, "epochs": ep, "hidden": hidden, "dropout": drop})
+        # Phase 1 sweep for the 10-class set: R × hidden × beta_kl.
+        for R in [16, 24, 32, 48]:
+            for hidden in [512, 768]:
+                for beta in [1e-4, 1e-3]:
+                    enc_grid.append({**base_cfg, "R": R, "epochs": 200,
+                                     "hidden": hidden, "beta_kl": beta,
+                                     "dropout": 0.10})
     else:
         enc_grid = [base_cfg]
 
@@ -298,7 +298,7 @@ def main():
     for i, enc_cfg in enumerate(enc_grid):
         print(f"\n[Encoder {i+1}/{len(enc_grid)}] cfg={enc_cfg}")
         pooled_dict, summary = run_cv(enc_cfg, KNN_GRID, tangent, X_man_np, mu_shape,
-                                      y, subj, folds, K, M, T, device, dtype)
+                                      y, subj, folds, K, M, T, device, dtype, fold_axis=fold_axis)
         for knn_key, s in summary.items():
             print(f"  -> {knn_key:20s}  acc={s['acc']:.3f} macroF1={s['macroF1']:.3f}")
             all_records.append({
@@ -317,7 +317,8 @@ def main():
                     "acc": s["acc"],
                 }
 
-    pd.DataFrame(all_records).to_csv(out_dir / "esvae_sweep.csv", index=False)
+    suffix = {"subject": "", "view": "_xview", "setup": "_xsetup"}[args.cv_mode]
+    pd.DataFrame(all_records).to_csv(out_dir / f"esvae_sweep{suffix}.csv", index=False)
     pooled = best["pooled"]
     cfg = best["enc_cfg"]
     knn_cfg = best["knn_cfg"]
@@ -328,23 +329,23 @@ def main():
         n_bootstrap=args.bootstrap, random_state=args.seed,
     )
     summary_df = metrics_summary_df("ES-VAE (geodesic)", ci)
-    summary_path = out_dir / "esvae_clf_metrics.csv"
+    summary_path = out_dir / f"esvae_clf_metrics{suffix}.csv"
     summary_df.to_csv(summary_path, index=False)
     print(f"\nSaved {summary_path}")
     print(summary_df.to_string(index=False))
 
     cw = classwise_report(pooled["targets"], pooled["preds"], CLASS_ORDER)
     cw["model"] = "ES-VAE"
-    cw_path = out_dir / "esvae_clf_classwise.csv"
+    cw_path = out_dir / f"esvae_clf_classwise{suffix}.csv"
     cw.to_csv(cw_path, index=False)
     print(cw.to_string(index=False))
 
     # Persist the chosen encoder + KNN config so PCA can reuse the same KNN.
     import json
-    with open(out_dir / "esvae_clf_config.json", "w") as fh:
+    with open(out_dir / f"esvae_clf_config{suffix}.json", "w") as fh:
         json.dump({"encoder": cfg, "knn": knn_cfg, "pooled_macroF1": best["macroF1"]},
                   fh, indent=2)
-    with open(out_dir / "best_knn_cfg.json", "w") as fh:
+    with open(out_dir / f"best_knn_cfg{suffix}.json", "w") as fh:
         json.dump(knn_cfg, fh, indent=2)
 
 

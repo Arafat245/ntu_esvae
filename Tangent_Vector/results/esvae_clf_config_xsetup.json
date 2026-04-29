@@ -11,8 +11,8 @@
     "k_knn": 5
   },
   "knn": {
-    "n_neighbors": 5,
-    "weights": "distance"
+    "n_neighbors": 1,
+    "weights": "uniform"
   },
-  "pooled_macroF1": 0.5568345016328291
+  "pooled_macroF1": 0.5248216351321473
 }

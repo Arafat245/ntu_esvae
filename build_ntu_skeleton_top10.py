@@ -29,19 +29,24 @@ MISSING_LISTS = [
     DATA_ROOT / "ntu_rgbd120_missing_incomplete_skeletons_s001_to_s017.txt",
     DATA_ROOT / "ntu_rgbd120_missing_incomplete_skeletons_s018_to_s032.txt",
 ]
-OUTPUT_DIR = REPO_ROOT / "ntu_skeleton"
+OUTPUT_DIR = REPO_ROOT / "ntu_skeleton_top10"
 
-# Five kinematically-similar single-person ADL classes (hand-to-face / head-near
-# motions). Chosen specifically to make the manifold-prior advantage clearer:
-# all five share standing-upright posture and one-arm-raised-to-face geometry,
-# so absolute pose alone is a poor discriminator and trajectory shape (which
-# Kendall preshape preserves) becomes the discriminative signal.
+# 10-class set designed to maximize the |Tangent − Raw| gap.
+# Six "TV-favored" hand-to-face / hand-trajectory classes (where the manifold
+# prior should win because the discriminator is trajectory shape and absolute
+# pose is nuisance) plus four "easy anchor" whole-body classes that both
+# representations should classify correctly (keeps macro-F1 floor high).
 TARGET_CLASSES = {
     "A001": "drink_water",
     "A002": "eat_meal",
     "A003": "brush_teeth",
     "A004": "brush_hair",
     "A028": "phone_call",
+    "A029": "play_with_phone",
+    "A008": "sitting_down",
+    "A009": "standing_up",
+    "A023": "hand_waving",
+    "A031": "pointing_to_something",
 }
 
 
@@ -167,22 +172,28 @@ def select_candidate(paths: list[Path], person_id: str, class_id: str,
 def main() -> int:
     args = parse_args()
     candidates, subjects_by_class = collect_valid_candidates()
-    common_subjects = sorted(set.intersection(*(subjects_by_class[class_id] for class_id in TARGET_CLASSES)))
+    # Union of subjects across classes — missingness allowed.
+    all_subjects = sorted(set.union(*(subjects_by_class[c] for c in TARGET_CLASSES)))
+    common_subjects = sorted(set.intersection(*(subjects_by_class[c] for c in TARGET_CLASSES)))
 
     reset_output_dir()
 
     manifest_rows: list[dict[str, str]] = []
+    per_class_counts: dict[str, int] = {}
 
     for class_id, class_name in TARGET_CLASSES.items():
         class_dir = OUTPUT_DIR / f"{class_id}_{class_name}"
         class_dir.mkdir()
+        n = 0
 
-        for person_id in common_subjects:
-            selected_path = select_candidate(
-                candidates[(person_id, class_id)], person_id, class_id, args.seed
-            )
+        for person_id in all_subjects:
+            paths = candidates.get((person_id, class_id), [])
+            if not paths:
+                continue
+            selected_path = select_candidate(paths, person_id, class_id, args.seed)
             output_path = class_dir / selected_path.name
             shutil.copy2(selected_path, output_path)
+            n += 1
 
             manifest_rows.append(
                 {
@@ -193,6 +204,7 @@ def main() -> int:
                     "output_file": output_path.relative_to(REPO_ROOT).as_posix(),
                 }
             )
+        per_class_counts[class_id] = n
 
     manifest_path = OUTPUT_DIR / "manifest.csv"
     with manifest_path.open("w", encoding="utf-8", newline="") as handle:
@@ -203,13 +215,15 @@ def main() -> int:
         writer.writeheader()
         writer.writerows(manifest_rows)
 
-    common_subjects_path = OUTPUT_DIR / "common_subjects.txt"
-    common_subjects_path.write_text("\n".join(common_subjects) + "\n", encoding="utf-8")
+    (OUTPUT_DIR / "all_subjects.txt").write_text(
+        "\n".join(all_subjects) + "\n", encoding="utf-8")
+    (OUTPUT_DIR / "common_subjects.txt").write_text(
+        "\n".join(common_subjects) + "\n", encoding="utf-8")
 
-    print(f"common_subjects={len(common_subjects)}")
+    print(f"all_subjects={len(all_subjects)}  common_subjects={len(common_subjects)}")
     print(f"copied_files={len(manifest_rows)}")
     for class_id, class_name in TARGET_CLASSES.items():
-        print(f"{class_id} {class_name} files={len(common_subjects)}")
+        print(f"{class_id} {class_name} files={per_class_counts[class_id]}")
 
     return 0
 

@@ -1,38 +1,38 @@
 Device: cuda:1
 X_flat: (345, 7500), y: (345,)
 Folds: 14  sizes=[5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 4]
-Matched encoder + KNN to ES-VAE config from /mnt/sdb/arafat/activity_recognition/Tangent_Vector/results/esvae_clf_config.json: enc={'seed': 42, 'R': 16, 'epochs': 150, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 512}, knn={'n_neighbors': 3, 'weights': 'distance'}
+Matched encoder + KNN to ES-VAE config from /mnt/sdb/arafat/activity_recognition/Tangent_Vector/results/esvae_clf_config.json: enc={'seed': 42, 'R': 20, 'epochs': 150, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 512}, knn={'n_neighbors': 1, 'weights': 'uniform'}
 
-Single config: enc={'seed': 42, 'R': 16, 'epochs': 150, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 512}  knn={'n_neighbors': 3, 'weights': 'distance'}
-  fold 01/14  k=3,distance:0.636
-  fold 02/14  k=3,distance:0.448
-  fold 03/14  k=3,distance:0.599
-  fold 04/14  k=3,distance:0.560
-  fold 05/14  k=3,distance:0.557
-  fold 06/14  k=3,distance:0.646
-  fold 07/14  k=3,distance:0.610
-  fold 08/14  k=3,distance:0.586
-  fold 09/14  k=3,distance:0.473
-  fold 10/14  k=3,distance:0.705
-  fold 11/14  k=3,distance:0.514
-  fold 12/14  k=3,distance:0.581
-  fold 13/14  k=3,distance:0.633
-  fold 14/14  k=3,distance:0.544
+Single config: enc={'seed': 42, 'R': 20, 'epochs': 150, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 512}  knn={'n_neighbors': 1, 'weights': 'uniform'}
+  fold 01/14  k=1,uniform:0.490
+  fold 02/14  k=1,uniform:0.449
+  fold 03/14  k=1,uniform:0.516
+  fold 04/14  k=1,uniform:0.580
+  fold 05/14  k=1,uniform:0.512
+  fold 06/14  k=1,uniform:0.568
+  fold 07/14  k=1,uniform:0.558
+  fold 08/14  k=1,uniform:0.583
+  fold 09/14  k=1,uniform:0.550
+  fold 10/14  k=1,uniform:0.701
+  fold 11/14  k=1,uniform:0.599
+  fold 12/14  k=1,uniform:0.535
+  fold 13/14  k=1,uniform:0.613
+  fold 14/14  k=1,uniform:0.705
 
-Pooled  acc=0.594  macroF1=0.592
+Pooled  acc=0.583  macroF1=0.579
      method  Accuracy mean  Accuracy ci_low  Accuracy ci_high  F1 (weighted) mean  F1 (weighted) ci_low  F1 (weighted) ci_high  F1 (macro) mean  F1 (macro) ci_low  F1 (macro) ci_high  Precision (weighted) mean  Precision (weighted) ci_low  Precision (weighted) ci_high  Precision (macro) mean  Precision (macro) ci_low  Precision (macro) ci_high  Recall (weighted) mean  Recall (weighted) ci_low  Recall (weighted) ci_high  Recall (macro) mean  Recall (macro) ci_low  Recall (macro) ci_high
-Vanilla VAE         0.5942           0.5478            0.6406              0.5916                0.5432                 0.6373           0.5916             0.5432              0.6373                     0.5937                       0.5459                        0.6425                  0.5937                    0.5459                     0.6425                  0.5942                    0.5478                     0.6406               0.5942                 0.5478                  0.6406
+Vanilla VAE         0.5826           0.5333            0.6319              0.5794                0.5264                 0.6304           0.5794             0.5264              0.6304                     0.5796                       0.5287                        0.6333                  0.5796                    0.5287                     0.6333                  0.5826                    0.5333                     0.6319               0.5826                 0.5333                  0.6319
 
 sklearn classification_report:
                       precision    recall  f1-score   support
 
-     A080 squat_down     0.6571    0.6667    0.6619        69
-    A097 arm_circles     0.5893    0.4783    0.5280        69
-     A098 arm_swings     0.5352    0.5507    0.5429        69
-  A100 kick_backward     0.6024    0.7246    0.6579        69
-A101 cross_toe_touch     0.5846    0.5507    0.5672        69
+     A080 squat_down     0.6351    0.6812    0.6573        69
+    A097 arm_circles     0.5469    0.5072    0.5263        69
+     A098 arm_swings     0.5143    0.5217    0.5180        69
+  A100 kick_backward     0.6329    0.7246    0.6757        69
+A101 cross_toe_touch     0.5690    0.4783    0.5197        69
 
-            accuracy                         0.5942       345
-           macro avg     0.5937    0.5942    0.5916       345
-        weighted avg     0.5937    0.5942    0.5916       345
+            accuracy                         0.5826       345
+           macro avg     0.5796    0.5826    0.5794       345
+        weighted avg     0.5796    0.5826    0.5794       345
 

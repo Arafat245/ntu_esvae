@@ -1,0 +1,27 @@
+Device: cuda:1
+X_flat: (345, 7500), y: (345,)
+CV mode: view (leave-one-camera-out); folds: 3  sizes=[1, 1, 1]
+Matched encoder + KNN to ES-VAE config from /mnt/sdb/arafat/activity_recognition/Tangent_Vector/results/esvae_clf_config.json: enc={'seed': 42, 'R': 20, 'epochs': 150, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 512}, knn={'n_neighbors': 1, 'weights': 'uniform'}
+
+Single config: enc={'seed': 42, 'R': 20, 'epochs': 150, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 512}  knn={'n_neighbors': 1, 'weights': 'uniform'}
+  fold 01/3  k=1,uniform:0.454
+  fold 02/3  k=1,uniform:0.514
+  fold 03/3  k=1,uniform:0.440
+
+Pooled  acc=0.478  macroF1=0.475
+     method  Accuracy mean  Accuracy ci_low  Accuracy ci_high  F1 (weighted) mean  F1 (weighted) ci_low  F1 (weighted) ci_high  F1 (macro) mean  F1 (macro) ci_low  F1 (macro) ci_high  Precision (weighted) mean  Precision (weighted) ci_low  Precision (weighted) ci_high  Precision (macro) mean  Precision (macro) ci_low  Precision (macro) ci_high  Recall (weighted) mean  Recall (weighted) ci_low  Recall (weighted) ci_high  Recall (macro) mean  Recall (macro) ci_low  Recall (macro) ci_high
+Vanilla VAE         0.4783           0.4232            0.5362              0.4754                0.4189                 0.5337           0.4754             0.4189              0.5337                     0.4799                       0.4221                        0.5402                  0.4799                    0.4221                     0.5402                  0.4783                    0.4232                     0.5362               0.4783                 0.4232                  0.5362
+
+sklearn classification_report:
+                      precision    recall  f1-score   support
+
+     A080 squat_down     0.6269    0.6087    0.6176        69
+    A097 arm_circles     0.4255    0.2899    0.3448        69
+     A098 arm_swings     0.3659    0.4348    0.3974        69
+  A100 kick_backward     0.4810    0.5507    0.5135        69
+A101 cross_toe_touch     0.5000    0.5072    0.5036        69
+
+            accuracy                         0.4783       345
+           macro avg     0.4799    0.4783    0.4754       345
+        weighted avg     0.4799    0.4783    0.4754       345
+

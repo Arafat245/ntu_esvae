@@ -28,6 +28,7 @@ from tqdm import tqdm
 from cv_utils import (
     classwise_report,
     fold_indices,
+    get_folds_and_axis,
     leave_5_subjects_out_folds,
     load_data,
     metrics_summary_df,
@@ -35,7 +36,7 @@ from cv_utils import (
     CLASS_ORDER,
 )
 
-NUM_CLASSES = 5
+NUM_CLASSES = len(CLASS_ORDER)
 NUM_JOINTS = 25
 COORDS = 3
 SEED = 42
@@ -327,6 +328,7 @@ def main():
     ap.add_argument("--lr", type=float, default=2e-3)
     ap.add_argument("--weight-decay", type=float, default=1e-4)
     ap.add_argument("--label-smoothing", type=float, default=0.05)
+    ap.add_argument("--cv-mode", choices=["subject", "view", "setup"], default="subject")
     ap.add_argument("--output-dir", type=str,
                     default=str(Path(__file__).resolve().parent / "results"))
     args = ap.parse_args()
@@ -341,14 +343,14 @@ def main():
     X = tan.transpose(3, 0, 1, 2).reshape(N, K * M, T).astype(np.float32)
     print(f"X: {X.shape}, y: {y.shape}, classes: {np.bincount(y)}")
 
-    folds = leave_5_subjects_out_folds(subj, seed=args.seed)
-    print(f"Folds: {len(folds)}  sizes={[len(f) for f in folds]}")
+    folds, fold_axis, mode_label = get_folds_and_axis(args.cv_mode, subj, seed=args.seed)
+    print(f"CV mode: {mode_label}; folds: {len(folds)}  sizes={[len(f) for f in folds]}")
 
     chosen = [m.strip().upper() for m in args.models.split(",") if m.strip()]
     pooled = {name: {"targets": [], "preds": [], "subjects": []} for name in chosen}
 
     for k, test_subjects in enumerate(folds):
-        train_idx, test_idx = fold_indices(subj, test_subjects)
+        train_idx, test_idx = fold_indices(fold_axis, test_subjects)
         scaler = ChannelStandardizer().fit(X[train_idx])
         Xtr = scaler.transform(X[train_idx])
         Xte = scaler.transform(X[test_idx])
@@ -393,15 +395,16 @@ def main():
               f"MacroPrec={ci['Precision (macro)']['mean']:.3f}  "
               f"MacroRec={ci['Recall (macro)']['mean']:.3f}")
 
+    suffix = {"subject": "", "view": "_xview", "setup": "_xsetup"}[args.cv_mode]
     summary = pd.concat(rows, ignore_index=True)
-    summary_path = out_dir / "sequence_clf_metrics.csv"
+    summary_path = out_dir / f"sequence_clf_metrics{suffix}.csv"
     summary.to_csv(summary_path, index=False)
     print(f"\nSaved {summary_path}")
 
     best = max(chosen, key=lambda n: ci_results[n]["F1 (macro)"]["mean"])
     cw = classwise_report(pooled[best]["targets"], pooled[best]["preds"], CLASS_ORDER)
     cw["model"] = best
-    cw_path = out_dir / "sequence_clf_classwise_best.csv"
+    cw_path = out_dir / f"sequence_clf_classwise_best{suffix}.csv"
     cw.to_csv(cw_path, index=False)
     print(f"Best sequence model: {best}")
     print(cw.to_string(index=False))

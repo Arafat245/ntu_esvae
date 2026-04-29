@@ -1,0 +1,136 @@
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/utils/weight_norm.py:143: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/modules/transformer.py:379: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/utils/weight_norm.py:143: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/modules/transformer.py:379: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/utils/weight_norm.py:143: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/modules/transformer.py:379: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/utils/weight_norm.py:143: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/modules/transformer.py:379: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/utils/weight_norm.py:143: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/modules/transformer.py:379: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/utils/weight_norm.py:143: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/modules/transformer.py:379: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/utils/weight_norm.py:143: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/modules/transformer.py:379: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/utils/weight_norm.py:143: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/modules/transformer.py:379: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/utils/weight_norm.py:143: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/modules/transformer.py:379: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/utils/weight_norm.py:143: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/modules/transformer.py:379: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/utils/weight_norm.py:143: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/modules/transformer.py:379: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/utils/weight_norm.py:143: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/modules/transformer.py:379: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/utils/weight_norm.py:143: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/modules/transformer.py:379: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/utils/weight_norm.py:143: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/modules/transformer.py:379: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/utils/weight_norm.py:143: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+/mnt/sdb/arafat/.local/lib/python3.10/site-packages/torch/nn/modules/transformer.py:379: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(
+Device: cuda:0
+X: (345, 75, 100), y: (345,), classes: [69 69 69 69 69]
+CV mode: setup (leave-one-setup-out); folds: 15  sizes=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+Fold 01/15 | TCN         | acc=1.000 macroF1=1.000
+Fold 01/15 | LSTM        | acc=1.000 macroF1=1.000
+Fold 01/15 | TRANSFORMER | acc=1.000 macroF1=1.000
+Fold 01/15 | STGCN       | acc=0.667 macroF1=0.567
+Fold 02/15 | TCN         | acc=0.667 macroF1=0.652
+Fold 02/15 | LSTM        | acc=0.533 macroF1=0.463
+Fold 02/15 | TRANSFORMER | acc=0.800 macroF1=0.781
+Fold 02/15 | STGCN       | acc=0.267 macroF1=0.167
+Fold 03/15 | TCN         | acc=0.556 macroF1=0.485
+Fold 03/15 | LSTM        | acc=0.833 macroF1=0.831
+Fold 03/15 | TRANSFORMER | acc=0.667 macroF1=0.689
+Fold 03/15 | STGCN       | acc=0.333 macroF1=0.313
+Fold 04/15 | TCN         | acc=0.867 macroF1=0.760
+Fold 04/15 | LSTM        | acc=0.600 macroF1=0.565
+Fold 04/15 | TRANSFORMER | acc=0.667 macroF1=0.710
+Fold 04/15 | STGCN       | acc=0.267 macroF1=0.200
+Fold 05/15 | TCN         | acc=0.875 macroF1=0.760
+Fold 05/15 | LSTM        | acc=0.875 macroF1=0.760
+Fold 05/15 | TRANSFORMER | acc=0.750 macroF1=0.700
+Fold 05/15 | STGCN       | acc=0.375 macroF1=0.333
+Fold 06/15 | TCN         | acc=0.800 macroF1=0.783
+Fold 06/15 | LSTM        | acc=0.880 macroF1=0.856
+Fold 06/15 | TRANSFORMER | acc=0.880 macroF1=0.870
+Fold 06/15 | STGCN       | acc=0.280 macroF1=0.238
+Fold 07/15 | TCN         | acc=0.889 macroF1=0.893
+Fold 07/15 | LSTM        | acc=0.667 macroF1=0.747
+Fold 07/15 | TRANSFORMER | acc=0.778 macroF1=0.638
+Fold 07/15 | STGCN       | acc=0.222 macroF1=0.137
+Fold 08/15 | TCN         | acc=0.818 macroF1=0.804
+Fold 08/15 | LSTM        | acc=0.818 macroF1=0.665
+Fold 08/15 | TRANSFORMER | acc=0.727 macroF1=0.608
+Fold 08/15 | STGCN       | acc=0.273 macroF1=0.205
+Fold 09/15 | TCN         | acc=0.771 macroF1=0.746
+Fold 09/15 | LSTM        | acc=0.771 macroF1=0.760
+Fold 09/15 | TRANSFORMER | acc=0.829 macroF1=0.817
+Fold 09/15 | STGCN       | acc=0.286 macroF1=0.240
+Fold 10/15 | TCN         | acc=0.769 macroF1=0.760
+Fold 10/15 | LSTM        | acc=0.718 macroF1=0.718
+Fold 10/15 | TRANSFORMER | acc=0.821 macroF1=0.816
+Fold 10/15 | STGCN       | acc=0.410 macroF1=0.270
+Fold 11/15 | TCN         | acc=0.950 macroF1=0.960
+Fold 11/15 | LSTM        | acc=0.900 macroF1=0.917
+Fold 11/15 | TRANSFORMER | acc=0.850 macroF1=0.868
+Fold 11/15 | STGCN       | acc=0.700 macroF1=0.731
+Fold 12/15 | TCN         | acc=0.750 macroF1=0.726
+Fold 12/15 | LSTM        | acc=0.833 macroF1=0.812
+Fold 12/15 | TRANSFORMER | acc=0.917 macroF1=0.912
+Fold 12/15 | STGCN       | acc=0.375 macroF1=0.372
+Fold 13/15 | TCN         | acc=0.940 macroF1=0.941
+Fold 13/15 | LSTM        | acc=0.820 macroF1=0.814
+Fold 13/15 | TRANSFORMER | acc=0.880 macroF1=0.872
+Fold 13/15 | STGCN       | acc=0.280 macroF1=0.228
+Fold 14/15 | TCN         | acc=0.854 macroF1=0.842
+Fold 14/15 | LSTM        | acc=0.829 macroF1=0.823
+Fold 14/15 | TRANSFORMER | acc=0.805 macroF1=0.788
+Fold 14/15 | STGCN       | acc=0.415 macroF1=0.365
+Fold 15/15 | TCN         | acc=0.769 macroF1=0.696
+Fold 15/15 | LSTM        | acc=0.654 macroF1=0.657
+Fold 15/15 | TRANSFORMER | acc=0.885 macroF1=0.879
+Fold 15/15 | STGCN       | acc=0.269 macroF1=0.221
+TCN         pooled  Acc=0.817  MacroF1=0.818  MacroPrec=0.824  MacroRec=0.817
+LSTM        pooled  Acc=0.783  MacroF1=0.783  MacroPrec=0.785  MacroRec=0.783
+TRANSFORMER pooled  Acc=0.829  MacroF1=0.828  MacroPrec=0.829  MacroRec=0.829
+STGCN       pooled  Acc=0.354  MacroF1=0.347  MacroPrec=0.353  MacroRec=0.354
+
+Saved /mnt/sdb/arafat/activity_recognition/Raw_Skeleton/results/sequence_clf_metrics_xsetup.csv
+Best sequence model: TRANSFORMER
+class  precision  recall     f1  support       model
+ A080     0.9242  0.8841 0.9037       69 TRANSFORMER
+ A097     0.7344  0.6812 0.7068       69 TRANSFORMER
+ A098     0.6944  0.7246 0.7092       69 TRANSFORMER
+ A100     0.9286  0.9420 0.9353       69 TRANSFORMER
+ A101     0.8630  0.9130 0.8873       69 TRANSFORMER

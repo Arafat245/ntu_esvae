@@ -42,6 +42,11 @@ fold_indices = _tv_cv.fold_indices
 leave_5_subjects_out_folds = _tv_cv.leave_5_subjects_out_folds
 metrics_summary_df = _tv_cv.metrics_summary_df
 subject_bootstrap_ci_class = _tv_cv.subject_bootstrap_ci_class
+get_folds_and_axis = _tv_cv.get_folds_and_axis
+load_camera_ids = _tv_cv.load_camera_ids
+cross_view_folds = _tv_cv.cross_view_folds
+load_setup_ids = _tv_cv.load_setup_ids
+cross_setup_folds = _tv_cv.cross_setup_folds
 
 CLASS_TO_INT = {c: i for i, c in enumerate(CLASS_ORDER)}
 

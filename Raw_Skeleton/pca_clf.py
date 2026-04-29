@@ -26,6 +26,7 @@ from tqdm import tqdm
 from cv_utils import (
     classwise_report,
     fold_indices,
+    get_folds_and_axis,
     leave_5_subjects_out_folds,
     load_data,
     metrics_summary_df,
@@ -38,10 +39,18 @@ TV_RESULTS = Path(__file__).resolve().parents[1] / "Tangent_Vector" / "results"
 
 
 def fpca_project(X_train_flat, X_other_flat, R: int):
-    """SVD on (D x N_train); return (N_train, R), (N_other, R)."""
-    U, s, Vt = np.linalg.svd(X_train_flat, full_matrices=False)
+    """Centered PCA via SVD on (D x N_train); return (N_train, R), (N_other, R).
+
+    Subtracts the column-mean (per-sample mean across the training fold) from
+    both train and test before SVD, so the leading principal components capture
+    actual variance rather than the mean-skeleton direction.
+    """
+    mean_d = X_train_flat.mean(axis=1, keepdims=True)  # (D, 1)
+    Xtr_c = X_train_flat - mean_d
+    Xte_c = X_other_flat - mean_d
+    U, s, Vt = np.linalg.svd(Xtr_c, full_matrices=False)
     Ur = U[:, :R]
-    return (Ur.T @ X_train_flat).T, (Ur.T @ X_other_flat).T
+    return (Ur.T @ Xtr_c).T, (Ur.T @ Xte_c).T
 
 
 def get_models(seed: int, knn_cfg: dict | None = None):
@@ -67,23 +76,26 @@ def main():
                          "Tangent_Vector/results/esvae_clf_config.json.")
     ap.add_argument("--match-esvae-R", action="store_true", default=True,
                     help="If true (default), set R from the ES-VAE config file.")
+    ap.add_argument("--cv-mode", choices=["subject", "view", "setup"], default="subject")
     args = ap.parse_args()
 
     np.random.seed(args.seed)
 
-    knn_cfg = None
-    cands = []
+    # PCA mirrors the ES-VAE winner's KNN config (same k, same weights) — read
+    # from Tangent_Vector/results/best_knn_cfg.json. Falls back to k=3 distance.
+    knn_cfg = {"n_neighbors": 3, "weights": "distance"}
+    knn_candidates: list[Path] = []
     if args.knn_cfg_file:
-        cands.append(Path(args.knn_cfg_file))
-    cands.append(TV_RESULTS / "best_knn_cfg.json")
-    for p in cands:
+        knn_candidates.append(Path(args.knn_cfg_file))
+    knn_candidates.append(TV_RESULTS / "best_knn_cfg.json")
+    for p in knn_candidates:
         if p.exists():
             with open(p) as fh:
                 knn_cfg = json.load(fh)
-            print(f"Loaded KNN config from {p}: {knn_cfg}")
+            print(f"PCA KNN matched to ES-VAE winner from {p}: {knn_cfg}")
             break
-    if knn_cfg is None:
-        print("Using sklearn-default KNN config.")
+    else:
+        print(f"PCA KNN (fallback default): {knn_cfg}")
 
     if args.match_esvae_R:
         cands = [Path(args.esvae_cfg_file)] if args.esvae_cfg_file else []
@@ -103,15 +115,15 @@ def main():
     flat_DN = X_flat.T.astype(np.float32)
     print(f"flat shape: {flat_DN.shape}, y: {y.shape}, R={args.R}")
 
-    folds = leave_5_subjects_out_folds(subj, seed=args.seed)
-    print(f"Folds: {len(folds)} (sizes={[len(f) for f in folds]})")
+    folds, fold_axis, mode_label = get_folds_and_axis(args.cv_mode, subj, seed=args.seed)
+    print(f"CV mode: {mode_label}; folds: {len(folds)} (sizes={[len(f) for f in folds]})")
 
     models = get_models(args.seed, knn_cfg=knn_cfg)
     print(f"KNN model: {models['KNN']}")
     pooled = {name: {"targets": [], "preds": [], "subjects": []} for name in models}
 
-    for k, test_subjects in enumerate(tqdm(folds, desc="L5SO folds")):
-        tr_idx, te_idx = fold_indices(subj, test_subjects)
+    for k, test_subjects in enumerate(tqdm(folds, desc=mode_label)):
+        tr_idx, te_idx = fold_indices(fold_axis, test_subjects)
         Xtr, Xte = fpca_project(flat_DN[:, tr_idx], flat_DN[:, te_idx], R=args.R)
         scaler = StandardScaler().fit(Xtr)
         Xtr_s = scaler.transform(Xtr)
@@ -144,21 +156,22 @@ def main():
         acc = accuracy_score(d["targets"], d["preds"])
         print(f"{name:10s}  Acc={acc:.3f}  Macro-F1={f1m:.3f}")
 
+    suffix = {"subject": "", "view": "_xview", "setup": "_xsetup"}[args.cv_mode]
     summary = pd.concat(rows, ignore_index=True)
     out_dir = Path(args.output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    summary.to_csv(out_dir / "pca_clf_metrics.csv", index=False)
+    summary.to_csv(out_dir / f"pca_clf_metrics{suffix}.csv", index=False)
 
     best_name = max(pooled.keys(), key=lambda n: ci_results[n]["F1 (macro)"]["mean"])
     cw = classwise_report(pooled[best_name]["targets"], pooled[best_name]["preds"], CLASS_ORDER)
     cw["model"] = best_name
-    cw.to_csv(out_dir / "pca_clf_classwise_best.csv", index=False)
+    cw.to_csv(out_dir / f"pca_clf_classwise_best{suffix}.csv", index=False)
     print(f"Best PCA model: {best_name}")
     print(cw.to_string(index=False))
 
     raw_oof = {name: {k: list(map(int, v)) for k, v in d.items()}
                for name, d in pooled.items()}
-    with open(out_dir / "pca_clf_oof.json", "w") as fh:
+    with open(out_dir / f"pca_clf_oof{suffix}.json", "w") as fh:
         json.dump(raw_oof, fh)
 
 

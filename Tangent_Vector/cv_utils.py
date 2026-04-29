@@ -26,13 +26,19 @@ from sklearn.metrics import (
 REPO_ROOT = Path(__file__).resolve().parents[1]
 ALIGNED_DIR = REPO_ROOT / "aligned_data"
 
-CLASS_ORDER = ["A080", "A097", "A098", "A100", "A101"]
+CLASS_ORDER = ["A001", "A002", "A003", "A004", "A008",
+               "A009", "A023", "A028", "A029", "A031"]
 CLASS_NAMES = {
-    "A080": "squat_down",
-    "A097": "arm_circles",
-    "A098": "arm_swings",
-    "A100": "kick_backward",
-    "A101": "cross_toe_touch",
+    "A001": "drink_water",
+    "A002": "eat_meal",
+    "A003": "brush_teeth",
+    "A004": "brush_hair",
+    "A008": "sitting_down",
+    "A009": "standing_up",
+    "A023": "hand_waving",
+    "A028": "phone_call",
+    "A029": "play_with_phone",
+    "A031": "pointing_to_something",
 }
 
 
@@ -95,6 +101,55 @@ def fold_indices(subject_ids: np.ndarray, test_subjects: np.ndarray):
     test_idx = np.where(test_mask)[0]
     train_idx = np.where(~test_mask)[0]
     return train_idx, test_idx
+
+
+def load_camera_ids() -> np.ndarray:
+    """Per-sample camera id (1/2/3) in the canonical 345-row order."""
+    df = pd.read_csv(ALIGNED_DIR / "sample_meta.csv")
+    df = df.sort_values("sample_index").reset_index(drop=True)
+    return df["camera_id"].to_numpy(dtype=np.int64)
+
+
+def cross_view_folds(camera_ids: np.ndarray):
+    """Leave-one-camera-out: 3 folds. Each fold's 'test set' is one camera id."""
+    return [np.array([c], dtype=np.int64) for c in sorted(np.unique(camera_ids).tolist())]
+
+
+def load_setup_ids() -> np.ndarray:
+    """Per-sample NTU setup id (S001-S032) in canonical 345-row order."""
+    df = pd.read_csv(ALIGNED_DIR / "sample_meta.csv")
+    df = df.sort_values("sample_index").reset_index(drop=True)
+    return df["setup_id"].to_numpy(dtype=np.int64)
+
+
+def cross_setup_folds(setup_ids: np.ndarray):
+    """Leave-one-setup-out: one fold per distinct NTU setup that appears in
+    the curated subset. NTU setups differ in room geometry / camera placement
+    / lighting, so this is a stronger generalisation test than cross-view."""
+    return [np.array([s], dtype=np.int64) for s in sorted(np.unique(setup_ids).tolist())]
+
+
+def get_folds_and_axis(mode: str, subj: np.ndarray, seed: int = 42):
+    """Returns (folds, fold_axis_array, label_for_logging).
+
+    mode: 'subject' -> 14 L5SO folds; fold_axis_array is `subj`.
+    mode: 'view'    -> 3 leave-one-camera-out folds; fold_axis_array is camera_ids.
+    mode: 'setup'   -> N leave-one-setup-out folds (N = distinct setups present);
+                       fold_axis_array is setup_ids.
+    """
+    if mode == "subject":
+        return leave_5_subjects_out_folds(subj, seed=seed), subj, "subject (L5SO)"
+    if mode == "view":
+        cameras = load_camera_ids()
+        if len(cameras) != len(subj):
+            raise RuntimeError(f"camera_ids length {len(cameras)} != subj length {len(subj)}")
+        return cross_view_folds(cameras), cameras, "view (leave-one-camera-out)"
+    if mode == "setup":
+        setups = load_setup_ids()
+        if len(setups) != len(subj):
+            raise RuntimeError(f"setup_ids length {len(setups)} != subj length {len(subj)}")
+        return cross_setup_folds(setups), setups, "setup (leave-one-setup-out)"
+    raise ValueError(f"unknown cv mode {mode!r}")
 
 
 def subject_bootstrap_ci_class(

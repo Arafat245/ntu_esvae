@@ -33,6 +33,7 @@ from torch.utils.data import DataLoader, TensorDataset
 from cv_utils import (
     classwise_report,
     fold_indices,
+    get_folds_and_axis,
     leave_5_subjects_out_folds,
     load_data,
     metrics_summary_df,
@@ -44,7 +45,7 @@ from cv_utils import (
 REPO_ROOT = Path(__file__).resolve().parents[1]
 TV_RESULTS = REPO_ROOT / "Tangent_Vector" / "results"
 
-NUM_CLASSES = 5
+NUM_CLASSES = len(CLASS_ORDER)
 SEED = 42
 
 
@@ -164,12 +165,13 @@ def standardize_train_apply(Xtr, *others):
     return out
 
 
-def run_cv(enc_cfg, knn_grid, X_flat, y, subj, folds, device, dtype):
+def run_cv(enc_cfg, knn_grid, X_flat, y, subj, folds, device, dtype, fold_axis=None):
     pooled = {_knn_key(c): {"targets": [], "preds": [], "subjects": [], "cfg": c}
               for c in knn_grid}
+    fold_axis_arr = subj if fold_axis is None else fold_axis
 
     for k, test_subjects in enumerate(folds):
-        tr_idx, te_idx = fold_indices(subj, test_subjects)
+        tr_idx, te_idx = fold_indices(fold_axis_arr, test_subjects)
         Xtr_s, Xte_s = standardize_train_apply(X_flat[tr_idx], X_flat[te_idx])
         Xtr_t = torch.from_numpy(Xtr_s).to(device=device, dtype=dtype)
         Xte_t = torch.from_numpy(Xte_s).to(device=device, dtype=dtype)
@@ -232,6 +234,7 @@ def main():
                          "and KNN to ES-VAE's chosen config (read from "
                          "../Tangent_Vector/results/esvae_clf_config.json) when present "
                          "and --sweep is not used.")
+    ap.add_argument("--cv-mode", choices=["subject", "view", "setup"], default="subject")
     ap.add_argument("--output-dir", type=str,
                     default=str(Path(__file__).resolve().parent / "results"))
     args = ap.parse_args()
@@ -244,8 +247,8 @@ def main():
     _, _, X_flat, y, subj, _ = load_data(args.T)
     print(f"X_flat: {X_flat.shape}, y: {y.shape}")
 
-    folds = leave_5_subjects_out_folds(subj, seed=args.seed)
-    print(f"Folds: {len(folds)}  sizes={[len(f) for f in folds]}")
+    folds, fold_axis, mode_label = get_folds_and_axis(args.cv_mode, subj, seed=args.seed)
+    print(f"CV mode: {mode_label}; folds: {len(folds)}  sizes={[len(f) for f in folds]}")
 
     base_cfg = dict(seed=args.seed, R=args.R, epochs=args.epochs, lr=args.lr,
                     batch_size=args.batch_size, beta_kl=args.beta_kl,
@@ -279,7 +282,7 @@ def main():
         best = None
         for i, ec in enumerate(enc_grid):
             print(f"\n[Encoder {i+1}/{len(enc_grid)}] cfg={ec}")
-            pooled_dict, summary = run_cv(ec, KNN_GRID, X_flat, y, subj, folds, device, dtype)
+            pooled_dict, summary = run_cv(ec, KNN_GRID, X_flat, y, subj, folds, device, dtype, fold_axis=fold_axis)
             for kk, s in summary.items():
                 print(f"  -> {kk:20s}  acc={s['acc']:.3f} macroF1={s['macroF1']:.3f}")
                 all_records.append({**ec, "knn_n_neighbors": s["knn_cfg"]["n_neighbors"],
@@ -289,7 +292,8 @@ def main():
                     best = {"enc_cfg": ec, "knn_cfg": s["knn_cfg"],
                             "pooled": pooled_dict[kk], "macroF1": s["macroF1"],
                             "acc": s["acc"]}
-        pd.DataFrame(all_records).to_csv(out_dir / "vae_sweep.csv", index=False)
+        _sweep_suffix = {"subject": "", "view": "_xview", "setup": "_xsetup"}[args.cv_mode]
+        pd.DataFrame(all_records).to_csv(out_dir / f"vae_sweep{_sweep_suffix}.csv", index=False)
         pooled = best["pooled"]
         cfg = best["enc_cfg"]
         knn_cfg = best["knn_cfg"]
@@ -297,7 +301,7 @@ def main():
     else:
         knn_to_use = chosen_knn or {"n_neighbors": 5, "weights": "uniform"}
         print(f"\nSingle config: enc={base_cfg}  knn={knn_to_use}")
-        pooled_dict, summary = run_cv(base_cfg, [knn_to_use], X_flat, y, subj, folds, device, dtype)
+        pooled_dict, summary = run_cv(base_cfg, [knn_to_use], X_flat, y, subj, folds, device, dtype, fold_axis=fold_axis)
         only_key = list(pooled_dict.keys())[0]
         pooled = pooled_dict[only_key]
         cfg = base_cfg
@@ -309,8 +313,9 @@ def main():
         pooled["targets"], pooled["preds"], pooled["subjects"],
         n_bootstrap=args.bootstrap, random_state=args.seed,
     )
+    suffix = {"subject": "", "view": "_xview", "setup": "_xsetup"}[args.cv_mode]
     summary_df = metrics_summary_df("Vanilla VAE", ci)
-    summary_df.to_csv(out_dir / "vae_clf_metrics.csv", index=False)
+    summary_df.to_csv(out_dir / f"vae_clf_metrics{suffix}.csv", index=False)
     print(summary_df.to_string(index=False))
 
     target_names = [f"{c} {CLASS_NAMES[c]}" for c in CLASS_ORDER]
@@ -345,13 +350,13 @@ def main():
                          "support":   int(e["support"])})
     cw_df = pd.DataFrame(rows)
     cw_df["model"] = "Vanilla VAE"
-    cw_df.to_csv(out_dir / "vae_clf_classwise.csv", index=False)
+    cw_df.to_csv(out_dir / f"vae_clf_classwise{suffix}.csv", index=False)
 
-    with open(out_dir / "vae_clf_config.json", "w") as fh:
+    with open(out_dir / f"vae_clf_config{suffix}.json", "w") as fh:
         json.dump({"encoder": cfg, "knn": knn_cfg,
                    "pooled_macroF1": float(ci["F1 (macro)"]["mean"])},
                   fh, indent=2)
-    with open(out_dir / "vae_clf_oof.json", "w") as fh:
+    with open(out_dir / f"vae_clf_oof{suffix}.json", "w") as fh:
         json.dump({"targets": [int(x) for x in pooled["targets"]],
                    "preds":   [int(x) for x in pooled["preds"]],
                    "subjects":[int(x) for x in pooled["subjects"]],

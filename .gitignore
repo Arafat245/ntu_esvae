@@ -2,12 +2,15 @@
 aligned_data/
 data/
 ntu_skeleton/
+ntu_skeleton_top10/
 papers/
+logs_top10/
 
 # --- File types ignored everywhere ---
 *.pkl
 *.csv
 *.pdf
+*.skeleton
 
 # --- Python ---
 __pycache__/
