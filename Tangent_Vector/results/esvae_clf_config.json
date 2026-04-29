@@ -1,7 +1,7 @@
 {
   "encoder": {
     "seed": 42,
-    "R": 16,
+    "R": 20,
     "epochs": 150,
     "lr": 0.001,
     "batch_size": 64,
@@ -11,8 +11,8 @@
     "k_knn": 5
   },
   "knn": {
-    "n_neighbors": 3,
-    "weights": "distance"
+    "n_neighbors": 1,
+    "weights": "uniform"
   },
-  "pooled_macroF1": 0.9505613834380666
+  "pooled_macroF1": 0.8543982333456018
 }

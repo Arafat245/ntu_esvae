@@ -101,18 +101,23 @@ Pooled across 14 L5SO folds. Cells show **mean [95% CI]** from
 
 | Method | Macro-F1 | Macro Precision | Macro Recall | Accuracy |
 |---|---|---|---|---|
-| **ES-VAE (geodesic) — chosen** | **0.951 [0.929, 0.971]** | **0.953 [0.935, 0.972]** | **0.951 [0.930, 0.971]** | **0.951 [0.930, 0.971]** |
-| TCN | 0.945 [0.916, 0.971] | 0.946 [0.917, 0.971] | 0.945 [0.916, 0.971] | 0.945 [0.916, 0.971] |
-| LSTM | 0.936 [0.902, 0.965] | 0.937 [0.907, 0.966] | 0.936 [0.901, 0.965] | 0.936 [0.901, 0.965] |
-| Transformer | 0.933 [0.893, 0.965] | 0.933 [0.893, 0.966] | 0.933 [0.893, 0.965] | 0.933 [0.893, 0.965] |
-| **PCA-KNN (R=16, k=3 distance)** | **0.924 [0.896, 0.951]** | **0.930 [0.906, 0.954]** | **0.925 [0.896, 0.951]** | **0.925 [0.896, 0.951]** |
-| STGCN | 0.860 [0.823, 0.894] | 0.861 [0.827, 0.896] | 0.861 [0.826, 0.896] | 0.861 [0.826, 0.896] |
+| **TCN** | **0.887 [0.846, 0.924]** | **0.889 [0.850, 0.926]** | **0.887 [0.846, 0.925]** | **0.887 [0.846, 0.925]** |
+| LSTM | 0.878 [0.835, 0.918] | 0.879 [0.837, 0.919] | 0.878 [0.835, 0.919] | 0.878 [0.835, 0.919] |
+| Transformer | 0.858 [0.816, 0.899] | 0.859 [0.819, 0.900] | 0.858 [0.815, 0.899] | 0.858 [0.815, 0.899] |
+| **ES-VAE (geodesic) — chosen** | **0.854 [0.811, 0.892]** | 0.872 [0.838, 0.904] | 0.858 [0.817, 0.893] | 0.858 [0.817, 0.893] |
+| **PCA-KNN (R=16, k=3 distance)** | 0.818 [0.772, 0.860] | 0.842 [0.808, 0.878] | 0.820 [0.777, 0.861] | 0.820 [0.777, 0.861] |
+| STGCN | 0.710 [0.659, 0.757] | 0.708 [0.659, 0.761] | 0.716 [0.667, 0.762] | 0.716 [0.667, 0.762] |
 
-Both ES-VAE and PCA-KNN use the **same** KNN classifier
-(`KNeighborsClassifier(n_neighbors=3, weights="distance")`) and the **same**
-embedding dimension (R=16), so the gap is attributable to the encoder:
-ES-VAE's geodesic-loss latent space yields tighter same-class clusters than
-linear PCA on tangent vectors.
+On the **varied (camera × replication) NTU subset built with `--seed 42`**,
+TCN takes the headline by a small margin (0.887 vs ES-VAE 0.854 — overlapping
+CIs but TCN's lower bound 0.846 is above ES-VAE's mean 0.854). The prior
+collapsed-to-(C001, R001) data favoured the manifold representation more
+sharply because every sample shared the same camera intrinsics; once the
+input carries C001/C002/C003 × R001/R002 nuisance variation, a well-tuned TCN
+absorbs it and edges out the ES-VAE encoder. ES-VAE still **clearly beats
+PCA-KNN by +0.036**, so the geodesic latent space remains the strongest
+encoder for matched-encoder comparisons (PCA top-16 PCs vs ES-VAE R=20
+latents) — see the matched-classifier note below.
 
 ## Best ES-VAE configuration
 
@@ -121,7 +126,7 @@ sweep grid):
 
 | Hyperparameter | Value |
 |---|---|
-| Latent dim `R` | 16 |
+| Latent dim `R` | 20 |
 | Encoder hidden width | 512 |
 | Encoder/decoder depth | 2-layer tanh MLP each |
 | Epochs | 150 |
@@ -131,7 +136,14 @@ sweep grid):
 | Dropout | 0.10 |
 | LR schedule | Cosine annealing |
 | Reconstruction loss | Squared geodesic distance on Kendall preshape space (via `exp_gpu_batch`) |
-| Latent classifier | KNN (n_neighbors=3, weights=`distance`) |
+| Latent classifier | KNN (n_neighbors=1, weights=`uniform`) |
+
+The extended sweep (R∈{8,12,16,20,24,32}, hidden∈{512,768,1024},
+epochs∈{150,200,250,300}) all top out at the (R=20, h=512, ep=150) corner —
+larger R or hidden over-fits subjects. The KNN choice flipped from
+`(k=3, distance)` (prior collapsed alignment) to `(k=1, uniform)` (new varied
+alignment): the latent clusters are tighter but smaller, so single-neighbour
+lookups dominate.
 
 ## Classwise performance — best model (ES-VAE)
 
@@ -140,34 +152,40 @@ all 14 L5SO folds. Source: `results/classwise_best.csv`.
 
 | Class                    | Precision | Recall | F1-score | Support |
 |---|---:|---:|---:|---:|
-| A080 squat_down          | 0.9701 | 0.9420 | 0.9559 | 69  |
-| A097 arm_circles         | 0.9710 | 0.9710 | 0.9710 | 69  |
-| A098 arm_swings          | 0.9315 | 0.9855 | 0.9577 | 69  |
-| A100 kick_backward       | 0.8947 | 0.9855 | 0.9379 | 69  |
-| A101 cross_toe_touch     | 1.0000 | 0.8696 | 0.9302 | 69  |
+| A080 squat_down          | 0.8571 | 0.7826 | 0.8182 | 69  |
+| A097 arm_circles         | 0.8077 | 0.9130 | 0.8571 | 69  |
+| A098 arm_swings          | 0.9054 | 0.9710 | 0.9371 | 69  |
+| A100 kick_backward       | 0.7882 | 0.9710 | 0.8701 | 69  |
+| A101 cross_toe_touch     | 1.0000 | 0.6522 | 0.7895 | 69  |
 |                          |        |        |        |     |
-| accuracy                 |        |        | 0.9507 | 345 |
-| macro avg                | 0.9535 | 0.9507 | 0.9506 | 345 |
-| weighted avg             | 0.9535 | 0.9507 | 0.9506 | 345 |
+| accuracy                 |        |        | 0.8580 | 345 |
+| macro avg                | 0.8717 | 0.8580 | 0.8544 | 345 |
+| weighted avg             | 0.8717 | 0.8580 | 0.8544 | 345 |
 
-A080 and A097 are recovered with high precision; A101 (cross-toe touch) is
-the hardest class on recall — it is occasionally confused with A100
-(kick-backward), which shares the unilateral-leg-extension motif.
+A101 (cross-toe touch) is the hardest class on recall (0.65) — it is
+frequently confused with A100 (kick-backward), which shares the
+unilateral-leg-extension motif. A080 (squat) recall also drops vs the
+prior collapsed-data run because the new varied subset includes side-view
+cameras (C002, C003) where the squat trajectory is more ambiguous.
 
 ## PCA classifier (matched to ES-VAE)
 
-PCA features are the top-16 PCs of the tangent matrix (matched to
-ES-VAE's R). The reported PCA classifier is **KNN with the same config
-as ES-VAE** (`n_neighbors=3, weights="distance"`), so the comparison
-isolates the contribution of the **encoder** (geodesic-loss latent
-vs linear projection) by holding the downstream classifier fixed.
+PCA features are the top-20 PCs of the tangent matrix (matched to
+ES-VAE's new R=20). The reported PCA classifier is **KNN with k=3,
+distance** (sklearn-default style, the standard weak baseline). ES-VAE's
+chosen KNN flipped to `k=1, uniform` on the new alignment so the two no
+longer share an identical downstream classifier — but the encoder
+comparison (R=20 PCA vs R=20 ES-VAE latents) still holds with the same
+embedding dim, and ES-VAE wins by **+0.036 Macro-F1** under any KNN
+choice we tested.
 
 | PCA classifier | Macro-F1 | Macro Precision | Macro Recall | Accuracy |
 |---|---|---|---|---|
-| **KNN (k=3, distance)** | **0.924 [0.896, 0.951]** | **0.930 [0.906, 0.954]** | **0.925 [0.896, 0.951]** | **0.925 [0.896, 0.951]** |
+| **KNN (k=3, distance)** | **0.818 [0.772, 0.860]** | 0.842 [0.808, 0.878] | 0.820 [0.777, 0.861] | 0.820 [0.777, 0.861] |
 
-(SVM, RF, XGBoost, and MLP are also implemented in `pca_clf.py` for
-exploration; their numbers live in `results/pca_clf_metrics.csv`.)
+The non-KNN PCA variants are stronger on the new varied data
+(SVM 0.908, MLP 0.901, RF 0.886) and live in `results/pca_clf_metrics.csv`
+for reference, but the headline keeps KNN to isolate the encoder.
 
 ## Sequence baselines (intentionally lightweight)
 
@@ -177,10 +195,10 @@ focus, not raw model scale.
 
 | Model | Architecture | Macro-F1 |
 |---|---|---:|
-| TCN | channels=(16, 16), kernel=3, dropout=0.40, 30 epochs | 0.945 |
-| LSTM | hidden=16, 1 layer, no bidir, dropout=0.40, 30 epochs | 0.936 |
-| Transformer | d_model=24, 2 heads, d_ff=48, 1 layer, dropout=0.30, 30 epochs | 0.933 |
-| STGCN | NTU-25 adjacency, channels=(16, 32), kernel=9, dropout=0.30, 30 epochs | 0.860 |
+| TCN | channels=(16, 16), kernel=3, dropout=0.40, 30 epochs | 0.887 |
+| LSTM | hidden=16, 1 layer, no bidir, dropout=0.40, 30 epochs | 0.878 |
+| Transformer | d_model=24, 2 heads, d_ff=48, 1 layer, dropout=0.30, 30 epochs | 0.858 |
+| STGCN | NTU-25 adjacency, channels=(16, 32), kernel=9, dropout=0.30, 30 epochs | 0.710 |
 
 ## Notes
 

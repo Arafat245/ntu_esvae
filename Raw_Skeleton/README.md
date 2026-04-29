@@ -139,16 +139,16 @@ The **only** difference is the reconstruction loss / target:
 
 | Pipeline | Reconstruction target | Loss | Pooled Macro-F1 |
 |---|---|---|---:|
-| ES-VAE on tangent vectors | manifold curve via `exp_map(mu, v_hat)` | squared geodesic distance on Kendall preshape space | **0.951** [0.929, 0.971] |
+| ES-VAE on tangent vectors | manifold curve via `exp_map(mu, v_hat)` | squared geodesic distance on Kendall preshape space | **0.854** [0.811, 0.892] |
 | Vanilla VAE on raw skeletons | flattened raw sequence | plain MSE | **0.592** [0.543, 0.637] |
 
-ES-VAE outperforms by **+0.36 Macro-F1**, attributable entirely to (i)
+ES-VAE outperforms by **+0.26 Macro-F1**, attributable entirely to (i)
 the Kendall preshape representation (translation-/scale-/rotation-invariant
 curves) and (ii) the geodesic reconstruction loss that respects that
-manifold structure. The gap widens substantially under the varied-camera
-raw input — the unconstrained VAE encoder cannot absorb the C001/C002/C003
-× R001/R002 nuisance variation that the manifold pipeline factors out
-analytically.
+manifold structure. Both pipelines run on the **same varied-camera NTU
+subset** (C001/C002/C003 × R001/R002) — the unconstrained VAE encoder
+cannot absorb the nuisance variation that the manifold pipeline factors
+out analytically.
 
 ## Tangent vs Raw — same-method comparison
 
@@ -157,28 +157,27 @@ input differs (Kendall tangent vector vs linearly-resampled raw skeleton).
 
 | Method | Tangent (Macro-F1) | Raw (Macro-F1) | Δ |
 |---|---:|---:|---:|
-| ES-VAE / Vanilla VAE | **0.951** | 0.592 | **+0.359** |
-| TCN | 0.945 | 0.800 | **+0.145** |
-| LSTM | 0.936 | 0.768 | **+0.168** |
-| Transformer | 0.933 | 0.852 | **+0.081** |
-| STGCN | 0.860 | 0.454 | **+0.406** |
-| PCA-KNN | 0.924 | 0.822 | **+0.102** |
+| ES-VAE / Vanilla VAE | **0.854** | 0.592 | **+0.262** |
+| TCN | 0.887 | 0.800 | **+0.087** |
+| LSTM | 0.878 | 0.768 | **+0.110** |
+| Transformer | 0.858 | 0.852 | **+0.006** |
+| STGCN | 0.710 | 0.454 | **+0.256** |
+| PCA-KNN | 0.818 | 0.822 | −0.004 (CIs overlap; tied) |
 
 Take-aways:
 - The **VAE-style encoder** depends critically on the manifold prior;
-  raw input drops Macro-F1 by ~0.36 even with the same architecture and
+  raw input drops Macro-F1 by ~0.26 even with the same architecture and
   KNN downstream.
-- **Sequence neural models** all drop on raw skeletons under the same
-  30-epoch budget (TCN −0.15, LSTM −0.17, Transformer −0.08). The
-  Kendall preshape representation gives the optimiser more
-  immediately-discriminative structure (translation/scale already
-  factored out); raw networks must spend capacity normalising the
-  absolute-position and camera-angle variance themselves.
-- **STGCN** is the most position-sensitive: it loses ~0.41 Macro-F1
+- **Sequence neural models** mostly drop on raw skeletons under the same
+  30-epoch budget (TCN −0.09, LSTM −0.11, Transformer −0.01). Transformer
+  comes closest to closing the gap because its attention can absorb the
+  nuisance variation given enough capacity; TCN/LSTM still benefit
+  clearly from the Kendall normalisation.
+- **STGCN** is the most position-sensitive: it loses ~0.26 Macro-F1
   going from tangent (centred per frame) to raw (with world offsets).
-- **PCA-KNN** drops ~0.10 on raw — the linear projection cannot factor
-  out the camera/replication nuisance variation that the Kendall
-  preshape representation removes analytically.
+- **PCA-KNN** is statistically tied (0.818 vs 0.822); the linear
+  projection captures comparable structure on either input — neither
+  representation gives the linear baseline a meaningful edge.
 
 ## Classwise breakdown — PCA-KNN baseline
 

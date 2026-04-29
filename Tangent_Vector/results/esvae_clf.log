@@ -3,381 +3,381 @@ tangent (25, 3, 100, 345), betas (345, 25, 3, 100), mu (25, 3, 100), y (345,)
 Folds: 14  sizes=[5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 4]
 
 [Encoder 1/16] cfg={'seed': 42, 'R': 8, 'epochs': 150, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 512, 'k_knn': 5}
-  fold 01/14  k=1,uniform:0.711  k=3,uniform:0.705  k=5,uniform:0.705  k=7,uniform:0.793  k=3,distance:0.705  k=5,distance:0.705  k=7,distance:0.793
-  fold 02/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:0.960  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:0.960
-  fold 03/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 04/14  k=1,uniform:0.860  k=3,uniform:0.917  k=5,uniform:0.914  k=7,uniform:0.914  k=3,distance:0.917  k=5,distance:0.914  k=7,distance:0.914
-  fold 05/14  k=1,uniform:0.882  k=3,uniform:0.960  k=5,uniform:0.919  k=7,uniform:0.919  k=3,distance:0.960  k=5,distance:0.919  k=7,distance:0.919
-  fold 06/14  k=1,uniform:0.839  k=3,uniform:0.876  k=5,uniform:0.876  k=7,uniform:0.876  k=3,distance:0.876  k=5,distance:0.876  k=7,distance:0.876
-  fold 07/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 08/14  k=1,uniform:0.879  k=3,uniform:0.919  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.919  k=5,distance:0.960  k=7,distance:0.960
-  fold 09/14  k=1,uniform:0.960  k=3,uniform:0.920  k=5,uniform:0.920  k=7,uniform:0.960  k=3,distance:0.920  k=5,distance:0.920  k=7,distance:0.960
-  fold 10/14  k=1,uniform:0.747  k=3,uniform:0.786  k=5,uniform:0.825  k=7,uniform:0.785  k=3,distance:0.786  k=5,distance:0.825  k=7,distance:0.825
-  fold 11/14  k=1,uniform:0.919  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.917  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.917
-  fold 12/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 13/14  k=1,uniform:0.960  k=3,uniform:0.922  k=5,uniform:0.960  k=7,uniform:0.920  k=3,distance:0.922  k=5,distance:0.960  k=7,distance:0.920
-  fold 14/14  k=1,uniform:0.743  k=3,uniform:0.754  k=5,uniform:0.808  k=7,uniform:0.852  k=3,distance:0.795  k=5,distance:0.852  k=7,distance:0.852
-  -> k=1,uniform           acc=0.890 macroF1=0.890
-  -> k=3,uniform           acc=0.904 macroF1=0.904
-  -> k=5,uniform           acc=0.913 macroF1=0.913
-  -> k=7,uniform           acc=0.913 macroF1=0.913
-  -> k=3,distance          acc=0.907 macroF1=0.907
-  -> k=5,distance          acc=0.916 macroF1=0.916
-  -> k=7,distance          acc=0.916 macroF1=0.916
+  fold 01/14  k=1,uniform:0.920  k=3,uniform:0.919  k=5,uniform:0.920  k=7,uniform:0.960  k=3,distance:0.919  k=5,distance:0.920  k=7,distance:0.960
+  fold 02/14  k=1,uniform:0.746  k=3,uniform:0.686  k=5,uniform:0.686  k=7,uniform:0.693  k=3,distance:0.746  k=5,distance:0.746  k=7,distance:0.693
+  fold 03/14  k=1,uniform:0.569  k=3,uniform:0.612  k=5,uniform:0.681  k=7,uniform:0.681  k=3,distance:0.612  k=5,distance:0.681  k=7,distance:0.681
+  fold 04/14  k=1,uniform:0.612  k=3,uniform:0.669  k=5,uniform:0.708  k=7,uniform:0.623  k=3,distance:0.669  k=5,distance:0.708  k=7,distance:0.630
+  fold 05/14  k=1,uniform:0.823  k=3,uniform:0.720  k=5,uniform:0.720  k=7,uniform:0.720  k=3,distance:0.720  k=5,distance:0.720  k=7,distance:0.720
+  fold 06/14  k=1,uniform:0.801  k=3,uniform:0.760  k=5,uniform:0.707  k=7,uniform:0.653  k=3,distance:0.760  k=5,distance:0.760  k=7,distance:0.653
+  fold 07/14  k=1,uniform:0.672  k=3,uniform:0.764  k=5,uniform:0.671  k=7,uniform:0.613  k=3,distance:0.720  k=5,distance:0.720  k=7,distance:0.682
+  fold 08/14  k=1,uniform:0.750  k=3,uniform:0.750  k=5,uniform:0.825  k=7,uniform:0.779  k=3,distance:0.750  k=5,distance:0.825  k=7,distance:0.779
+  fold 09/14  k=1,uniform:0.715  k=3,uniform:0.601  k=5,uniform:0.671  k=7,uniform:0.631  k=3,distance:0.640  k=5,distance:0.676  k=7,distance:0.631
+  fold 10/14  k=1,uniform:0.920  k=3,uniform:0.838  k=5,uniform:0.880  k=7,uniform:0.919  k=3,distance:0.879  k=5,distance:0.880  k=7,distance:0.880
+  fold 11/14  k=1,uniform:0.793  k=3,uniform:0.876  k=5,uniform:0.822  k=7,uniform:0.788  k=3,distance:0.873  k=5,distance:0.822  k=7,distance:0.822
+  fold 12/14  k=1,uniform:0.836  k=3,uniform:0.836  k=5,uniform:0.611  k=7,uniform:0.641  k=3,distance:0.836  k=5,distance:0.721  k=7,distance:0.641
+  fold 13/14  k=1,uniform:0.842  k=3,uniform:0.919  k=5,uniform:0.922  k=7,uniform:0.922  k=3,distance:0.880  k=5,distance:0.882  k=7,distance:0.882
+  fold 14/14  k=1,uniform:0.746  k=3,uniform:0.695  k=5,uniform:0.630  k=7,uniform:0.742  k=3,distance:0.693  k=5,distance:0.628  k=7,distance:0.742
+  -> k=1,uniform           acc=0.777 macroF1=0.774
+  -> k=3,uniform           acc=0.771 macroF1=0.769
+  -> k=5,uniform           acc=0.765 macroF1=0.758
+  -> k=7,uniform           acc=0.759 macroF1=0.749
+  -> k=3,distance          acc=0.774 macroF1=0.772
+  -> k=5,distance          acc=0.777 macroF1=0.773
+  -> k=7,distance          acc=0.759 macroF1=0.751
 
 [Encoder 2/16] cfg={'seed': 42, 'R': 8, 'epochs': 200, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 512, 'k_knn': 5}
-  fold 01/14  k=1,uniform:0.711  k=3,uniform:0.705  k=5,uniform:0.755  k=7,uniform:0.798  k=3,distance:0.711  k=5,distance:0.755  k=7,distance:0.761
-  fold 02/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:0.960  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:0.960
-  fold 03/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 04/14  k=1,uniform:0.860  k=3,uniform:0.917  k=5,uniform:0.914  k=7,uniform:0.914  k=3,distance:0.917  k=5,distance:0.914  k=7,distance:0.914
-  fold 05/14  k=1,uniform:0.882  k=3,uniform:0.960  k=5,uniform:0.919  k=7,uniform:0.882  k=3,distance:0.960  k=5,distance:0.919  k=7,distance:0.882
-  fold 06/14  k=1,uniform:0.839  k=3,uniform:0.876  k=5,uniform:0.960  k=7,uniform:0.919  k=3,distance:0.876  k=5,distance:0.960  k=7,distance:0.960
-  fold 07/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 08/14  k=1,uniform:0.840  k=3,uniform:0.920  k=5,uniform:0.960  k=7,uniform:0.919  k=3,distance:0.920  k=5,distance:0.960  k=7,distance:0.919
-  fold 09/14  k=1,uniform:0.920  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 10/14  k=1,uniform:0.747  k=3,uniform:0.786  k=5,uniform:0.786  k=7,uniform:0.785  k=3,distance:0.786  k=5,distance:0.786  k=7,distance:0.825
-  fold 11/14  k=1,uniform:0.919  k=3,uniform:0.919  k=5,uniform:0.960  k=7,uniform:0.917  k=3,distance:0.919  k=5,distance:0.960  k=7,distance:0.917
-  fold 12/14  k=1,uniform:0.919  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 13/14  k=1,uniform:0.960  k=3,uniform:0.922  k=5,uniform:0.960  k=7,uniform:0.920  k=3,distance:0.922  k=5,distance:0.960  k=7,distance:0.920
-  fold 14/14  k=1,uniform:0.750  k=3,uniform:0.743  k=5,uniform:0.763  k=7,uniform:0.760  k=3,distance:0.743  k=5,distance:0.810  k=7,distance:0.760
-  -> k=1,uniform           acc=0.881 macroF1=0.881
-  -> k=3,uniform           acc=0.904 macroF1=0.905
-  -> k=5,uniform           acc=0.919 macroF1=0.919
-  -> k=7,uniform           acc=0.904 macroF1=0.904
-  -> k=3,distance          acc=0.904 macroF1=0.905
-  -> k=5,distance          acc=0.922 macroF1=0.922
-  -> k=7,distance          acc=0.907 macroF1=0.907
+  fold 01/14  k=1,uniform:0.920  k=3,uniform:0.920  k=5,uniform:0.920  k=7,uniform:0.960  k=3,distance:0.920  k=5,distance:0.920  k=7,distance:0.960
+  fold 02/14  k=1,uniform:0.648  k=3,uniform:0.686  k=5,uniform:0.686  k=7,uniform:0.751  k=3,distance:0.687  k=5,distance:0.746  k=7,distance:0.751
+  fold 03/14  k=1,uniform:0.620  k=3,uniform:0.743  k=5,uniform:0.743  k=7,uniform:0.743  k=3,distance:0.743  k=5,distance:0.743  k=7,distance:0.743
+  fold 04/14  k=1,uniform:0.645  k=3,uniform:0.710  k=5,uniform:0.668  k=7,uniform:0.710  k=3,distance:0.710  k=5,distance:0.668  k=7,distance:0.710
+  fold 05/14  k=1,uniform:0.717  k=3,uniform:0.720  k=5,uniform:0.720  k=7,uniform:0.761  k=3,distance:0.720  k=5,distance:0.720  k=7,distance:0.761
+  fold 06/14  k=1,uniform:0.762  k=3,uniform:0.760  k=5,uniform:0.748  k=7,uniform:0.653  k=3,distance:0.760  k=5,distance:0.802  k=7,distance:0.653
+  fold 07/14  k=1,uniform:0.669  k=3,uniform:0.760  k=5,uniform:0.634  k=7,uniform:0.634  k=3,distance:0.719  k=5,distance:0.634  k=7,distance:0.634
+  fold 08/14  k=1,uniform:0.785  k=3,uniform:0.790  k=5,uniform:0.779  k=7,uniform:0.779  k=3,distance:0.790  k=5,distance:0.825  k=7,distance:0.779
+  fold 09/14  k=1,uniform:0.676  k=3,uniform:0.676  k=5,uniform:0.621  k=7,uniform:0.624  k=3,distance:0.676  k=5,distance:0.676  k=7,distance:0.624
+  fold 10/14  k=1,uniform:0.920  k=3,uniform:0.835  k=5,uniform:0.880  k=7,uniform:0.880  k=3,distance:0.875  k=5,distance:0.880  k=7,distance:0.880
+  fold 11/14  k=1,uniform:0.753  k=3,uniform:0.836  k=5,uniform:0.873  k=7,uniform:0.836  k=3,distance:0.836  k=5,distance:0.873  k=7,distance:0.836
+  fold 12/14  k=1,uniform:0.882  k=3,uniform:0.841  k=5,uniform:0.762  k=7,uniform:0.701  k=3,distance:0.841  k=5,distance:0.762  k=7,distance:0.753
+  fold 13/14  k=1,uniform:0.842  k=3,uniform:0.919  k=5,uniform:0.882  k=7,uniform:0.836  k=3,distance:0.880  k=5,distance:0.873  k=7,distance:0.792
+  fold 14/14  k=1,uniform:0.693  k=3,uniform:0.750  k=5,uniform:0.677  k=7,uniform:0.677  k=3,distance:0.750  k=5,distance:0.677  k=7,distance:0.677
+  -> k=1,uniform           acc=0.762 macroF1=0.760
+  -> k=3,uniform           acc=0.791 macroF1=0.789
+  -> k=5,uniform           acc=0.771 macroF1=0.765
+  -> k=7,uniform           acc=0.768 macroF1=0.761
+  -> k=3,distance          acc=0.788 macroF1=0.787
+  -> k=5,distance          acc=0.783 macroF1=0.780
+  -> k=7,distance          acc=0.768 macroF1=0.762
 
 [Encoder 3/16] cfg={'seed': 42, 'R': 8, 'epochs': 250, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 512, 'k_knn': 5}
-  fold 01/14  k=1,uniform:0.711  k=3,uniform:0.711  k=5,uniform:0.705  k=7,uniform:0.705  k=3,distance:0.711  k=5,distance:0.705  k=7,distance:0.705
-  fold 02/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 03/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 04/14  k=1,uniform:0.914  k=3,uniform:0.914  k=5,uniform:0.917  k=7,uniform:0.917  k=3,distance:0.914  k=5,distance:0.914  k=7,distance:0.914
-  fold 05/14  k=1,uniform:0.882  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.882  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.882
-  fold 06/14  k=1,uniform:0.876  k=3,uniform:0.876  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.876  k=5,distance:0.960  k=7,distance:0.960
-  fold 07/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:1.000  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:1.000
-  fold 08/14  k=1,uniform:0.880  k=3,uniform:0.920  k=5,uniform:0.960  k=7,uniform:0.919  k=3,distance:0.920  k=5,distance:0.960  k=7,distance:0.919
-  fold 09/14  k=1,uniform:0.920  k=3,uniform:0.920  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.920  k=5,distance:0.960  k=7,distance:0.960
-  fold 10/14  k=1,uniform:0.786  k=3,uniform:0.786  k=5,uniform:0.786  k=7,uniform:0.785  k=3,distance:0.786  k=5,distance:0.786  k=7,distance:0.825
-  fold 11/14  k=1,uniform:0.919  k=3,uniform:0.919  k=5,uniform:1.000  k=7,uniform:0.960  k=3,distance:0.919  k=5,distance:1.000  k=7,distance:0.960
-  fold 12/14  k=1,uniform:0.919  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 13/14  k=1,uniform:0.960  k=3,uniform:0.882  k=5,uniform:0.922  k=7,uniform:0.882  k=3,distance:0.922  k=5,distance:0.922  k=7,distance:0.882
-  fold 14/14  k=1,uniform:0.693  k=3,uniform:0.803  k=5,uniform:0.760  k=7,uniform:0.804  k=3,distance:0.803  k=5,distance:0.760  k=7,distance:0.804
-  -> k=1,uniform           acc=0.890 macroF1=0.890
-  -> k=3,uniform           acc=0.901 macroF1=0.902
-  -> k=5,uniform           acc=0.919 macroF1=0.919
-  -> k=7,uniform           acc=0.910 macroF1=0.910
-  -> k=3,distance          acc=0.904 macroF1=0.905
-  -> k=5,distance          acc=0.919 macroF1=0.919
-  -> k=7,distance          acc=0.913 macroF1=0.913
+  fold 01/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.919  k=7,distance:0.960
+  fold 02/14  k=1,uniform:0.687  k=3,uniform:0.785  k=5,uniform:0.686  k=7,uniform:0.687  k=3,distance:0.788  k=5,distance:0.746  k=7,distance:0.687
+  fold 03/14  k=1,uniform:0.586  k=3,uniform:0.709  k=5,uniform:0.709  k=7,uniform:0.673  k=3,distance:0.709  k=5,distance:0.709  k=7,distance:0.709
+  fold 04/14  k=1,uniform:0.650  k=3,uniform:0.668  k=5,uniform:0.668  k=7,uniform:0.673  k=3,distance:0.668  k=5,distance:0.668  k=7,distance:0.673
+  fold 05/14  k=1,uniform:0.680  k=3,uniform:0.635  k=5,uniform:0.635  k=7,uniform:0.720  k=3,distance:0.635  k=5,distance:0.635  k=7,distance:0.720
+  fold 06/14  k=1,uniform:0.763  k=3,uniform:0.723  k=5,uniform:0.710  k=7,uniform:0.693  k=3,distance:0.723  k=5,distance:0.710  k=7,distance:0.693
+  fold 07/14  k=1,uniform:0.669  k=3,uniform:0.760  k=5,uniform:0.705  k=7,uniform:0.671  k=3,distance:0.760  k=5,distance:0.659  k=7,distance:0.671
+  fold 08/14  k=1,uniform:0.825  k=3,uniform:0.825  k=5,uniform:0.779  k=7,uniform:0.779  k=3,distance:0.825  k=5,distance:0.779  k=7,distance:0.779
+  fold 09/14  k=1,uniform:0.676  k=3,uniform:0.676  k=5,uniform:0.591  k=7,uniform:0.624  k=3,distance:0.676  k=5,distance:0.591  k=7,distance:0.676
+  fold 10/14  k=1,uniform:0.843  k=3,uniform:0.835  k=5,uniform:0.880  k=7,uniform:0.835  k=3,distance:0.840  k=5,distance:0.880  k=7,distance:0.835
+  fold 11/14  k=1,uniform:0.707  k=3,uniform:0.837  k=5,uniform:0.830  k=7,uniform:0.873  k=3,distance:0.839  k=5,distance:0.830  k=7,distance:0.873
+  fold 12/14  k=1,uniform:0.882  k=3,uniform:0.803  k=5,uniform:0.720  k=7,uniform:0.679  k=3,distance:0.803  k=5,distance:0.720  k=7,distance:0.743
+  fold 13/14  k=1,uniform:0.880  k=3,uniform:0.879  k=5,uniform:0.882  k=7,uniform:0.793  k=3,distance:0.919  k=5,distance:0.873  k=7,distance:0.793
+  fold 14/14  k=1,uniform:0.743  k=3,uniform:0.675  k=5,uniform:0.671  k=7,uniform:0.800  k=3,distance:0.675  k=5,distance:0.725  k=7,distance:0.735
+  -> k=1,uniform           acc=0.762 macroF1=0.761
+  -> k=3,uniform           acc=0.783 macroF1=0.780
+  -> k=5,uniform           acc=0.762 macroF1=0.755
+  -> k=7,uniform           acc=0.762 macroF1=0.754
+  -> k=3,distance          acc=0.786 macroF1=0.784
+  -> k=5,distance          acc=0.762 macroF1=0.757
+  -> k=7,distance          acc=0.768 macroF1=0.761
 
 [Encoder 4/16] cfg={'seed': 42, 'R': 8, 'epochs': 200, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 768, 'k_knn': 5}
-  fold 01/14  k=1,uniform:0.711  k=3,uniform:0.747  k=5,uniform:0.798  k=7,uniform:0.793  k=3,distance:0.747  k=5,distance:0.798  k=7,distance:0.755
-  fold 02/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 03/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 04/14  k=1,uniform:0.914  k=3,uniform:0.877  k=5,uniform:0.914  k=7,uniform:0.917  k=3,distance:0.877  k=5,distance:0.914  k=7,distance:0.917
-  fold 05/14  k=1,uniform:0.919  k=3,uniform:0.960  k=5,uniform:0.922  k=7,uniform:0.882  k=3,distance:0.960  k=5,distance:0.922  k=7,distance:0.882
-  fold 06/14  k=1,uniform:0.919  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.917  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.917
-  fold 07/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 08/14  k=1,uniform:0.879  k=3,uniform:0.879  k=5,uniform:0.879  k=7,uniform:0.838  k=3,distance:0.879  k=5,distance:0.879  k=7,distance:0.838
-  fold 09/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 10/14  k=1,uniform:0.786  k=3,uniform:0.786  k=5,uniform:0.825  k=7,uniform:0.825  k=3,distance:0.786  k=5,distance:0.825  k=7,distance:0.825
-  fold 11/14  k=1,uniform:0.919  k=3,uniform:0.960  k=5,uniform:1.000  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:1.000  k=7,distance:0.960
-  fold 12/14  k=1,uniform:0.919  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.920  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 13/14  k=1,uniform:0.919  k=3,uniform:0.882  k=5,uniform:0.960  k=7,uniform:0.882  k=3,distance:0.922  k=5,distance:0.960  k=7,distance:0.882
-  fold 14/14  k=1,uniform:0.755  k=3,uniform:0.796  k=5,uniform:0.853  k=7,uniform:0.810  k=3,distance:0.750  k=5,distance:0.750  k=7,distance:0.810
-  -> k=1,uniform           acc=0.899 macroF1=0.899
-  -> k=3,uniform           acc=0.910 macroF1=0.910
-  -> k=5,uniform           acc=0.928 macroF1=0.928
-  -> k=7,uniform           acc=0.904 macroF1=0.905
-  -> k=3,distance          acc=0.910 macroF1=0.910
-  -> k=5,distance          acc=0.922 macroF1=0.922
-  -> k=7,distance          acc=0.904 macroF1=0.905
+  fold 01/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
+  fold 02/14  k=1,uniform:0.705  k=3,uniform:0.797  k=5,uniform:0.686  k=7,uniform:0.705  k=3,distance:0.797  k=5,distance:0.746  k=7,distance:0.705
+  fold 03/14  k=1,uniform:0.654  k=3,uniform:0.602  k=5,uniform:0.565  k=7,uniform:0.645  k=3,distance:0.602  k=5,distance:0.601  k=7,distance:0.645
+  fold 04/14  k=1,uniform:0.615  k=3,uniform:0.710  k=5,uniform:0.668  k=7,uniform:0.668  k=3,distance:0.710  k=5,distance:0.668  k=7,distance:0.668
+  fold 05/14  k=1,uniform:0.680  k=3,uniform:0.684  k=5,uniform:0.681  k=7,uniform:0.720  k=3,distance:0.743  k=5,distance:0.681  k=7,distance:0.720
+  fold 06/14  k=1,uniform:0.880  k=3,uniform:0.756  k=5,uniform:0.802  k=7,uniform:0.841  k=3,distance:0.798  k=5,distance:0.842  k=7,distance:0.841
+  fold 07/14  k=1,uniform:0.699  k=3,uniform:0.719  k=5,uniform:0.839  k=7,uniform:0.719  k=3,distance:0.721  k=5,distance:0.758  k=7,distance:0.719
+  fold 08/14  k=1,uniform:0.822  k=3,uniform:0.822  k=5,uniform:0.779  k=7,uniform:0.696  k=3,distance:0.822  k=5,distance:0.779  k=7,distance:0.779
+  fold 09/14  k=1,uniform:0.715  k=3,uniform:0.676  k=5,uniform:0.676  k=7,uniform:0.675  k=3,distance:0.676  k=5,distance:0.676  k=7,distance:0.711
+  fold 10/14  k=1,uniform:0.879  k=3,uniform:0.838  k=5,uniform:0.835  k=7,uniform:0.920  k=3,distance:0.838  k=5,distance:0.835  k=7,distance:0.920
+  fold 11/14  k=1,uniform:0.747  k=3,uniform:0.793  k=5,uniform:0.793  k=7,uniform:0.750  k=3,distance:0.793  k=5,distance:0.793  k=7,distance:0.750
+  fold 12/14  k=1,uniform:0.882  k=3,uniform:0.882  k=5,uniform:0.722  k=7,uniform:0.729  k=3,distance:0.882  k=5,distance:0.722  k=7,distance:0.722
+  fold 13/14  k=1,uniform:0.840  k=3,uniform:0.920  k=5,uniform:0.837  k=7,uniform:0.836  k=3,distance:0.879  k=5,distance:0.879  k=7,distance:0.836
+  fold 14/14  k=1,uniform:0.793  k=3,uniform:0.689  k=5,uniform:0.739  k=7,uniform:0.793  k=3,distance:0.689  k=5,distance:0.796  k=7,distance:0.739
+  -> k=1,uniform           acc=0.786 macroF1=0.785
+  -> k=3,uniform           acc=0.788 macroF1=0.786
+  -> k=5,uniform           acc=0.771 macroF1=0.765
+  -> k=7,uniform           acc=0.771 macroF1=0.766
+  -> k=3,distance          acc=0.791 macroF1=0.790
+  -> k=5,distance          acc=0.780 macroF1=0.776
+  -> k=7,distance          acc=0.777 macroF1=0.771
 
 [Encoder 5/16] cfg={'seed': 42, 'R': 12, 'epochs': 150, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 512, 'k_knn': 5}
-  fold 01/14  k=1,uniform:0.795  k=3,uniform:0.759  k=5,uniform:0.836  k=7,uniform:0.785  k=3,distance:0.759  k=5,distance:0.879  k=7,distance:0.785
-  fold 02/14  k=1,uniform:1.000  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 03/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 04/14  k=1,uniform:0.917  k=3,uniform:0.917  k=5,uniform:0.914  k=7,uniform:0.914  k=3,distance:0.917  k=5,distance:0.914  k=7,distance:0.914
-  fold 05/14  k=1,uniform:1.000  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 06/14  k=1,uniform:0.917  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 07/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 08/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 09/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:0.960  k=5,distance:1.000  k=7,distance:1.000
-  fold 10/14  k=1,uniform:0.822  k=3,uniform:0.822  k=5,uniform:0.825  k=7,uniform:0.825  k=3,distance:0.822  k=5,distance:0.825  k=7,distance:0.825
-  fold 11/14  k=1,uniform:0.960  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:0.960  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:0.960
-  fold 12/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 13/14  k=1,uniform:0.960  k=3,uniform:0.920  k=5,uniform:0.960  k=7,uniform:0.919  k=3,distance:0.920  k=5,distance:0.960  k=7,distance:0.919
-  fold 14/14  k=1,uniform:0.796  k=3,uniform:0.754  k=5,uniform:0.760  k=7,uniform:0.804  k=3,distance:0.755  k=5,distance:0.768  k=7,distance:0.768
-  -> k=1,uniform           acc=0.936 macroF1=0.936
-  -> k=3,uniform           acc=0.928 macroF1=0.927
-  -> k=5,uniform           acc=0.939 macroF1=0.939
-  -> k=7,uniform           acc=0.933 macroF1=0.933
-  -> k=3,distance          acc=0.928 macroF1=0.927
-  -> k=5,distance          acc=0.942 macroF1=0.942
-  -> k=7,distance          acc=0.930 macroF1=0.930
+  fold 01/14  k=1,uniform:0.919  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.919  k=7,distance:0.960
+  fold 02/14  k=1,uniform:0.744  k=3,uniform:0.822  k=5,uniform:0.791  k=7,uniform:0.790  k=3,distance:0.744  k=5,distance:0.786  k=7,distance:0.789
+  fold 03/14  k=1,uniform:0.620  k=3,uniform:0.601  k=5,uniform:0.636  k=7,uniform:0.601  k=3,distance:0.601  k=5,distance:0.636  k=7,distance:0.601
+  fold 04/14  k=1,uniform:0.677  k=3,uniform:0.751  k=5,uniform:0.710  k=7,uniform:0.751  k=3,distance:0.751  k=5,distance:0.709  k=7,distance:0.751
+  fold 05/14  k=1,uniform:0.757  k=3,uniform:0.681  k=5,uniform:0.681  k=7,uniform:0.681  k=3,distance:0.681  k=5,distance:0.681  k=7,distance:0.681
+  fold 06/14  k=1,uniform:0.788  k=3,uniform:0.788  k=5,uniform:0.726  k=7,uniform:0.693  k=3,distance:0.788  k=5,distance:0.726  k=7,distance:0.693
+  fold 07/14  k=1,uniform:0.788  k=3,uniform:0.878  k=5,uniform:0.878  k=7,uniform:0.837  k=3,distance:0.878  k=5,distance:0.878  k=7,distance:0.878
+  fold 08/14  k=1,uniform:0.825  k=3,uniform:0.836  k=5,uniform:0.836  k=7,uniform:0.842  k=3,distance:0.836  k=5,distance:0.836  k=7,distance:0.842
+  fold 09/14  k=1,uniform:0.681  k=3,uniform:0.705  k=5,uniform:0.671  k=7,uniform:0.705  k=3,distance:0.705  k=5,distance:0.671  k=7,distance:0.705
+  fold 10/14  k=1,uniform:0.876  k=3,uniform:0.877  k=5,uniform:0.882  k=7,uniform:0.828  k=3,distance:0.877  k=5,distance:0.882  k=7,distance:0.828
+  fold 11/14  k=1,uniform:0.841  k=3,uniform:0.863  k=5,uniform:0.837  k=7,uniform:0.767  k=3,distance:0.863  k=5,distance:0.837  k=7,distance:0.811
+  fold 12/14  k=1,uniform:0.960  k=3,uniform:0.920  k=5,uniform:0.797  k=7,uniform:0.836  k=3,distance:0.920  k=5,distance:0.797  k=7,distance:0.836
+  fold 13/14  k=1,uniform:0.799  k=3,uniform:0.750  k=5,uniform:0.837  k=7,uniform:0.745  k=3,distance:0.837  k=5,distance:0.837  k=7,distance:0.794
+  fold 14/14  k=1,uniform:0.793  k=3,uniform:0.793  k=5,uniform:0.853  k=7,uniform:0.810  k=3,distance:0.793  k=5,distance:0.803  k=7,distance:0.810
+  -> k=1,uniform           acc=0.806 macroF1=0.800
+  -> k=3,uniform           acc=0.820 macroF1=0.812
+  -> k=5,uniform           acc=0.809 macroF1=0.802
+  -> k=7,uniform           acc=0.791 macroF1=0.783
+  -> k=3,distance          acc=0.820 macroF1=0.814
+  -> k=5,distance          acc=0.803 macroF1=0.796
+  -> k=7,distance          acc=0.800 macroF1=0.793
 
 [Encoder 6/16] cfg={'seed': 42, 'R': 12, 'epochs': 200, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 512, 'k_knn': 5}
-  fold 01/14  k=1,uniform:0.795  k=3,uniform:0.840  k=5,uniform:0.836  k=7,uniform:0.785  k=3,distance:0.840  k=5,distance:0.798  k=7,distance:0.785
-  fold 02/14  k=1,uniform:1.000  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 03/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 04/14  k=1,uniform:0.914  k=3,uniform:0.917  k=5,uniform:0.914  k=7,uniform:0.914  k=3,distance:0.917  k=5,distance:0.914  k=7,distance:0.914
-  fold 05/14  k=1,uniform:1.000  k=3,uniform:0.960  k=5,uniform:0.920  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.920  k=7,distance:0.960
-  fold 06/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:1.000  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:1.000  k=7,distance:0.960
-  fold 07/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 08/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 09/14  k=1,uniform:0.960  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 10/14  k=1,uniform:0.822  k=3,uniform:0.822  k=5,uniform:0.825  k=7,uniform:0.825  k=3,distance:0.822  k=5,distance:0.825  k=7,distance:0.825
-  fold 11/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:0.960  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:0.960
-  fold 12/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 13/14  k=1,uniform:0.960  k=3,uniform:0.920  k=5,uniform:0.880  k=7,uniform:0.919  k=3,distance:0.920  k=5,distance:0.880  k=7,distance:0.880
-  fold 14/14  k=1,uniform:0.760  k=3,uniform:0.705  k=5,uniform:0.705  k=7,uniform:0.760  k=3,distance:0.753  k=5,distance:0.768  k=7,distance:0.768
-  -> k=1,uniform           acc=0.939 macroF1=0.939
-  -> k=3,uniform           acc=0.933 macroF1=0.933
-  -> k=5,uniform           acc=0.930 macroF1=0.930
-  -> k=7,uniform           acc=0.930 macroF1=0.930
-  -> k=3,distance          acc=0.936 macroF1=0.936
-  -> k=5,distance          acc=0.930 macroF1=0.930
-  -> k=7,distance          acc=0.928 macroF1=0.927
+  fold 01/14  k=1,uniform:0.919  k=3,uniform:0.920  k=5,uniform:0.917  k=7,uniform:0.960  k=3,distance:0.919  k=5,distance:0.876  k=7,distance:0.960
+  fold 02/14  k=1,uniform:0.820  k=3,uniform:0.822  k=5,uniform:0.788  k=7,uniform:0.790  k=3,distance:0.822  k=5,distance:0.788  k=7,distance:0.790
+  fold 03/14  k=1,uniform:0.722  k=3,uniform:0.601  k=5,uniform:0.603  k=7,uniform:0.568  k=3,distance:0.601  k=5,distance:0.601  k=7,distance:0.601
+  fold 04/14  k=1,uniform:0.709  k=3,uniform:0.751  k=5,uniform:0.710  k=7,uniform:0.710  k=3,distance:0.709  k=5,distance:0.709  k=7,distance:0.709
+  fold 05/14  k=1,uniform:0.721  k=3,uniform:0.675  k=5,uniform:0.681  k=7,uniform:0.681  k=3,distance:0.675  k=5,distance:0.681  k=7,distance:0.681
+  fold 06/14  k=1,uniform:0.828  k=3,uniform:0.726  k=5,uniform:0.689  k=7,uniform:0.693  k=3,distance:0.726  k=5,distance:0.689  k=7,distance:0.693
+  fold 07/14  k=1,uniform:0.876  k=3,uniform:0.878  k=5,uniform:0.783  k=7,uniform:0.783  k=3,distance:0.878  k=5,distance:0.837  k=7,distance:0.783
+  fold 08/14  k=1,uniform:0.822  k=3,uniform:0.839  k=5,uniform:0.794  k=7,uniform:0.788  k=3,distance:0.839  k=5,distance:0.836  k=7,distance:0.788
+  fold 09/14  k=1,uniform:0.790  k=3,uniform:0.705  k=5,uniform:0.705  k=7,uniform:0.705  k=3,distance:0.705  k=5,distance:0.705  k=7,distance:0.705
+  fold 10/14  k=1,uniform:0.836  k=3,uniform:0.828  k=5,uniform:0.878  k=7,uniform:0.878  k=3,distance:0.828  k=5,distance:0.878  k=7,distance:0.878
+  fold 11/14  k=1,uniform:0.841  k=3,uniform:0.826  k=5,uniform:0.788  k=7,uniform:0.759  k=3,distance:0.877  k=5,distance:0.837  k=7,distance:0.759
+  fold 12/14  k=1,uniform:0.960  k=3,uniform:0.920  k=5,uniform:0.836  k=7,uniform:0.823  k=3,distance:0.920  k=5,distance:0.836  k=7,distance:0.874
+  fold 13/14  k=1,uniform:0.838  k=3,uniform:0.837  k=5,uniform:0.837  k=7,uniform:0.794  k=3,distance:0.837  k=5,distance:0.837  k=7,distance:0.794
+  fold 14/14  k=1,uniform:0.848  k=3,uniform:0.799  k=5,uniform:0.803  k=7,uniform:0.803  k=3,distance:0.799  k=5,distance:0.803  k=7,distance:0.803
+  -> k=1,uniform           acc=0.835 macroF1=0.830
+  -> k=3,uniform           acc=0.814 macroF1=0.807
+  -> k=5,uniform           acc=0.791 macroF1=0.781
+  -> k=7,uniform           acc=0.786 macroF1=0.776
+  -> k=3,distance          acc=0.814 macroF1=0.807
+  -> k=5,distance          acc=0.797 macroF1=0.790
+  -> k=7,distance          acc=0.791 macroF1=0.782
 
 [Encoder 7/16] cfg={'seed': 42, 'R': 12, 'epochs': 250, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 512, 'k_knn': 5}
-  fold 01/14  k=1,uniform:0.840  k=3,uniform:0.834  k=5,uniform:0.783  k=7,uniform:0.747  k=3,distance:0.879  k=5,distance:0.747  k=7,distance:0.747
-  fold 02/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:0.960  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:0.960
-  fold 03/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 04/14  k=1,uniform:0.914  k=3,uniform:0.914  k=5,uniform:0.914  k=7,uniform:0.914  k=3,distance:0.914  k=5,distance:0.914  k=7,distance:0.914
-  fold 05/14  k=1,uniform:1.000  k=3,uniform:0.914  k=5,uniform:0.920  k=7,uniform:0.919  k=3,distance:0.914  k=5,distance:0.920  k=7,distance:0.919
-  fold 06/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:1.000  k=7,uniform:0.917  k=3,distance:0.960  k=5,distance:1.000  k=7,distance:0.917
-  fold 07/14  k=1,uniform:0.919  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 08/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 09/14  k=1,uniform:0.960  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 10/14  k=1,uniform:0.825  k=3,uniform:0.825  k=5,uniform:0.825  k=7,uniform:0.825  k=3,distance:0.825  k=5,distance:0.825  k=7,distance:0.825
-  fold 11/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:0.960  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:0.960
-  fold 12/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 13/14  k=1,uniform:0.960  k=3,uniform:0.920  k=5,uniform:0.880  k=7,uniform:0.880  k=3,distance:0.920  k=5,distance:0.880  k=7,distance:0.880
-  fold 14/14  k=1,uniform:0.760  k=3,uniform:0.702  k=5,uniform:0.705  k=7,uniform:0.747  k=3,distance:0.753  k=5,distance:0.715  k=7,distance:0.715
-  -> k=1,uniform           acc=0.939 macroF1=0.939
-  -> k=3,uniform           acc=0.933 macroF1=0.933
-  -> k=5,uniform           acc=0.930 macroF1=0.930
-  -> k=7,uniform           acc=0.919 macroF1=0.919
-  -> k=3,distance          acc=0.939 macroF1=0.939
-  -> k=5,distance          acc=0.928 macroF1=0.927
-  -> k=7,distance          acc=0.916 macroF1=0.916
+  fold 01/14  k=1,uniform:0.920  k=3,uniform:0.920  k=5,uniform:0.878  k=7,uniform:0.917  k=3,distance:0.920  k=5,distance:0.878  k=7,distance:0.917
+  fold 02/14  k=1,uniform:0.783  k=3,uniform:0.788  k=5,uniform:0.788  k=7,uniform:0.788  k=3,distance:0.788  k=5,distance:0.788  k=7,distance:0.788
+  fold 03/14  k=1,uniform:0.641  k=3,uniform:0.568  k=5,uniform:0.603  k=7,uniform:0.603  k=3,distance:0.568  k=5,distance:0.568  k=7,distance:0.601
+  fold 04/14  k=1,uniform:0.667  k=3,uniform:0.709  k=5,uniform:0.710  k=7,uniform:0.710  k=3,distance:0.709  k=5,distance:0.662  k=7,distance:0.710
+  fold 05/14  k=1,uniform:0.721  k=3,uniform:0.717  k=5,uniform:0.645  k=7,uniform:0.681  k=3,distance:0.794  k=5,distance:0.645  k=7,distance:0.681
+  fold 06/14  k=1,uniform:0.826  k=3,uniform:0.726  k=5,uniform:0.689  k=7,uniform:0.650  k=3,distance:0.726  k=5,distance:0.689  k=7,distance:0.650
+  fold 07/14  k=1,uniform:0.876  k=3,uniform:0.837  k=5,uniform:0.783  k=7,uniform:0.783  k=3,distance:0.878  k=5,distance:0.837  k=7,distance:0.837
+  fold 08/14  k=1,uniform:0.822  k=3,uniform:0.839  k=5,uniform:0.876  k=7,uniform:0.876  k=3,distance:0.839  k=5,distance:0.876  k=7,distance:0.876
+  fold 09/14  k=1,uniform:0.828  k=3,uniform:0.785  k=5,uniform:0.705  k=7,uniform:0.705  k=3,distance:0.785  k=5,distance:0.750  k=7,distance:0.750
+  fold 10/14  k=1,uniform:0.836  k=3,uniform:0.828  k=5,uniform:0.878  k=7,uniform:0.878  k=3,distance:0.828  k=5,distance:0.878  k=7,distance:0.878
+  fold 11/14  k=1,uniform:0.876  k=3,uniform:0.708  k=5,uniform:0.746  k=7,uniform:0.788  k=3,distance:0.710  k=5,distance:0.748  k=7,distance:0.790
+  fold 12/14  k=1,uniform:0.960  k=3,uniform:0.920  k=5,uniform:0.879  k=7,uniform:0.722  k=3,distance:0.920  k=5,distance:0.879  k=7,distance:0.836
+  fold 13/14  k=1,uniform:0.838  k=3,uniform:0.795  k=5,uniform:0.795  k=7,uniform:0.794  k=3,distance:0.795  k=5,distance:0.795  k=7,distance:0.794
+  fold 14/14  k=1,uniform:0.848  k=3,uniform:0.750  k=5,uniform:0.803  k=7,uniform:0.750  k=3,distance:0.750  k=5,distance:0.803  k=7,distance:0.803
+  -> k=1,uniform           acc=0.832 macroF1=0.827
+  -> k=3,uniform           acc=0.797 macroF1=0.789
+  -> k=5,uniform           acc=0.788 macroF1=0.779
+  -> k=7,uniform           acc=0.783 macroF1=0.770
+  -> k=3,distance          acc=0.803 macroF1=0.797
+  -> k=5,distance          acc=0.788 macroF1=0.781
+  -> k=7,distance          acc=0.797 macroF1=0.789
 
 [Encoder 8/16] cfg={'seed': 42, 'R': 12, 'epochs': 200, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 768, 'k_knn': 5}
-  fold 01/14  k=1,uniform:0.879  k=3,uniform:0.919  k=5,uniform:0.783  k=7,uniform:0.797  k=3,distance:0.919  k=5,distance:0.834  k=7,distance:0.797
-  fold 02/14  k=1,uniform:1.000  k=3,uniform:0.960  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:0.960  k=5,distance:1.000  k=7,distance:1.000
-  fold 03/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 04/14  k=1,uniform:0.960  k=3,uniform:0.917  k=5,uniform:0.917  k=7,uniform:0.917  k=3,distance:0.917  k=5,distance:0.917  k=7,distance:0.917
-  fold 05/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:0.919  k=7,uniform:0.919  k=3,distance:1.000  k=5,distance:0.919  k=7,distance:0.919
-  fold 06/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:1.000  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:1.000  k=7,distance:0.960
-  fold 07/14  k=1,uniform:0.920  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:1.000  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:1.000
-  fold 08/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:0.960  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 09/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 10/14  k=1,uniform:0.825  k=3,uniform:0.825  k=5,uniform:0.825  k=7,uniform:0.825  k=3,distance:0.825  k=5,distance:0.825  k=7,distance:0.825
-  fold 11/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.917  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.917
-  fold 12/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 13/14  k=1,uniform:0.960  k=3,uniform:0.920  k=5,uniform:0.880  k=7,uniform:0.880  k=3,distance:0.920  k=5,distance:0.880  k=7,distance:0.880
-  fold 14/14  k=1,uniform:0.791  k=3,uniform:0.753  k=5,uniform:0.795  k=7,uniform:0.795  k=3,distance:0.799  k=5,distance:0.753  k=7,distance:0.753
-  -> k=1,uniform           acc=0.948 macroF1=0.948
-  -> k=3,uniform           acc=0.942 macroF1=0.942
-  -> k=5,uniform           acc=0.933 macroF1=0.933
-  -> k=7,uniform           acc=0.928 macroF1=0.927
-  -> k=3,distance          acc=0.945 macroF1=0.945
-  -> k=5,distance          acc=0.933 macroF1=0.933
-  -> k=7,distance          acc=0.928 macroF1=0.927
+  fold 01/14  k=1,uniform:0.920  k=3,uniform:0.920  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.920  k=5,distance:0.919  k=7,distance:0.960
+  fold 02/14  k=1,uniform:0.705  k=3,uniform:0.873  k=5,uniform:0.837  k=7,uniform:0.786  k=3,distance:0.834  k=5,distance:0.834  k=7,distance:0.834
+  fold 03/14  k=1,uniform:0.792  k=3,uniform:0.572  k=5,uniform:0.603  k=7,uniform:0.609  k=3,distance:0.680  k=5,distance:0.603  k=7,distance:0.609
+  fold 04/14  k=1,uniform:0.766  k=3,uniform:0.751  k=5,uniform:0.751  k=7,uniform:0.709  k=3,distance:0.711  k=5,distance:0.751  k=7,distance:0.709
+  fold 05/14  k=1,uniform:0.836  k=3,uniform:0.797  k=5,uniform:0.722  k=7,uniform:0.639  k=3,distance:0.863  k=5,distance:0.722  k=7,distance:0.725
+  fold 06/14  k=1,uniform:0.828  k=3,uniform:0.726  k=5,uniform:0.726  k=7,uniform:0.689  k=3,distance:0.726  k=5,distance:0.726  k=7,distance:0.689
+  fold 07/14  k=1,uniform:0.880  k=3,uniform:0.832  k=5,uniform:0.837  k=7,uniform:0.837  k=3,distance:0.876  k=5,distance:0.882  k=7,distance:0.843
+  fold 08/14  k=1,uniform:0.825  k=3,uniform:0.876  k=5,uniform:0.828  k=7,uniform:0.836  k=3,distance:0.876  k=5,distance:0.828  k=7,distance:0.785
+  fold 09/14  k=1,uniform:0.828  k=3,uniform:0.747  k=5,uniform:0.785  k=7,uniform:0.788  k=3,distance:0.747  k=5,distance:0.785  k=7,distance:0.788
+  fold 10/14  k=1,uniform:0.922  k=3,uniform:0.875  k=5,uniform:0.878  k=7,uniform:0.878  k=3,distance:0.877  k=5,distance:0.882  k=7,distance:0.882
+  fold 11/14  k=1,uniform:0.837  k=3,uniform:0.828  k=5,uniform:0.835  k=7,uniform:0.803  k=3,distance:0.882  k=5,distance:0.835  k=7,distance:0.803
+  fold 12/14  k=1,uniform:0.960  k=3,uniform:0.920  k=5,uniform:0.840  k=7,uniform:0.747  k=3,distance:0.960  k=5,distance:0.840  k=7,distance:0.797
+  fold 13/14  k=1,uniform:0.798  k=3,uniform:0.837  k=5,uniform:0.836  k=7,uniform:0.792  k=3,distance:0.879  k=5,distance:0.836  k=7,distance:0.836
+  fold 14/14  k=1,uniform:0.898  k=3,uniform:0.838  k=5,uniform:0.793  k=7,uniform:0.743  k=3,distance:0.838  k=5,distance:0.838  k=7,distance:0.743
+  -> k=1,uniform           acc=0.846 macroF1=0.844
+  -> k=3,uniform           acc=0.829 macroF1=0.822
+  -> k=5,uniform           acc=0.817 macroF1=0.812
+  -> k=7,uniform           acc=0.791 macroF1=0.782
+  -> k=3,distance          acc=0.843 macroF1=0.839
+  -> k=5,distance          acc=0.820 macroF1=0.816
+  -> k=7,distance          acc=0.800 macroF1=0.794
 
 [Encoder 9/16] cfg={'seed': 42, 'R': 16, 'epochs': 150, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 512, 'k_knn': 5}
-  fold 01/14  k=1,uniform:0.873  k=3,uniform:0.873  k=5,uniform:0.785  k=7,uniform:0.785  k=3,distance:0.873  k=5,distance:0.785  k=7,distance:0.785
-  fold 02/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 03/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 04/14  k=1,uniform:0.914  k=3,uniform:0.914  k=5,uniform:0.914  k=7,uniform:0.914  k=3,distance:0.914  k=5,distance:0.914  k=7,distance:0.914
-  fold 05/14  k=1,uniform:1.000  k=3,uniform:0.960  k=5,uniform:0.914  k=7,uniform:0.914  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 06/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 07/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 08/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:0.960  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:0.960
-  fold 09/14  k=1,uniform:0.960  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 10/14  k=1,uniform:0.820  k=3,uniform:0.825  k=5,uniform:0.825  k=7,uniform:0.825  k=3,distance:0.825  k=5,distance:0.825  k=7,distance:0.825
-  fold 11/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.917  k=7,uniform:0.917  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 12/14  k=1,uniform:0.960  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 13/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.920  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.920
-  fold 14/14  k=1,uniform:0.899  k=3,uniform:0.803  k=5,uniform:0.753  k=7,uniform:0.803  k=3,distance:0.899  k=5,distance:0.803  k=7,distance:0.803
-  -> k=1,uniform           acc=0.948 macroF1=0.948
-  -> k=3,uniform           acc=0.945 macroF1=0.945
-  -> k=5,uniform           acc=0.930 macroF1=0.930
-  -> k=7,uniform           acc=0.928 macroF1=0.927
-  -> k=3,distance          acc=0.951 macroF1=0.951
-  -> k=5,distance          acc=0.939 macroF1=0.939
-  -> k=7,distance          acc=0.933 macroF1=0.933
+  fold 01/14  k=1,uniform:0.919  k=3,uniform:0.920  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.919  k=5,distance:0.960  k=7,distance:0.960
+  fold 02/14  k=1,uniform:0.835  k=3,uniform:0.834  k=5,uniform:0.783  k=7,uniform:0.873  k=3,distance:0.795  k=5,distance:0.797  k=7,distance:0.873
+  fold 03/14  k=1,uniform:0.747  k=3,uniform:0.639  k=5,uniform:0.605  k=7,uniform:0.639  k=3,distance:0.641  k=5,distance:0.639  k=7,distance:0.639
+  fold 04/14  k=1,uniform:0.761  k=3,uniform:0.757  k=5,uniform:0.715  k=7,uniform:0.710  k=3,distance:0.803  k=5,distance:0.710  k=7,distance:0.710
+  fold 05/14  k=1,uniform:0.757  k=3,uniform:0.680  k=5,uniform:0.681  k=7,uniform:0.681  k=3,distance:0.680  k=5,distance:0.681  k=7,distance:0.762
+  fold 06/14  k=1,uniform:0.841  k=3,uniform:0.841  k=5,uniform:0.788  k=7,uniform:0.750  k=3,distance:0.841  k=5,distance:0.788  k=7,distance:0.750
+  fold 07/14  k=1,uniform:0.874  k=3,uniform:0.878  k=5,uniform:0.837  k=7,uniform:0.743  k=3,distance:0.878  k=5,distance:0.878  k=7,distance:0.797
+  fold 08/14  k=1,uniform:0.785  k=3,uniform:0.835  k=5,uniform:0.792  k=7,uniform:0.833  k=3,distance:0.836  k=5,distance:0.792  k=7,distance:0.833
+  fold 09/14  k=1,uniform:0.788  k=3,uniform:0.751  k=5,uniform:0.746  k=7,uniform:0.669  k=3,distance:0.751  k=5,distance:0.746  k=7,distance:0.669
+  fold 10/14  k=1,uniform:0.922  k=3,uniform:0.882  k=5,uniform:0.922  k=7,uniform:0.882  k=3,distance:0.882  k=5,distance:0.922  k=7,distance:0.882
+  fold 11/14  k=1,uniform:0.836  k=3,uniform:0.748  k=5,uniform:0.757  k=7,uniform:0.798  k=3,distance:0.797  k=5,distance:0.757  k=7,distance:0.798
+  fold 12/14  k=1,uniform:0.842  k=3,uniform:0.879  k=5,uniform:0.783  k=7,uniform:0.783  k=3,distance:0.882  k=5,distance:0.783  k=7,distance:0.783
+  fold 13/14  k=1,uniform:0.756  k=3,uniform:0.743  k=5,uniform:0.743  k=7,uniform:0.743  k=3,distance:0.743  k=5,distance:0.743  k=7,distance:0.743
+  fold 14/14  k=1,uniform:0.898  k=3,uniform:0.903  k=5,uniform:0.750  k=7,uniform:0.750  k=3,distance:0.903  k=5,distance:0.810  k=7,distance:0.810
+  -> k=1,uniform           acc=0.832 macroF1=0.827
+  -> k=3,uniform           acc=0.820 macroF1=0.814
+  -> k=5,uniform           acc=0.794 macroF1=0.784
+  -> k=7,uniform           acc=0.791 macroF1=0.780
+  -> k=3,distance          acc=0.823 macroF1=0.819
+  -> k=5,distance          acc=0.803 macroF1=0.794
+  -> k=7,distance          acc=0.800 macroF1=0.792
 
 [Encoder 10/16] cfg={'seed': 42, 'R': 16, 'epochs': 200, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 512, 'k_knn': 5}
-  fold 01/14  k=1,uniform:0.835  k=3,uniform:0.835  k=5,uniform:0.836  k=7,uniform:0.723  k=3,distance:0.835  k=5,distance:0.798  k=7,distance:0.723
-  fold 02/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 03/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 04/14  k=1,uniform:0.914  k=3,uniform:0.914  k=5,uniform:0.914  k=7,uniform:0.914  k=3,distance:0.914  k=5,distance:0.914  k=7,distance:0.914
-  fold 05/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.914  k=7,uniform:0.914  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 06/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 07/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 08/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:1.000  k=5,distance:0.960  k=7,distance:0.960
-  fold 09/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 10/14  k=1,uniform:0.860  k=3,uniform:0.825  k=5,uniform:0.825  k=7,uniform:0.825  k=3,distance:0.825  k=5,distance:0.825  k=7,distance:0.825
-  fold 11/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.917  k=7,uniform:0.878  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 12/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:0.960  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 13/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.920  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.920
-  fold 14/14  k=1,uniform:0.899  k=3,uniform:0.803  k=5,uniform:0.753  k=7,uniform:0.848  k=3,distance:0.796  k=5,distance:0.803  k=7,distance:0.848
-  -> k=1,uniform           acc=0.948 macroF1=0.948
-  -> k=3,uniform           acc=0.939 macroF1=0.939
-  -> k=5,uniform           acc=0.925 macroF1=0.924
-  -> k=7,uniform           acc=0.922 macroF1=0.920
-  -> k=3,distance          acc=0.939 macroF1=0.939
-  -> k=5,distance          acc=0.933 macroF1=0.933
-  -> k=7,distance          acc=0.930 macroF1=0.929
+  fold 01/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
+  fold 02/14  k=1,uniform:0.876  k=3,uniform:0.786  k=5,uniform:0.825  k=7,uniform:0.786  k=3,distance:0.786  k=5,distance:0.823  k=7,distance:0.786
+  fold 03/14  k=1,uniform:0.783  k=3,uniform:0.721  k=5,uniform:0.642  k=7,uniform:0.721  k=3,distance:0.722  k=5,distance:0.721  k=7,distance:0.721
+  fold 04/14  k=1,uniform:0.735  k=3,uniform:0.752  k=5,uniform:0.715  k=7,uniform:0.710  k=3,distance:0.752  k=5,distance:0.710  k=7,distance:0.710
+  fold 05/14  k=1,uniform:0.757  k=3,uniform:0.675  k=5,uniform:0.681  k=7,uniform:0.762  k=3,distance:0.757  k=5,distance:0.762  k=7,distance:0.762
+  fold 06/14  k=1,uniform:0.836  k=3,uniform:0.797  k=5,uniform:0.757  k=7,uniform:0.757  k=3,distance:0.797  k=5,distance:0.802  k=7,distance:0.757
+  fold 07/14  k=1,uniform:0.919  k=3,uniform:0.917  k=5,uniform:0.783  k=7,uniform:0.783  k=3,distance:0.917  k=5,distance:0.783  k=7,distance:0.783
+  fold 08/14  k=1,uniform:0.860  k=3,uniform:0.835  k=5,uniform:0.833  k=7,uniform:0.833  k=3,distance:0.874  k=5,distance:0.833  k=7,distance:0.833
+  fold 09/14  k=1,uniform:0.788  k=3,uniform:0.709  k=5,uniform:0.704  k=7,uniform:0.669  k=3,distance:0.709  k=5,distance:0.704  k=7,distance:0.669
+  fold 10/14  k=1,uniform:0.882  k=3,uniform:0.882  k=5,uniform:0.882  k=7,uniform:0.878  k=3,distance:0.882  k=5,distance:0.882  k=7,distance:0.882
+  fold 11/14  k=1,uniform:0.797  k=3,uniform:0.715  k=5,uniform:0.750  k=7,uniform:0.713  k=3,distance:0.715  k=5,distance:0.750  k=7,distance:0.713
+  fold 12/14  k=1,uniform:0.836  k=3,uniform:0.879  k=5,uniform:0.820  k=7,uniform:0.874  k=3,distance:0.879  k=5,distance:0.820  k=7,distance:0.874
+  fold 13/14  k=1,uniform:0.756  k=3,uniform:0.746  k=5,uniform:0.745  k=7,uniform:0.745  k=3,distance:0.794  k=5,distance:0.793  k=7,distance:0.793
+  fold 14/14  k=1,uniform:0.848  k=3,uniform:0.753  k=5,uniform:0.794  k=7,uniform:0.803  k=3,distance:0.799  k=5,distance:0.853  k=7,distance:0.810
+  -> k=1,uniform           acc=0.838 macroF1=0.835
+  -> k=3,uniform           acc=0.809 macroF1=0.803
+  -> k=5,uniform           acc=0.797 macroF1=0.784
+  -> k=7,uniform           acc=0.797 macroF1=0.788
+  -> k=3,distance          acc=0.820 macroF1=0.816
+  -> k=5,distance          acc=0.812 macroF1=0.803
+  -> k=7,distance          acc=0.800 macroF1=0.792
 
 [Encoder 11/16] cfg={'seed': 42, 'R': 16, 'epochs': 250, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 512, 'k_knn': 5}
-  fold 01/14  k=1,uniform:0.835  k=3,uniform:0.835  k=5,uniform:0.836  k=7,uniform:0.786  k=3,distance:0.835  k=5,distance:0.798  k=7,distance:0.786
-  fold 02/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 03/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 04/14  k=1,uniform:0.914  k=3,uniform:0.914  k=5,uniform:0.914  k=7,uniform:0.914  k=3,distance:0.914  k=5,distance:0.914  k=7,distance:0.914
-  fold 05/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.914  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 06/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 07/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 08/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:1.000  k=5,distance:0.960  k=7,distance:0.960
-  fold 09/14  k=1,uniform:0.960  k=3,uniform:1.000  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:1.000  k=5,distance:0.960  k=7,distance:0.960
-  fold 10/14  k=1,uniform:0.860  k=3,uniform:0.825  k=5,uniform:0.825  k=7,uniform:0.825  k=3,distance:0.825  k=5,distance:0.825  k=7,distance:0.825
-  fold 11/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.917  k=7,uniform:0.837  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.922
-  fold 12/14  k=1,uniform:0.960  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 13/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.920  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.920
-  fold 14/14  k=1,uniform:0.796  k=3,uniform:0.795  k=5,uniform:0.760  k=7,uniform:0.898  k=3,distance:0.796  k=5,distance:0.760  k=7,distance:0.898
-  -> k=1,uniform           acc=0.939 macroF1=0.939
-  -> k=3,uniform           acc=0.942 macroF1=0.942
-  -> k=5,uniform           acc=0.928 macroF1=0.927
-  -> k=7,uniform           acc=0.928 macroF1=0.926
-  -> k=3,distance          acc=0.942 macroF1=0.942
-  -> k=5,distance          acc=0.930 macroF1=0.930
-  -> k=7,distance          acc=0.933 macroF1=0.932
+  fold 01/14  k=1,uniform:0.919  k=3,uniform:0.920  k=5,uniform:0.960  k=7,uniform:0.920  k=3,distance:0.919  k=5,distance:0.960  k=7,distance:0.960
+  fold 02/14  k=1,uniform:0.873  k=3,uniform:0.824  k=5,uniform:0.820  k=7,uniform:0.860  k=3,distance:0.824  k=5,distance:0.820  k=7,distance:0.860
+  fold 03/14  k=1,uniform:0.783  k=3,uniform:0.610  k=5,uniform:0.647  k=7,uniform:0.687  k=3,distance:0.641  k=5,distance:0.687  k=7,distance:0.687
+  fold 04/14  k=1,uniform:0.761  k=3,uniform:0.752  k=5,uniform:0.710  k=7,uniform:0.710  k=3,distance:0.713  k=5,distance:0.669  k=7,distance:0.710
+  fold 05/14  k=1,uniform:0.757  k=3,uniform:0.760  k=5,uniform:0.828  k=7,uniform:0.762  k=3,distance:0.825  k=5,distance:0.828  k=7,distance:0.762
+  fold 06/14  k=1,uniform:0.836  k=3,uniform:0.786  k=5,uniform:0.795  k=7,uniform:0.714  k=3,distance:0.836  k=5,distance:0.841  k=7,distance:0.760
+  fold 07/14  k=1,uniform:0.919  k=3,uniform:0.876  k=5,uniform:0.783  k=7,uniform:0.717  k=3,distance:0.876  k=5,distance:0.783  k=7,distance:0.717
+  fold 08/14  k=1,uniform:0.860  k=3,uniform:0.876  k=5,uniform:0.830  k=7,uniform:0.779  k=3,distance:0.876  k=5,distance:0.830  k=7,distance:0.779
+  fold 09/14  k=1,uniform:0.788  k=3,uniform:0.751  k=5,uniform:0.704  k=7,uniform:0.752  k=3,distance:0.751  k=5,distance:0.704  k=7,distance:0.752
+  fold 10/14  k=1,uniform:0.882  k=3,uniform:0.882  k=5,uniform:0.882  k=7,uniform:0.876  k=3,distance:0.882  k=5,distance:0.882  k=7,distance:0.876
+  fold 11/14  k=1,uniform:0.797  k=3,uniform:0.712  k=5,uniform:0.750  k=7,uniform:0.707  k=3,distance:0.712  k=5,distance:0.750  k=7,distance:0.707
+  fold 12/14  k=1,uniform:0.920  k=3,uniform:0.920  k=5,uniform:0.874  k=7,uniform:0.842  k=3,distance:0.920  k=5,distance:0.874  k=7,distance:0.842
+  fold 13/14  k=1,uniform:0.755  k=3,uniform:0.794  k=5,uniform:0.836  k=7,uniform:0.793  k=3,distance:0.793  k=5,distance:0.836  k=7,distance:0.793
+  fold 14/14  k=1,uniform:0.799  k=3,uniform:0.843  k=5,uniform:0.803  k=7,uniform:0.803  k=3,distance:0.848  k=5,distance:0.810  k=7,distance:0.810
+  -> k=1,uniform           acc=0.841 macroF1=0.837
+  -> k=3,uniform           acc=0.820 macroF1=0.813
+  -> k=5,uniform           acc=0.814 macroF1=0.807
+  -> k=7,uniform           acc=0.794 macroF1=0.786
+  -> k=3,distance          acc=0.826 macroF1=0.821
+  -> k=5,distance          acc=0.814 macroF1=0.808
+  -> k=7,distance          acc=0.800 macroF1=0.793
 
 [Encoder 12/16] cfg={'seed': 42, 'R': 16, 'epochs': 200, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 768, 'k_knn': 5}
-  fold 01/14  k=1,uniform:0.747  k=3,uniform:0.798  k=5,uniform:0.747  k=7,uniform:0.687  k=3,distance:0.798  k=5,distance:0.751  k=7,distance:0.687
-  fold 02/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 03/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 04/14  k=1,uniform:0.914  k=3,uniform:0.914  k=5,uniform:0.914  k=7,uniform:0.914  k=3,distance:0.914  k=5,distance:0.914  k=7,distance:0.914
-  fold 05/14  k=1,uniform:0.960  k=3,uniform:0.914  k=5,uniform:0.960  k=7,uniform:0.914  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.914
-  fold 06/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 07/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 08/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 09/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 10/14  k=1,uniform:0.820  k=3,uniform:0.825  k=5,uniform:0.825  k=7,uniform:0.825  k=3,distance:0.825  k=5,distance:0.825  k=7,distance:0.825
-  fold 11/14  k=1,uniform:1.000  k=3,uniform:0.960  k=5,uniform:0.917  k=7,uniform:0.882  k=3,distance:0.960  k=5,distance:0.917  k=7,distance:0.882
-  fold 12/14  k=1,uniform:0.922  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:0.960  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 13/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.880  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.880
-  fold 14/14  k=1,uniform:0.796  k=3,uniform:0.746  k=5,uniform:0.753  k=7,uniform:0.753  k=3,distance:0.796  k=5,distance:0.747  k=7,distance:0.753
-  -> k=1,uniform           acc=0.930 macroF1=0.930
-  -> k=3,uniform           acc=0.930 macroF1=0.930
-  -> k=5,uniform           acc=0.928 macroF1=0.927
-  -> k=7,uniform           acc=0.910 macroF1=0.909
-  -> k=3,distance          acc=0.936 macroF1=0.936
-  -> k=5,distance          acc=0.928 macroF1=0.927
-  -> k=7,distance          acc=0.913 macroF1=0.912
+  fold 01/14  k=1,uniform:0.919  k=3,uniform:0.960  k=5,uniform:1.000  k=7,uniform:0.922  k=3,distance:0.960  k=5,distance:1.000  k=7,distance:0.960
+  fold 02/14  k=1,uniform:0.873  k=3,uniform:0.863  k=5,uniform:0.863  k=7,uniform:0.825  k=3,distance:0.876  k=5,distance:0.876  k=7,distance:0.825
+  fold 03/14  k=1,uniform:0.783  k=3,uniform:0.610  k=5,uniform:0.679  k=7,uniform:0.679  k=3,distance:0.687  k=5,distance:0.758  k=7,distance:0.679
+  fold 04/14  k=1,uniform:0.676  k=3,uniform:0.710  k=5,uniform:0.710  k=7,uniform:0.710  k=3,distance:0.710  k=5,distance:0.710  k=7,distance:0.710
+  fold 05/14  k=1,uniform:0.760  k=3,uniform:0.676  k=5,uniform:0.757  k=7,uniform:0.762  k=3,distance:0.760  k=5,distance:0.757  k=7,distance:0.762
+  fold 06/14  k=1,uniform:0.802  k=3,uniform:0.802  k=5,uniform:0.693  k=7,uniform:0.650  k=3,distance:0.802  k=5,distance:0.750  k=7,distance:0.650
+  fold 07/14  k=1,uniform:0.919  k=3,uniform:0.746  k=5,uniform:0.783  k=7,uniform:0.783  k=3,distance:0.797  k=5,distance:0.783  k=7,distance:0.783
+  fold 08/14  k=1,uniform:0.863  k=3,uniform:0.832  k=5,uniform:0.830  k=7,uniform:0.833  k=3,distance:0.914  k=5,distance:0.876  k=7,distance:0.833
+  fold 09/14  k=1,uniform:0.828  k=3,uniform:0.751  k=5,uniform:0.785  k=7,uniform:0.711  k=3,distance:0.751  k=5,distance:0.785  k=7,distance:0.747
+  fold 10/14  k=1,uniform:0.876  k=3,uniform:0.922  k=5,uniform:0.876  k=7,uniform:0.876  k=3,distance:0.922  k=5,distance:0.876  k=7,distance:0.876
+  fold 11/14  k=1,uniform:0.841  k=3,uniform:0.790  k=5,uniform:0.748  k=7,uniform:0.748  k=3,distance:0.790  k=5,distance:0.748  k=7,distance:0.748
+  fold 12/14  k=1,uniform:1.000  k=3,uniform:0.874  k=5,uniform:0.834  k=7,uniform:0.820  k=3,distance:0.960  k=5,distance:0.879  k=7,distance:0.820
+  fold 13/14  k=1,uniform:0.707  k=3,uniform:0.755  k=5,uniform:0.743  k=7,uniform:0.743  k=3,distance:0.760  k=5,distance:0.743  k=7,distance:0.743
+  fold 14/14  k=1,uniform:0.898  k=3,uniform:0.849  k=5,uniform:0.755  k=7,uniform:0.755  k=3,distance:0.849  k=5,distance:0.810  k=7,distance:0.755
+  -> k=1,uniform           acc=0.846 macroF1=0.844
+  -> k=3,uniform           acc=0.812 macroF1=0.804
+  -> k=5,uniform           acc=0.809 macroF1=0.799
+  -> k=7,uniform           acc=0.791 macroF1=0.778
+  -> k=3,distance          acc=0.832 macroF1=0.828
+  -> k=5,distance          acc=0.823 macroF1=0.817
+  -> k=7,distance          acc=0.797 macroF1=0.786
 
 [Encoder 13/16] cfg={'seed': 42, 'R': 20, 'epochs': 150, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 512, 'k_knn': 5}
-  fold 01/14  k=1,uniform:0.823  k=3,uniform:0.820  k=5,uniform:0.783  k=7,uniform:0.720  k=3,distance:0.820  k=5,distance:0.783  k=7,distance:0.720
-  fold 02/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 03/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 04/14  k=1,uniform:0.914  k=3,uniform:0.917  k=5,uniform:0.917  k=7,uniform:0.868  k=3,distance:0.917  k=5,distance:0.917  k=7,distance:0.917
-  fold 05/14  k=1,uniform:0.960  k=3,uniform:0.920  k=5,uniform:0.922  k=7,uniform:0.922  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.922
-  fold 06/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 07/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.920  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.920
-  fold 08/14  k=1,uniform:1.000  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 09/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:1.000  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:1.000
-  fold 10/14  k=1,uniform:0.822  k=3,uniform:0.825  k=5,uniform:0.825  k=7,uniform:0.825  k=3,distance:0.825  k=5,distance:0.825  k=7,distance:0.825
-  fold 11/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.917  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 12/14  k=1,uniform:0.922  k=3,uniform:1.000  k=5,uniform:0.960  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 13/14  k=1,uniform:0.920  k=3,uniform:0.922  k=5,uniform:0.919  k=7,uniform:0.880  k=3,distance:0.920  k=5,distance:0.960  k=7,distance:0.880
-  fold 14/14  k=1,uniform:0.698  k=3,uniform:0.804  k=5,uniform:0.700  k=7,uniform:0.700  k=3,distance:0.804  k=5,distance:0.793  k=7,distance:0.700
-  -> k=1,uniform           acc=0.925 macroF1=0.924
-  -> k=3,uniform           acc=0.930 macroF1=0.930
-  -> k=5,uniform           acc=0.919 macroF1=0.918
-  -> k=7,uniform           acc=0.910 macroF1=0.910
-  -> k=3,distance          acc=0.933 macroF1=0.933
-  -> k=5,distance          acc=0.933 macroF1=0.933
-  -> k=7,distance          acc=0.916 macroF1=0.915
+  fold 01/14  k=1,uniform:0.960  k=3,uniform:0.919  k=5,uniform:0.922  k=7,uniform:0.919  k=3,distance:0.960  k=5,distance:0.919  k=7,distance:0.960
+  fold 02/14  k=1,uniform:0.873  k=3,uniform:0.860  k=5,uniform:0.860  k=7,uniform:0.860  k=3,distance:0.820  k=5,distance:0.820  k=7,distance:0.863
+  fold 03/14  k=1,uniform:0.783  k=3,uniform:0.641  k=5,uniform:0.639  k=7,uniform:0.639  k=3,distance:0.641  k=5,distance:0.641  k=7,distance:0.639
+  fold 04/14  k=1,uniform:0.803  k=3,uniform:0.752  k=5,uniform:0.715  k=7,uniform:0.715  k=3,distance:0.800  k=5,distance:0.715  k=7,distance:0.715
+  fold 05/14  k=1,uniform:0.760  k=3,uniform:0.680  k=5,uniform:0.680  k=7,uniform:0.680  k=3,distance:0.680  k=5,distance:0.680  k=7,distance:0.680
+  fold 06/14  k=1,uniform:0.876  k=3,uniform:0.802  k=5,uniform:0.693  k=7,uniform:0.693  k=3,distance:0.802  k=5,distance:0.693  k=7,distance:0.693
+  fold 07/14  k=1,uniform:0.960  k=3,uniform:0.919  k=5,uniform:0.920  k=7,uniform:0.783  k=3,distance:0.919  k=5,distance:0.920  k=7,distance:0.783
+  fold 08/14  k=1,uniform:0.863  k=3,uniform:0.833  k=5,uniform:0.832  k=7,uniform:0.799  k=3,distance:0.785  k=5,distance:0.785  k=7,distance:0.753
+  fold 09/14  k=1,uniform:0.709  k=3,uniform:0.709  k=5,uniform:0.655  k=7,uniform:0.634  k=3,distance:0.709  k=5,distance:0.704  k=7,distance:0.634
+  fold 10/14  k=1,uniform:0.922  k=3,uniform:0.922  k=5,uniform:0.882  k=7,uniform:0.882  k=3,distance:0.922  k=5,distance:0.882  k=7,distance:0.882
+  fold 11/14  k=1,uniform:0.798  k=3,uniform:0.798  k=5,uniform:0.757  k=7,uniform:0.798  k=3,distance:0.798  k=5,distance:0.798  k=7,distance:0.798
+  fold 12/14  k=1,uniform:0.960  k=3,uniform:0.914  k=5,uniform:0.863  k=7,uniform:0.790  k=3,distance:0.917  k=5,distance:0.863  k=7,distance:0.790
+  fold 13/14  k=1,uniform:0.803  k=3,uniform:0.843  k=5,uniform:0.843  k=7,uniform:0.837  k=3,distance:0.843  k=5,distance:0.843  k=7,distance:0.837
+  fold 14/14  k=1,uniform:0.854  k=3,uniform:0.748  k=5,uniform:0.760  k=7,uniform:0.700  k=3,distance:0.746  k=5,distance:0.760  k=7,distance:0.760
+  -> k=1,uniform           acc=0.858 macroF1=0.854
+  -> k=3,uniform           acc=0.826 macroF1=0.817
+  -> k=5,uniform           acc=0.806 macroF1=0.794
+  -> k=7,uniform           acc=0.788 macroF1=0.773
+  -> k=3,distance          acc=0.826 macroF1=0.819
+  -> k=5,distance          acc=0.806 macroF1=0.796
+  -> k=7,distance          acc=0.791 macroF1=0.778
 
 [Encoder 14/16] cfg={'seed': 42, 'R': 20, 'epochs': 200, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 512, 'k_knn': 5}
-  fold 01/14  k=1,uniform:0.757  k=3,uniform:0.820  k=5,uniform:0.720  k=7,uniform:0.720  k=3,distance:0.820  k=5,distance:0.720  k=7,distance:0.720
-  fold 02/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 03/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 04/14  k=1,uniform:0.914  k=3,uniform:0.917  k=5,uniform:0.914  k=7,uniform:0.863  k=3,distance:0.917  k=5,distance:0.914  k=7,distance:0.914
-  fold 05/14  k=1,uniform:0.960  k=3,uniform:0.920  k=5,uniform:0.922  k=7,uniform:0.876  k=3,distance:0.960  k=5,distance:0.922  k=7,distance:0.876
-  fold 06/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 07/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 08/14  k=1,uniform:1.000  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 09/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 10/14  k=1,uniform:0.822  k=3,uniform:0.825  k=5,uniform:0.825  k=7,uniform:0.825  k=3,distance:0.825  k=5,distance:0.825  k=7,distance:0.825
-  fold 11/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.917  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 12/14  k=1,uniform:0.922  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 13/14  k=1,uniform:0.960  k=3,uniform:0.922  k=5,uniform:0.919  k=7,uniform:0.919  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.919
-  fold 14/14  k=1,uniform:0.804  k=3,uniform:0.753  k=5,uniform:0.753  k=7,uniform:0.793  k=3,distance:0.804  k=5,distance:0.804  k=7,distance:0.852
-  -> k=1,uniform           acc=0.930 macroF1=0.930
-  -> k=3,uniform           acc=0.928 macroF1=0.927
-  -> k=5,uniform           acc=0.922 macroF1=0.921
-  -> k=7,uniform           acc=0.916 macroF1=0.915
-  -> k=3,distance          acc=0.936 macroF1=0.936
-  -> k=5,distance          acc=0.928 macroF1=0.927
-  -> k=7,distance          acc=0.925 macroF1=0.924
+  fold 01/14  k=1,uniform:0.960  k=3,uniform:0.882  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.882  k=5,distance:0.919  k=7,distance:0.960
+  fold 02/14  k=1,uniform:0.873  k=3,uniform:0.863  k=5,uniform:0.860  k=7,uniform:0.863  k=3,distance:0.876  k=5,distance:0.860  k=7,distance:0.860
+  fold 03/14  k=1,uniform:0.686  k=3,uniform:0.641  k=5,uniform:0.639  k=7,uniform:0.639  k=3,distance:0.641  k=5,distance:0.641  k=7,distance:0.639
+  fold 04/14  k=1,uniform:0.771  k=3,uniform:0.710  k=5,uniform:0.667  k=7,uniform:0.715  k=3,distance:0.758  k=5,distance:0.667  k=7,distance:0.715
+  fold 05/14  k=1,uniform:0.760  k=3,uniform:0.765  k=5,uniform:0.675  k=7,uniform:0.675  k=3,distance:0.765  k=5,distance:0.760  k=7,distance:0.760
+  fold 06/14  k=1,uniform:0.841  k=3,uniform:0.841  k=5,uniform:0.714  k=7,uniform:0.650  k=3,distance:0.841  k=5,distance:0.760  k=7,distance:0.650
+  fold 07/14  k=1,uniform:0.919  k=3,uniform:0.920  k=5,uniform:0.788  k=7,uniform:0.682  k=3,distance:0.919  k=5,distance:0.783  k=7,distance:0.743
+  fold 08/14  k=1,uniform:0.825  k=3,uniform:0.833  k=5,uniform:0.783  k=7,uniform:0.833  k=3,distance:0.785  k=5,distance:0.785  k=7,distance:0.785
+  fold 09/14  k=1,uniform:0.695  k=3,uniform:0.709  k=5,uniform:0.657  k=7,uniform:0.517  k=3,distance:0.709  k=5,distance:0.704  k=7,distance:0.655
+  fold 10/14  k=1,uniform:0.922  k=3,uniform:0.922  k=5,uniform:0.922  k=7,uniform:0.922  k=3,distance:0.922  k=5,distance:0.922  k=7,distance:0.922
+  fold 11/14  k=1,uniform:0.798  k=3,uniform:0.798  k=5,uniform:0.798  k=7,uniform:0.754  k=3,distance:0.798  k=5,distance:0.798  k=7,distance:0.754
+  fold 12/14  k=1,uniform:1.000  k=3,uniform:0.914  k=5,uniform:0.863  k=7,uniform:0.839  k=3,distance:0.960  k=5,distance:0.917  k=7,distance:0.839
+  fold 13/14  k=1,uniform:0.797  k=3,uniform:0.843  k=5,uniform:0.843  k=7,uniform:0.837  k=3,distance:0.843  k=5,distance:0.843  k=7,distance:0.837
+  fold 14/14  k=1,uniform:0.799  k=3,uniform:0.750  k=5,uniform:0.760  k=7,uniform:0.760  k=3,distance:0.753  k=5,distance:0.760  k=7,distance:0.760
+  -> k=1,uniform           acc=0.841 macroF1=0.836
+  -> k=3,uniform           acc=0.826 macroF1=0.818
+  -> k=5,uniform           acc=0.800 macroF1=0.788
+  -> k=7,uniform           acc=0.786 macroF1=0.770
+  -> k=3,distance          acc=0.829 macroF1=0.823
+  -> k=5,distance          acc=0.809 macroF1=0.800
+  -> k=7,distance          acc=0.794 macroF1=0.783
 
 [Encoder 15/16] cfg={'seed': 42, 'R': 20, 'epochs': 250, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 512, 'k_knn': 5}
-  fold 01/14  k=1,uniform:0.757  k=3,uniform:0.757  k=5,uniform:0.720  k=7,uniform:0.720  k=3,distance:0.757  k=5,distance:0.720  k=7,distance:0.720
-  fold 02/14  k=1,uniform:1.000  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 03/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 04/14  k=1,uniform:0.914  k=3,uniform:0.914  k=5,uniform:0.914  k=7,uniform:0.914  k=3,distance:0.914  k=5,distance:0.914  k=7,distance:0.914
-  fold 05/14  k=1,uniform:0.919  k=3,uniform:0.874  k=5,uniform:0.876  k=7,uniform:0.876  k=3,distance:0.919  k=5,distance:0.876  k=7,distance:0.876
-  fold 06/14  k=1,uniform:0.960  k=3,uniform:0.917  k=5,uniform:0.917  k=7,uniform:0.960  k=3,distance:0.917  k=5,distance:0.917  k=7,distance:0.960
-  fold 07/14  k=1,uniform:0.960  k=3,uniform:0.920  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.920  k=5,distance:0.960  k=7,distance:0.960
-  fold 08/14  k=1,uniform:1.000  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 09/14  k=1,uniform:1.000  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 10/14  k=1,uniform:0.822  k=3,uniform:0.825  k=5,uniform:0.825  k=7,uniform:0.825  k=3,distance:0.825  k=5,distance:0.825  k=7,distance:0.825
-  fold 11/14  k=1,uniform:1.000  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.917  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 12/14  k=1,uniform:0.922  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 13/14  k=1,uniform:0.960  k=3,uniform:0.922  k=5,uniform:0.919  k=7,uniform:0.880  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.880
-  fold 14/14  k=1,uniform:0.804  k=3,uniform:0.753  k=5,uniform:0.693  k=7,uniform:0.753  k=3,distance:0.753  k=5,distance:0.693  k=7,distance:0.753
-  -> k=1,uniform           acc=0.933 macroF1=0.933
-  -> k=3,uniform           acc=0.916 macroF1=0.915
-  -> k=5,uniform           acc=0.913 macroF1=0.912
-  -> k=7,uniform           acc=0.913 macroF1=0.912
-  -> k=3,distance          acc=0.922 macroF1=0.921
-  -> k=5,distance          acc=0.916 macroF1=0.915
-  -> k=7,distance          acc=0.916 macroF1=0.915
+  fold 01/14  k=1,uniform:0.960  k=3,uniform:0.882  k=5,uniform:0.922  k=7,uniform:0.922  k=3,distance:0.882  k=5,distance:0.882  k=7,distance:0.922
+  fold 02/14  k=1,uniform:0.835  k=3,uniform:0.825  k=5,uniform:0.860  k=7,uniform:0.860  k=3,distance:0.863  k=5,distance:0.860  k=7,distance:0.860
+  fold 03/14  k=1,uniform:0.708  k=3,uniform:0.570  k=5,uniform:0.605  k=7,uniform:0.639  k=3,distance:0.647  k=5,distance:0.686  k=7,distance:0.639
+  fold 04/14  k=1,uniform:0.771  k=3,uniform:0.752  k=5,uniform:0.710  k=7,uniform:0.710  k=3,distance:0.752  k=5,distance:0.710  k=7,distance:0.710
+  fold 05/14  k=1,uniform:0.760  k=3,uniform:0.797  k=5,uniform:0.760  k=7,uniform:0.675  k=3,distance:0.760  k=5,distance:0.760  k=7,distance:0.757
+  fold 06/14  k=1,uniform:0.802  k=3,uniform:0.788  k=5,uniform:0.714  k=7,uniform:0.714  k=3,distance:0.841  k=5,distance:0.760  k=7,distance:0.714
+  fold 07/14  k=1,uniform:0.876  k=3,uniform:0.832  k=5,uniform:0.783  k=7,uniform:0.682  k=3,distance:0.833  k=5,distance:0.836  k=7,distance:0.743
+  fold 08/14  k=1,uniform:0.790  k=3,uniform:0.832  k=5,uniform:0.783  k=7,uniform:0.833  k=3,distance:0.828  k=5,distance:0.785  k=7,distance:0.833
+  fold 09/14  k=1,uniform:0.695  k=3,uniform:0.709  k=5,uniform:0.699  k=7,uniform:0.597  k=3,distance:0.709  k=5,distance:0.746  k=7,distance:0.655
+  fold 10/14  k=1,uniform:0.922  k=3,uniform:0.922  k=5,uniform:0.922  k=7,uniform:0.922  k=3,distance:0.922  k=5,distance:0.922  k=7,distance:0.922
+  fold 11/14  k=1,uniform:0.798  k=3,uniform:0.798  k=5,uniform:0.754  k=7,uniform:0.754  k=3,distance:0.798  k=5,distance:0.754  k=7,distance:0.754
+  fold 12/14  k=1,uniform:1.000  k=3,uniform:0.863  k=5,uniform:0.828  k=7,uniform:0.790  k=3,distance:0.863  k=5,distance:0.828  k=7,distance:0.839
+  fold 13/14  k=1,uniform:0.797  k=3,uniform:0.877  k=5,uniform:0.843  k=7,uniform:0.837  k=3,distance:0.877  k=5,distance:0.843  k=7,distance:0.837
+  fold 14/14  k=1,uniform:0.810  k=3,uniform:0.711  k=5,uniform:0.711  k=7,uniform:0.711  k=3,distance:0.711  k=5,distance:0.711  k=7,distance:0.711
+  -> k=1,uniform           acc=0.829 macroF1=0.826
+  -> k=3,uniform           acc=0.812 macroF1=0.801
+  -> k=5,uniform           acc=0.794 macroF1=0.781
+  -> k=7,uniform           acc=0.783 macroF1=0.767
+  -> k=3,distance          acc=0.817 macroF1=0.809
+  -> k=5,distance          acc=0.803 macroF1=0.794
+  -> k=7,distance          acc=0.794 macroF1=0.783
 
 [Encoder 16/16] cfg={'seed': 42, 'R': 20, 'epochs': 200, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 768, 'k_knn': 5}
-  fold 01/14  k=1,uniform:0.820  k=3,uniform:0.820  k=5,uniform:0.783  k=7,uniform:0.720  k=3,distance:0.820  k=5,distance:0.783  k=7,distance:0.720
-  fold 02/14  k=1,uniform:0.960  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 03/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 04/14  k=1,uniform:0.917  k=3,uniform:0.914  k=5,uniform:0.914  k=7,uniform:0.914  k=3,distance:0.914  k=5,distance:0.914  k=7,distance:0.914
-  fold 05/14  k=1,uniform:0.919  k=3,uniform:0.914  k=5,uniform:0.914  k=7,uniform:0.876  k=3,distance:0.914  k=5,distance:0.914  k=7,distance:0.876
-  fold 06/14  k=1,uniform:0.960  k=3,uniform:0.917  k=5,uniform:0.960  k=7,uniform:0.919  k=3,distance:0.917  k=5,distance:0.960  k=7,distance:0.919
-  fold 07/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 08/14  k=1,uniform:1.000  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:1.000  k=5,distance:0.960  k=7,distance:0.960
-  fold 09/14  k=1,uniform:0.960  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:1.000  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:1.000
-  fold 10/14  k=1,uniform:0.860  k=3,uniform:0.823  k=5,uniform:0.823  k=7,uniform:0.823  k=3,distance:0.823  k=5,distance:0.823  k=7,distance:0.823
-  fold 11/14  k=1,uniform:0.922  k=3,uniform:0.922  k=5,uniform:0.922  k=7,uniform:0.922  k=3,distance:0.922  k=5,distance:0.922  k=7,distance:0.922
-  fold 12/14  k=1,uniform:0.960  k=3,uniform:1.000  k=5,uniform:1.000  k=7,uniform:1.000  k=3,distance:1.000  k=5,distance:1.000  k=7,distance:1.000
-  fold 13/14  k=1,uniform:0.920  k=3,uniform:0.960  k=5,uniform:0.960  k=7,uniform:0.919  k=3,distance:0.960  k=5,distance:0.960  k=7,distance:0.960
-  fold 14/14  k=1,uniform:0.838  k=3,uniform:0.793  k=5,uniform:0.793  k=7,uniform:0.799  k=3,distance:0.838  k=5,distance:0.793  k=7,distance:0.793
-  -> k=1,uniform           acc=0.930 macroF1=0.930
-  -> k=3,uniform           acc=0.928 macroF1=0.926
-  -> k=5,uniform           acc=0.928 macroF1=0.926
-  -> k=7,uniform           acc=0.919 macroF1=0.918
-  -> k=3,distance          acc=0.933 macroF1=0.933
-  -> k=5,distance          acc=0.928 macroF1=0.927
-  -> k=7,distance          acc=0.922 macroF1=0.921
+  fold 01/14  k=1,uniform:0.960  k=3,uniform:0.919  k=5,uniform:0.960  k=7,uniform:0.960  k=3,distance:0.919  k=5,distance:1.000  k=7,distance:0.960
+  fold 02/14  k=1,uniform:0.873  k=3,uniform:0.863  k=5,uniform:0.825  k=7,uniform:0.863  k=3,distance:0.863  k=5,distance:0.863  k=7,distance:0.863
+  fold 03/14  k=1,uniform:0.648  k=3,uniform:0.567  k=5,uniform:0.570  k=7,uniform:0.639  k=3,distance:0.567  k=5,distance:0.567  k=7,distance:0.641
+  fold 04/14  k=1,uniform:0.640  k=3,uniform:0.708  k=5,uniform:0.708  k=7,uniform:0.708  k=3,distance:0.708  k=5,distance:0.708  k=7,distance:0.708
+  fold 05/14  k=1,uniform:0.825  k=3,uniform:0.762  k=5,uniform:0.762  k=7,uniform:0.677  k=3,distance:0.762  k=5,distance:0.762  k=7,distance:0.677
+  fold 06/14  k=1,uniform:0.841  k=3,uniform:0.683  k=5,uniform:0.752  k=7,uniform:0.686  k=3,distance:0.745  k=5,distance:0.798  k=7,distance:0.686
+  fold 07/14  k=1,uniform:0.919  k=3,uniform:0.843  k=5,uniform:0.788  k=7,uniform:0.682  k=3,distance:0.838  k=5,distance:0.788  k=7,distance:0.748
+  fold 08/14  k=1,uniform:0.825  k=3,uniform:0.876  k=5,uniform:0.832  k=7,uniform:0.795  k=3,distance:0.825  k=5,distance:0.876  k=7,distance:0.799
+  fold 09/14  k=1,uniform:0.788  k=3,uniform:0.709  k=5,uniform:0.709  k=7,uniform:0.597  k=3,distance:0.709  k=5,distance:0.748  k=7,distance:0.655
+  fold 10/14  k=1,uniform:0.922  k=3,uniform:0.922  k=5,uniform:0.882  k=7,uniform:0.882  k=3,distance:0.922  k=5,distance:0.882  k=7,distance:0.882
+  fold 11/14  k=1,uniform:0.917  k=3,uniform:0.798  k=5,uniform:0.767  k=7,uniform:0.754  k=3,distance:0.798  k=5,distance:0.767  k=7,distance:0.754
+  fold 12/14  k=1,uniform:1.000  k=3,uniform:0.914  k=5,uniform:0.876  k=7,uniform:0.839  k=3,distance:0.960  k=5,distance:0.876  k=7,distance:0.839
+  fold 13/14  k=1,uniform:0.786  k=3,uniform:0.786  k=5,uniform:0.786  k=7,uniform:0.786  k=3,distance:0.786  k=5,distance:0.786  k=7,distance:0.786
+  fold 14/14  k=1,uniform:0.898  k=3,uniform:0.740  k=5,uniform:0.740  k=7,uniform:0.711  k=3,distance:0.740  k=5,distance:0.799  k=7,distance:0.760
+  -> k=1,uniform           acc=0.852 macroF1=0.849
+  -> k=3,uniform           acc=0.809 macroF1=0.799
+  -> k=5,uniform           acc=0.797 macroF1=0.787
+  -> k=7,uniform           acc=0.780 macroF1=0.764
+  -> k=3,distance          acc=0.812 macroF1=0.804
+  -> k=5,distance          acc=0.814 macroF1=0.808
+  -> k=7,distance          acc=0.788 macroF1=0.776
 
-Best combo -> enc={'seed': 42, 'R': 16, 'epochs': 150, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 512, 'k_knn': 5}  knn={'n_neighbors': 3, 'weights': 'distance'}  macroF1=0.951
+Best combo -> enc={'seed': 42, 'R': 20, 'epochs': 150, 'lr': 0.001, 'batch_size': 64, 'beta_kl': 0.0001, 'dropout': 0.1, 'hidden': 512, 'k_knn': 5}  knn={'n_neighbors': 1, 'weights': 'uniform'}  macroF1=0.854
 
 Saved /mnt/sdb/arafat/activity_recognition/Tangent_Vector/results/esvae_clf_metrics.csv
            method  Accuracy mean  Accuracy ci_low  Accuracy ci_high  F1 (weighted) mean  F1 (weighted) ci_low  F1 (weighted) ci_high  F1 (macro) mean  F1 (macro) ci_low  F1 (macro) ci_high  Precision (weighted) mean  Precision (weighted) ci_low  Precision (weighted) ci_high  Precision (macro) mean  Precision (macro) ci_low  Precision (macro) ci_high  Recall (weighted) mean  Recall (weighted) ci_low  Recall (weighted) ci_high  Recall (macro) mean  Recall (macro) ci_low  Recall (macro) ci_high
-ES-VAE (geodesic)         0.9507           0.9304             0.971              0.9506                0.9291                  0.971           0.9506             0.9291               0.971                     0.9535                       0.9352                        0.9721                  0.9535                    0.9352                     0.9721                  0.9507                    0.9304                      0.971               0.9507                 0.9304                   0.971
+ES-VAE (geodesic)          0.858           0.8174            0.8928              0.8544                 0.811                 0.8916           0.8544              0.811              0.8916                     0.8717                       0.8375                        0.9036                  0.8717                    0.8375                     0.9036                   0.858                    0.8174                     0.8928                0.858                 0.8174                  0.8928
 class  precision  recall     f1  support  model
- A080     0.9701  0.9420 0.9559       69 ES-VAE
- A097     0.9710  0.9710 0.9710       69 ES-VAE
- A098     0.9315  0.9855 0.9577       69 ES-VAE
- A100     0.8947  0.9855 0.9379       69 ES-VAE
- A101     1.0000  0.8696 0.9302       69 ES-VAE
+ A080     0.8571  0.7826 0.8182       69 ES-VAE
+ A097     0.8077  0.9130 0.8571       69 ES-VAE
+ A098     0.9054  0.9710 0.9371       69 ES-VAE
+ A100     0.7882  0.9710 0.8701       69 ES-VAE
+ A101     1.0000  0.6522 0.7895       69 ES-VAE

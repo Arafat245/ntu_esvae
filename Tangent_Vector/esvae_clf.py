@@ -278,11 +278,16 @@ def main():
 
     if args.sweep:
         enc_grid = []
-        # Refined sweep: smaller R (sweet spot), shorter training, and a wider/deeper option.
-        # Include (R=16, ep=200, h=512) — previous best — as a safety anchor.
-        for R in [8, 12, 16, 20]:
-            for ep, hidden in [(150, 512), (200, 512), (250, 512), (200, 768)]:
-                enc_grid.append({**base_cfg, "R": R, "epochs": ep, "hidden": hidden})
+        # Extended sweep on the new alignment: push R and hidden up since the prior
+        # best (R=20, h=512, ep=150) sat at the edge of the previous grid.
+        for R in [20, 24, 32]:
+            for ep, hidden, drop in [
+                (150, 512, 0.10),
+                (200, 768, 0.10),
+                (250, 768, 0.05),
+                (300, 1024, 0.10),
+            ]:
+                enc_grid.append({**base_cfg, "R": R, "epochs": ep, "hidden": hidden, "dropout": drop})
     else:
         enc_grid = [base_cfg]
 
