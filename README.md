@@ -197,7 +197,7 @@ harder our setup is:
 
 | | Total trials | Train per fold | Test per fold | Classes | Subjects |
 |---|---:|---:|---:|---:|---:|
-| **Standard NTU-60 X-Sub** (apples-to-apples reference) | 56,880 | **40,320** (20 subjects × 60 classes × ~33 cam/rep variants) | 16,560 | 60 | 40 |
+| **Standard NTU-60 X-Sub** (apples-to-apples reference) | 56,880 | **40,320** (20 subjects × 60 classes × ~33.6 cam/rep trials per (subject, class) on average) | 16,560 | 60 | 40 |
 | Standard NTU-120 X-Sub (different pool) | 114,480 | ~63,026 (53 subjects) | ~51,454 | 120 | 106 |
 | **Ours, top10 L5SO (NTU-60 subset)** | 400 | **350** (35 subjects × 10 classes × 1 trial) | 50 | 10 | 40 |
 
