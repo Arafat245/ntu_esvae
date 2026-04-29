@@ -122,8 +122,8 @@ NeurIPS-style tables (Macro F1 / Precision / Recall).
 
 | Input Representation | Method | Macro F1 (95% CI) |
 |---|---|---|
-| Raw Skeleton | **ProtoGCN (official adaptation, 20 epochs)** | **0.617 (0.573, 0.659)** |
-|  | Sparse-ST-GCN (official adaptation, 20 epochs) | 0.489 (0.440, 0.537) |
+| Raw Skeleton | **ProtoGCN** | **0.617 (0.573, 0.659)** |
+|  | Sparse-ST-GCN | 0.489 (0.440, 0.537) |
 |  | PCA + k-NN | 0.483 (0.438, 0.525) |
 |  | VAE + k-NN | 0.265 (0.223, 0.308) |
 |  | TCN | 0.210 (0.169, 0.251) |
@@ -131,8 +131,8 @@ NeurIPS-style tables (Macro F1 / Precision / Recall).
 |  | Transformer | 0.333 (0.286, 0.379) |
 |  | ST-GCN | 0.105 (0.079, 0.129) |
 | Tangent Vector | **ES-VAE + k-NN (proposed)** | **0.557 (0.516, 0.598)** |
-|  | ProtoGCN (official adaptation, 20 epochs) | 0.551 (0.502, 0.594) |
-|  | Sparse-ST-GCN (official adaptation, 20 epochs) | 0.501 (0.460, 0.542) |
+|  | ProtoGCN | 0.551 (0.502, 0.594) |
+|  | Sparse-ST-GCN | 0.501 (0.460, 0.542) |
 |  | PCA + k-NN | 0.498 (0.451, 0.539) |
 |  | TCN | 0.390 (0.349, 0.428) |
 |  | LSTM | 0.379 (0.334, 0.422) |
@@ -165,8 +165,8 @@ with the older in-repo baselines.
 | Method pair | Tangent | Raw | Δ |
 |---|---:|---:|---:|
 | ES-VAE / Vanilla VAE (matched architecture) | 0.557 | 0.265 | **+0.292** |
-| ProtoGCN (official adaptation, 20 epochs) | 0.551 | 0.617 | **-0.066** |
-| Sparse-ST-GCN (official adaptation, 20 epochs) | 0.501 | 0.489 | +0.011 |
+| ProtoGCN | 0.551 | 0.617 | **-0.066** |
+| Sparse-ST-GCN | 0.501 | 0.489 | +0.011 |
 | ST-GCN | 0.411 | 0.105 | **+0.306** |
 | LSTM | 0.379 | 0.197 | +0.182 |
 | TCN | 0.390 | 0.210 | +0.180 |

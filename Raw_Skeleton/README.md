@@ -92,8 +92,8 @@ Pooled across 8 L5SO folds. Cells show **mean [95% CI]** from the
 
 | Method | Macro-F1 | Macro Precision | Macro Recall |
 |---|---|---|---|
-| ProtoGCN (official adaptation, 20 epochs) | **0.617 [0.573, 0.659]** | 0.624 [0.581, 0.671] | 0.628 [0.583, 0.670] |
-| Sparse-ST-GCN (official adaptation, 20 epochs) | 0.489 [0.440, 0.537] | 0.518 [0.466, 0.574] | 0.508 [0.462, 0.553] |
+| ProtoGCN | **0.617 [0.573, 0.659]** | 0.624 [0.581, 0.671] | 0.628 [0.583, 0.670] |
+| Sparse-ST-GCN | 0.489 [0.440, 0.537] | 0.518 [0.466, 0.574] | 0.508 [0.462, 0.553] |
 | PCA-KNN (R=48, k=5 distance) | 0.483 [0.438, 0.525] | 0.545 [0.491, 0.604] | 0.495 [0.453, 0.537] |
 | Transformer | 0.333 [0.286, 0.379] | 0.339 [0.284, 0.404] | 0.360 [0.318, 0.405] |
 | Vanilla VAE + KNN | 0.265 [0.223, 0.308] | 0.262 [0.221, 0.311] | 0.270 [0.230, 0.312] |
@@ -134,8 +134,8 @@ tangent vector vs linearly-resampled raw skeleton).
 | Method | Tangent (Macro-F1) | Raw (Macro-F1) | Δ |
 |---|---:|---:|---:|
 | ES-VAE / Vanilla VAE | 0.557 | 0.265 | **+0.292** |
-| ProtoGCN (official adaptation, 20 epochs) | 0.551 | 0.617 | **-0.066** |
-| Sparse-ST-GCN (official adaptation, 20 epochs) | 0.501 | 0.489 | +0.011 |
+| ProtoGCN | 0.551 | 0.617 | **-0.066** |
+| Sparse-ST-GCN | 0.501 | 0.489 | +0.011 |
 | PCA-KNN | 0.498 | 0.483 | +0.015 |
 | TCN | 0.390 | 0.210 | +0.180 |
 | LSTM | 0.379 | 0.197 | +0.182 |
