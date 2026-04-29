@@ -171,7 +171,9 @@ NeurIPS-style tables (Macro F1 / Precision / Recall).
 
 ## Context vs published NTU SOTA
 
-Published NTU leaderboards (e.g. ProtoGCN, ICCV 2025) report top-1
+Published NTU leaderboards (e.g. ProtoGCN, CVPR 2025;
+[github.com/firework8/ProtoGCN](https://github.com/firework8/ProtoGCN))
+report top-1
 accuracies of **93.8% on NTU-60 X-Sub, 97.8% X-View, 90.9% on NTU-120
 X-Sub, 92.2% X-Set**. Our top10 numbers (subject 55.7% / view 48.7%) are
 ~40 percentage points below these. The gap is structural, not a model
