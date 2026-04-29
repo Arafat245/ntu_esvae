@@ -130,19 +130,20 @@ Pooled across 8 L5SO folds. Cells show **mean [95% CI]** from
 | Method | Macro-F1 | Macro Precision | Macro Recall |
 |---|---|---|---|
 | **ES-VAE + k-NN (proposed)** | **0.557 [0.516, 0.598]** | 0.573 [0.532, 0.622] | 0.562 [0.520, 0.605] |
-| ProtoGCN | 0.551 [0.502, 0.594] | 0.553 [0.509, 0.599] | 0.552 [0.502, 0.598] |
 | Sparse-ST-GCN | 0.501 [0.460, 0.542] | 0.498 [0.459, 0.544] | 0.515 [0.473, 0.560] |
 | PCA-KNN (R=48, k=5 distance) | 0.498 [0.451, 0.539] | 0.544 [0.501, 0.590] | 0.502 [0.458, 0.545] |
 | Transformer | 0.442 [0.403, 0.479] | 0.462 [0.404, 0.529] | 0.480 [0.443, 0.517] |
 | STGCN | 0.411 [0.370, 0.451] | 0.407 [0.360, 0.461] | 0.458 [0.417, 0.497] |
 | TCN | 0.390 [0.349, 0.428] | 0.411 [0.358, 0.472] | 0.427 [0.388, 0.468] |
 | LSTM | 0.379 [0.334, 0.422] | 0.392 [0.326, 0.468] | 0.420 [0.375, 0.465] |
+| Hyper-GCN | 0.377 [0.329, 0.422] | 0.435 [0.393, 0.486] | 0.380 [0.333, 0.427] |
 
 The `official_compare/` runners add two newer NTU-specialised backbones
-to the same subject-CV table. On tangent input, both adapted official
-models beat PCA-KNN, but ES-VAE remains the strongest tangent-side model
-overall. Compared against their raw-input runs, ProtoGCN drops by
-`0.0656` Macro-F1 on tangent while Sparse-ST-GCN gains `0.0113`.
+to the same subject-CV table. On tangent input, Sparse-ST-GCN remains
+competitive, but Hyper-GCN drops sharply; ES-VAE remains the strongest
+tangent-side model overall. Compared against their raw-input runs,
+Hyper-GCN drops by `0.1622` Macro-F1 on tangent while Sparse-ST-GCN
+gains `0.0113`.
 
 ## Cross-view (3 folds) and cross-setup (17 folds) summaries
 
@@ -192,7 +193,7 @@ this way — the spread is the manifold-vs-raw signal.
 - L5SO partition is deterministic (shuffle seed=42, then contiguous 5-subject
   blocks). All models share the same fold splits, so per-method comparisons
   are matched-pair valid.
-- `../official_compare/protogcn_runner.py` and
+- `../official_compare/hypergcn_runner.py` and
   `../official_compare/sparse_stgcn_runner.py` port official recent NTU
   backbones into a local runner that can read this tangent representation
   without the original PYSKL/MMCV dataset stack.

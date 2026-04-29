@@ -46,7 +46,7 @@ def cosine_lr(base_lr: float, epoch: int, total_epochs: int) -> float:
 
 
 class Graph:
-    """Official PYSKL/ProtoGCN graph utility, reduced to the NTU case."""
+    """Shared graph utility for the adapted official NTU runners."""
 
     def __init__(
         self,

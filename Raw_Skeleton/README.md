@@ -81,7 +81,7 @@ For the adapted official recent-model comparison on the same raw
 skeleton input, run from repo root:
 
 ```bash
-python official_compare/protogcn_runner.py --representation raw --epochs 20 --batch-size 32 --device cuda:0
+python official_compare/hypergcn_runner.py --representation raw --variant base --epochs 20 --batch-size 64 --device cuda:0
 python official_compare/sparse_stgcn_runner.py --representation raw --epochs 20 --batch-size 32 --device cuda:1
 ```
 
@@ -92,7 +92,7 @@ Pooled across 8 L5SO folds. Cells show **mean [95% CI]** from the
 
 | Method | Macro-F1 | Macro Precision | Macro Recall |
 |---|---|---|---|
-| ProtoGCN | **0.617 [0.573, 0.659]** | 0.624 [0.581, 0.671] | 0.628 [0.583, 0.670] |
+| Hyper-GCN | **0.539 [0.500, 0.575]** | 0.557 [0.520, 0.602] | 0.547 [0.510, 0.585] |
 | Sparse-ST-GCN | 0.489 [0.440, 0.537] | 0.518 [0.466, 0.574] | 0.508 [0.462, 0.553] |
 | PCA-KNN (R=48, k=5 distance) | 0.483 [0.438, 0.525] | 0.545 [0.491, 0.604] | 0.495 [0.453, 0.537] |
 | Transformer | 0.333 [0.286, 0.379] | 0.339 [0.284, 0.404] | 0.360 [0.318, 0.405] |
@@ -101,11 +101,12 @@ Pooled across 8 L5SO folds. Cells show **mean [95% CI]** from the
 | LSTM | 0.197 [0.163, 0.231] | 0.209 [0.162, 0.258] | 0.215 [0.185, 0.245] |
 | STGCN | 0.105 [0.079, 0.129] | 0.132 [0.082, 0.179] | 0.110 [0.085, 0.135] |
 
-The adapted official ProtoGCN run is the strongest raw-skeleton model on
-this subset. Within the older in-repo baselines, PCA-KNN still remains
-the strongest classical/raw baseline; Transformer is the best of the
-small local sequence models; STGCN collapses because raw skeletons
-preserve world translation which the small ST-GCN cannot normalise away.
+The adapted official Hyper-GCN run is the strongest raw-skeleton model
+on this subset. Within the older in-repo baselines, PCA-KNN still
+remains the strongest classical/raw baseline; Transformer is the best
+of the small local sequence models; STGCN collapses because raw
+skeletons preserve world translation which the small ST-GCN cannot
+normalise away.
 
 ## ES-VAE vs Vanilla VAE — the manifold-loss isolation test
 
@@ -134,7 +135,7 @@ tangent vector vs linearly-resampled raw skeleton).
 | Method | Tangent (Macro-F1) | Raw (Macro-F1) | Δ |
 |---|---:|---:|---:|
 | ES-VAE / Vanilla VAE | 0.557 | 0.265 | **+0.292** |
-| ProtoGCN | 0.551 | 0.617 | **-0.066** |
+| Hyper-GCN | 0.377 | 0.539 | **-0.162** |
 | Sparse-ST-GCN | 0.501 | 0.489 | +0.011 |
 | PCA-KNN | 0.498 | 0.483 | +0.015 |
 | TCN | 0.390 | 0.210 | +0.180 |
@@ -159,9 +160,10 @@ Within the older matched local baselines, the same Δ pattern holds under
 cross-view and cross-setup CV (every TV method beats its RS counterpart
 in all three protocols, 18/18 head-to-head wins). The two adapted
 official-model runs are subject-CV only and show a mixed picture:
-ProtoGCN prefers raw coordinates, while Sparse-ST-GCN is nearly tied and
-slightly prefers tangent vectors. See `../results_tables_top10.md` for
-the full subject and view tables in NeurIPS-paper format.
+Hyper-GCN strongly prefers raw coordinates, while Sparse-ST-GCN is
+nearly tied and slightly prefers tangent vectors. See
+`../results_tables_top10.md` for the full subject and view tables in
+NeurIPS-paper format.
 
 ## Classwise breakdown — Vanilla VAE (manifold-loss ablation)
 
@@ -193,7 +195,7 @@ the discriminative work for trajectory-shape classes.
 
 - The L5SO / view / setup partitions are identical to `Tangent_Vector/`,
   so per-method comparisons across the two folders are matched-pair valid.
-- `../official_compare/protogcn_runner.py` and
+- `../official_compare/hypergcn_runner.py` and
   `../official_compare/sparse_stgcn_runner.py` port the official recent
   NTU backbones into a local runner that can read this repo's raw
   skeleton `data_ntu.pkl` directly.

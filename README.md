@@ -52,9 +52,9 @@ activity_recognition/
 ├── build_results_tables.py       emit NeurIPS-style markdown tables
 ├── results_tables_top10.md       combined subject + view tables
 ├── functionsgpu_fast.py          shared geomstats Kendall/SRVF utilities
-├── official_compare/             adapted official ProtoGCN / Sparse-ST-GCN runners
+├── official_compare/             adapted official Hyper-GCN / Sparse-ST-GCN runners
 │   ├── common.py                 shared data adapters, sampling, metrics, graph utils
-│   ├── protogcn_runner.py        official ProtoGCN backbone/head/loss adapted to top10
+│   ├── hypergcn_runner.py        official Hyper-GCN backbone/loss adapted to top10
 │   ├── sparse_stgcn_runner.py    official Sparse-ST-GCN backbone adapted to top10
 │   └── results/                  subject-CV JSON outputs for raw / tangent runs
 ├── Tangent_Vector/               classification on tangent vectors
@@ -122,22 +122,22 @@ NeurIPS-style tables (Macro F1 / Precision / Recall).
 
 | Input Representation | Method | Macro F1 (95% CI) |
 |---|---|---|
-| Raw Skeleton | **ProtoGCN** | **0.617 (0.573, 0.659)** |
+| Raw Skeleton | **Hyper-GCN** | **0.539 (0.500, 0.575)** |
 |  | Sparse-ST-GCN | 0.489 (0.440, 0.537) |
 |  | PCA + k-NN | 0.483 (0.438, 0.525) |
+|  | Transformer | 0.333 (0.286, 0.379) |
 |  | VAE + k-NN | 0.265 (0.223, 0.308) |
 |  | TCN | 0.210 (0.169, 0.251) |
 |  | LSTM | 0.197 (0.163, 0.231) |
-|  | Transformer | 0.333 (0.286, 0.379) |
 |  | ST-GCN | 0.105 (0.079, 0.129) |
 | Tangent Vector | **ES-VAE + k-NN (proposed)** | **0.557 (0.516, 0.598)** |
-|  | ProtoGCN | 0.551 (0.502, 0.594) |
 |  | Sparse-ST-GCN | 0.501 (0.460, 0.542) |
 |  | PCA + k-NN | 0.498 (0.451, 0.539) |
-|  | TCN | 0.390 (0.349, 0.428) |
-|  | LSTM | 0.379 (0.334, 0.422) |
 |  | Transformer | 0.442 (0.403, 0.479) |
 |  | ST-GCN | 0.411 (0.370, 0.451) |
+|  | TCN | 0.390 (0.349, 0.428) |
+|  | LSTM | 0.379 (0.334, 0.422) |
+|  | Hyper-GCN | 0.377 (0.329, 0.422) |
 
 Official-model rows come from the adapted runners in `official_compare/`
 and are subject-CV only; they are included here for direct comparison
@@ -165,7 +165,7 @@ with the older in-repo baselines.
 | Method pair | Tangent | Raw | Δ |
 |---|---:|---:|---:|
 | ES-VAE / Vanilla VAE (matched architecture) | 0.557 | 0.265 | **+0.292** |
-| ProtoGCN | 0.551 | 0.617 | **-0.066** |
+| Hyper-GCN | 0.377 | 0.539 | **-0.162** |
 | Sparse-ST-GCN | 0.501 | 0.489 | +0.011 |
 | ST-GCN | 0.411 | 0.105 | **+0.306** |
 | LSTM | 0.379 | 0.197 | +0.182 |
@@ -180,8 +180,8 @@ with the older in-repo baselines.
    wins). That result is consistent under cross-subject, cross-view, and
    cross-setup.
 2. **The adapted official-model benchmark is mixed on this tiny subset**:
-   ProtoGCN prefers raw coordinates, while Sparse-ST-GCN gives a slight
-   edge to tangent vectors.
+   Hyper-GCN strongly prefers raw coordinates, while Sparse-ST-GCN gives
+   a slight edge to tangent vectors.
 3. **The manifold-loss isolation test** — same architecture and KNN, only
    the reconstruction loss differs (geodesic on Kendall preshape vs MSE
    on raw coords) — produces a **+0.29 macro-F1** gap. The unconstrained
@@ -201,10 +201,10 @@ with the older in-repo baselines.
 
 ## Context vs published NTU SOTA
 
-Published NTU leaderboards (e.g. ProtoGCN, CVPR 2025;
-[github.com/firework8/ProtoGCN](https://github.com/firework8/ProtoGCN))
-report top-1 accuracies of **93.8% on NTU-60 X-Sub, 97.8% NTU-60 X-View**
-(NTU-120 numbers are 90.9% X-Sub, 92.2% X-Set, but those are over a
+Published NTU leaderboards (e.g. Hyper-GCN, ICCV 2025;
+[github.com/6UOOON9/Hyper-GCN](https://github.com/6UOOON9/Hyper-GCN))
+report top-1 accuracies of **93.7% on NTU-60 X-Sub, 97.8% NTU-60 X-View**
+(NTU-120 numbers are 90.9% X-Sub, 92.0% X-Set, but those are over a
 different subject/class pool — not directly comparable to our setup).
 Since our 10 classes and 40 subjects are entirely within NTU-60, the
 relevant comparison is **NTU-60 X-Sub** for our cross-subject result
@@ -222,8 +222,8 @@ harder our setup is:
 | **Ours, top10 L5SO (NTU-60 subset)** | 400 | **350** (35 subjects × 10 classes × 1 trial) | 50 | 10 | 40 |
 
 Deep skeleton models reach 90%+ only with ≳10⁴ training trials. 350 is
-essentially few-shot territory. ProtoGCN trains on **115× more** trials
-than we do per fold.
+essentially few-shot territory. Hyper-GCN's published NTU setup trains
+on **115× more** trials than we use per fold.
 
 ### 2. One trial per (subject, class), not all available
 
@@ -253,20 +253,23 @@ leave-5-subjects-out across 40 subjects with 8 folds — much higher
 variance, smaller per-fold train, and we report **pooled** metrics
 across all 8 folds rather than best-fold or single-split numbers.
 
-### 5. Tiny architectures + no augmentation + no ensemble
+### 5. Single-stream comparison, not leaderboard training
 
 Our sequence baselines are intentionally small for matched-pair
 comparison: ST-GCN channels=(16, 32) vs SOTA (64, 64, 128, 128, 256, 256,
-256). No random rotation/scaling/temporal cropping during training. No
-bone-stream / motion-stream fusion. ProtoGCN's 93.8% is a 6-stream
-ensemble (joint + bone + joint-motion + bone-motion + 2 more); the
-single-stream ProtoGCN is ~92.6%.
+256). The adapted official baselines are also conservative compared with
+their papers: we use a **single-stream joint-only** setting on the
+400-sample subset, not the published 4-stream NTU recipe. Hyper-GCN's
+93.7% is the large 4-stream NTU-60 result; our local comparison is the
+base joint-only model trained for 20 epochs on 350 samples per fold.
 
 ### 6. No standard NTU training recipe
 
 SOTA pipelines use SGD + Nesterov momentum 0.9, weight decay 5e-4,
-cosine LR over 150 epochs, batch 64, label smoothing, mixup, etc. — many
-small tricks. We use AdamW with cosine LR and no other augmentation.
+long schedules, label smoothing, modality-specific augmentation, and in
+many cases multi-stream training. The original local baselines here use
+AdamW with cosine LR and no other augmentation; the official-model
+adaptations keep only a lightweight subset of the published recipe.
 
 ### Why the comparison still works for us
 
@@ -274,19 +277,20 @@ Our goal is **not** to beat the leaderboard — it's a controlled
 head-to-head: same architecture, same training data, same CV folds, same
 KNN — only the input representation differs. The 0.29-F1 gap between
 TV ES-VAE (0.557) and RS Vanilla VAE (0.265) is meaningful precisely
-because everything else is matched. ProtoGCN and other NTU SOTA papers
+because everything else is matched. Hyper-GCN and other NTU SOTA papers
 do not compare against Kendall tangent-space methods, so the two
 research questions are orthogonal:
 
 - **NTU SOTA papers** ask: *given full training data and freedom in
   architecture/augmentation/ensembles, how high can accuracy go on raw
-  skeletons?* → 93.8%.
+  skeletons?* → 93.7%.
 - **This work** asks: *with everything else held constant, does the
   Kendall preshape representation help?* → +0.29 macro-F1 in the
-  matched-encoder isolation test, and TV beats RS on every method × CV
-  mode pair (18/18 wins).
+  matched-encoder isolation test, and within the original local
+  matched-pair pipeline TV beats RS on every method × CV mode pair
+  (18/18 wins).
 
-To produce numbers comparable to ProtoGCN's table, we would need (a)
+To produce numbers comparable to Hyper-GCN's table, we would need (a)
 all 60/120 classes, (b) all available trials per class, (c) the
 official X-Sub/X-View/X-Set splits, (d) larger architectures, (e)
 standard augmentation, (f) multi-stream ensembles. That is a different
@@ -322,9 +326,9 @@ python build_results_tables.py   # writes results_tables_top10.md
 
 # Official recent-model comparison on the same 400-sample subset
 # Run the two official-model adaptations on separate GPUs.
-python official_compare/protogcn_runner.py --representation raw     --epochs 20 --batch-size 32 --device cuda:0
-python official_compare/protogcn_runner.py --representation tangent --epochs 20 --batch-size 32 --device cuda:0
-python official_compare/sparse_stgcn_runner.py --representation raw     --epochs 20 --batch-size 32 --device cuda:1
+python official_compare/hypergcn_runner.py --representation raw     --variant base --epochs 20 --batch-size 64 --device cuda:0
+python official_compare/hypergcn_runner.py --representation tangent --variant base --epochs 20 --batch-size 64 --device cuda:1
+python official_compare/sparse_stgcn_runner.py --representation raw     --epochs 20 --batch-size 32 --device cuda:0
 python official_compare/sparse_stgcn_runner.py --representation tangent --epochs 20 --batch-size 32 --device cuda:1
 ```
 
@@ -340,7 +344,7 @@ Sequence baselines use `cuda:0`.
 - `Tangent_Vector/cv_utils.py` is the source of truth for class labels
   (`CLASS_ORDER`, `CLASS_NAMES`); `NUM_CLASSES = len(CLASS_ORDER)` across
   all scripts.
-- `official_compare/` ports the official ProtoGCN / Sparse-ST-GCN model
+- `official_compare/` ports the official Hyper-GCN / Sparse-ST-GCN model
   logic into a lighter local runner instead of using the original
   PYSKL/MMCV training harness directly. The model backbones / heads /
   losses are kept close to the official repos, but the data loader and
