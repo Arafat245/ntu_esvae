@@ -9,6 +9,7 @@ external/
 
 # --- File types ignored everywhere ---
 *.pkl
+*.npy
 *.csv
 *.pdf
 *.skeleton
@@ -32,3 +33,7 @@ __pycache__/
 # --- OS ---
 .DS_Store
 Thumbs.db
+
+# --- Generated experiment artifacts ---
+ablation_cache/
+official_compare/results/*.json
