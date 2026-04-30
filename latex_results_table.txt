@@ -1,66 +1,16 @@
-% =============================================================================
-% NTU-60 top10 (10 classes, 40 subjects, 400 trials) — classification results.
-% Macro-averaged F1, Precision, and Recall with 95\% bootstrap confidence
-% intervals (2000 subject-level resamples). Source CSVs:
-%   Tangent_Vector/results/{esvae,pca,sequence}_clf_metrics{,_xview}.csv
-%   Raw_Skeleton/results/{vae,pca,sequence}_clf_metrics{,_xview}.csv
-% =============================================================================
-
-\begin{table*}[!t]
+\begin{table}[t]
 \centering
-\caption{NTU-60 top10 ten-class classification under subject-wise cross-validation (Leave-5-Subjects-Out, 8 folds, 40 subjects). Macro-averaged F1, Precision, and Recall with 95\% bootstrap confidence intervals.}
-\label{tab:ntu_clf_xsub}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{llccc}
-\toprule
-\makecell[l]{\textbf{Input}\\\textbf{Representation}} & \textbf{Method} & \textbf{Macro F1} & \textbf{Macro Precision} & \textbf{Macro Recall}\\
-\midrule
-\multirow{6}{*}{Raw Skeleton}
-& TCN          & 0.210 [0.169, 0.251] & 0.227 [0.178, 0.285] & 0.228 [0.188, 0.268]\\
-& LSTM         & 0.197 [0.163, 0.231] & 0.209 [0.162, 0.258] & 0.215 [0.185, 0.245]\\
-& Transformer  & 0.333 [0.286, 0.379] & 0.339 [0.284, 0.404] & 0.360 [0.318, 0.405]\\
-& ST-GCN       & 0.105 [0.079, 0.129] & 0.132 [0.082, 0.179] & 0.110 [0.085, 0.135]\\
-& PCA + $k$-NN & 0.483 [0.438, 0.525] & 0.545 [0.491, 0.604] & 0.495 [0.453, 0.537]\\
-& VAE + $k$-NN & 0.265 [0.223, 0.308] & 0.262 [0.221, 0.311] & 0.270 [0.230, 0.312]\\
-\midrule
-\multirow{6}{*}{\makecell[l]{Tangent\\Vector}}
-& TCN          & 0.390 [0.349, 0.428] & 0.411 [0.358, 0.472] & 0.427 [0.388, 0.468]\\
-& LSTM         & 0.379 [0.334, 0.422] & 0.392 [0.326, 0.468] & 0.420 [0.375, 0.465]\\
-& Transformer  & 0.442 [0.403, 0.479] & 0.462 [0.404, 0.529] & 0.480 [0.443, 0.517]\\
-& ST-GCN       & 0.411 [0.370, 0.451] & 0.407 [0.360, 0.461] & 0.458 [0.417, 0.497]\\
-& Tangent PCA + $k$-NN & 0.498 [0.451, 0.539] & 0.544 [0.501, 0.590] & 0.502 [0.458, 0.545]\\
-& \textbf{Elastic Shape VAE + $\bm{k}$-NN (proposed)} & \textbf{0.557 [0.516, 0.598]} & \textbf{0.573 [0.532, 0.622]} & \textbf{0.562 [0.520, 0.605]}\\
-\bottomrule
+\caption{Alignment ablation with ES-VAE across the NTU activity-recognition dataset and the stroke dataset. NTU is reported as Macro F1 and stroke is reported as RMSE. Values are shown as mean with 95\% confidence interval in parentheses.}
+\label{tab:alignment_ablation_esvae}
+\begin{tabular}{lcc}
+\hline
+Alignment stage & NTU Macro F1 & Stroke RMSE \\
+\hline
+No alignment (raw coordinates) & 0.26 (0.22, 0.31) & 5.75 (5.00, 6.38) \\
+Translation removal (centering) & 0.45 (0.41, 0.49) & 6.01 (5.37, 6.57) \\
+Translation + scale removal (preshape) & 0.46 (0.42, 0.50) & 5.72 (5.24, 6.13) \\
+Translation + scale + rotation removal (Kendall shape) & 0.52 (0.47, 0.56) & 3.13 (2.65, 3.53) \\
+Full alignment (Kendall + TSRVF) & \textbf{0.56} (0.52, 0.60) & \textbf{2.82} (2.29, 3.21) \\
+\hline
 \end{tabular}
-}
-\end{table*}
-
-
-\begin{table*}[!t]
-\centering
-\caption{NTU-60 top10 ten-class classification under cross-view evaluation (Leave-One-Camera-Out, 3 folds; cameras C001/C002/C003). Macro-averaged F1, Precision, and Recall with 95\% bootstrap confidence intervals.}
-\label{tab:ntu_clf_xview}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{llccc}
-\toprule
-\makecell[l]{\textbf{Input}\\\textbf{Representation}} & \textbf{Method} & \textbf{Macro F1} & \textbf{Macro Precision} & \textbf{Macro Recall}\\
-\midrule
-\multirow{6}{*}{Raw Skeleton}
-& TCN          & 0.129 [0.098, 0.157] & 0.132 [0.098, 0.168] & 0.142 [0.113, 0.170]\\
-& LSTM         & 0.148 [0.114, 0.185] & 0.144 [0.106, 0.186] & 0.170 [0.135, 0.210]\\
-& Transformer  & 0.208 [0.171, 0.244] & 0.232 [0.185, 0.292] & 0.250 [0.212, 0.290]\\
-& ST-GCN       & 0.092 [0.068, 0.113] & 0.108 [0.070, 0.161] & 0.100 [0.077, 0.122]\\
-& PCA + $k$-NN & 0.399 [0.356, 0.443] & 0.439 [0.387, 0.494] & 0.422 [0.380, 0.465]\\
-& VAE + $k$-NN & 0.184 [0.153, 0.216] & 0.178 [0.146, 0.212] & 0.198 [0.168, 0.230]\\
-\midrule
-\multirow{6}{*}{\makecell[l]{Tangent\\Vector}}
-& TCN          & 0.269 [0.236, 0.301] & 0.263 [0.231, 0.300] & 0.307 [0.275, 0.343]\\
-& LSTM         & 0.262 [0.223, 0.300] & 0.247 [0.210, 0.285] & 0.285 [0.245, 0.328]\\
-& Transformer  & 0.329 [0.284, 0.369] & 0.323 [0.278, 0.372] & 0.362 [0.312, 0.407]\\
-& ST-GCN       & 0.336 [0.290, 0.380] & 0.322 [0.278, 0.368] & 0.362 [0.318, 0.410]\\
-& Tangent PCA + $k$-NN & 0.458 [0.411, 0.501] & 0.499 [0.454, 0.548] & 0.463 [0.415, 0.507]\\
-& \textbf{Elastic Shape VAE + $\bm{k}$-NN (proposed)} & \textbf{0.487 [0.437, 0.532]} & \textbf{0.505 [0.462, 0.549]} & \textbf{0.492 [0.440, 0.542]}\\
-\bottomrule
-\end{tabular}
-}
-\end{table*}
+\end{table}
