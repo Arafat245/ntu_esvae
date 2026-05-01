@@ -1,16 +1,20 @@
 \begin{table}[t]
-\centering
-\caption{Alignment ablation with ES-VAE across the NTU activity-recognition dataset and the stroke dataset. NTU is reported as Macro F1 and stroke is reported as RMSE. Values are shown as mean with 95\% confidence interval in parentheses.}
-\label{tab:alignment_ablation_esvae}
-\begin{tabular}{lcc}
-\hline
-Alignment stage & NTU Macro F1 & Stroke RMSE \\
-\hline
-No alignment (raw coordinates) & 0.26 (0.22, 0.31) & 5.75 (5.00, 6.38) \\
-Translation removal (centering) & 0.45 (0.41, 0.49) & 6.01 (5.37, 6.57) \\
-Translation + scale removal (preshape) & 0.46 (0.42, 0.50) & 5.72 (5.24, 6.13) \\
-Translation + scale + rotation removal (Kendall shape) & 0.52 (0.47, 0.56) & 3.13 (2.65, 3.53) \\
-Full alignment (Kendall + TSRVF) & \textbf{0.56} (0.52, 0.60) & \textbf{2.82} (2.29, 3.21) \\
-\hline
-\end{tabular}
+  \centering
+  \caption{Effect of the KL-weight $\beta$ on ES-VAE performance for NTU-60 action recognition and the stroke dataset.}
+  \label{tab:esvae_beta_sweep}
+  \begin{tabular}{lccccc}
+  \toprule
+  \textbf{NTU-60 Macro F1} & $10^{-5}$ & $10^{-4}$ & $10^{-3}$ & $10^{-2}$ & $10^{-1}$ \\
+  \midrule
+  Value & 0.544 & \textbf{0.556} & 0.535 & 0.466 & 0.351 \\
+  \midrule
+  \textbf{Stroke $R^2$} & $2^{-5}$ & $2^{-4}$ & $2^{-3}$ & $2^{-2}$ & $2^{-1}$ \\
+  \midrule
+  Value & 0.737 & 0.737 & \textbf{0.740} & 0.737 & 0.727 \\
+  \bottomrule
+  \end{tabular}
 \end{table}
+
+We swept $\beta_{\mathrm{kl}}$ over dataset-specific ranges for both the stroke and NTU-60 datasets (Table~\ref{tab:esvae_beta_sweep}). In both cases, intermediate KL weights gave the best trade-off between latent regularization and downstream performance: for the stroke dataset, $\beta_{\mathrm{kl}}=2^{-3}$ achieved the best $R^2$, while for NTU-60, $\beta_{\mathrm{kl}}=10^{-4}$ gave the highest Macro F1. Larger $\beta$ values made the latent space more Gaussian but degraded reconstruction and predictive performance, whereas very small $\beta$ values could lead to weakly regularized or partially collapsed latent dimensions (Figure~\ref{fig:scatter_heatmap}).
+
+\textbf{MSE vs.\ Geodesic reconstruction loss.} Replacing the geodesic reconstruction loss with a plain MSE loss reduced performance on both datasets, from 0.557 to 0.528 Macro F1 on NTU-60 and from 0.740 to 0.718 in stroke $R^2$. This indicates that geodesic reconstruction provides a consistent, though modest, advantage over Euclidean reconstruction in the tangent-space ES-VAE setting.

@@ -1,0 +1,12 @@
+{
+  "dataset": "Stroke",
+  "metric": "R2",
+  "beta_label": "2^-3",
+  "beta_value": 0.125,
+  "rmse": 2.8176402273543837,
+  "r2": 0.7400343418121338,
+  "epochs": 25,
+  "R": 38,
+  "lr": 0.001,
+  "n_predictions": 155
+}

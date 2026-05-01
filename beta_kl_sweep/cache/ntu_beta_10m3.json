@@ -1,0 +1,23 @@
+{
+  "dataset": "NTU-60",
+  "metric": "Macro F1",
+  "beta_label": "10^-3",
+  "beta_value": 0.001,
+  "macro_f1": 0.5351704389961753,
+  "knn_cfg": {
+    "n_neighbors": 5,
+    "weights": "distance"
+  },
+  "encoder_cfg": {
+    "seed": 42,
+    "R": 48,
+    "epochs": 150,
+    "lr": 0.001,
+    "batch_size": 64,
+    "beta_kl": 0.001,
+    "dropout": 0.1,
+    "hidden": 768,
+    "k_knn": 5
+  },
+  "n_predictions": 400
+}
