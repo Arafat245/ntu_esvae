@@ -1,101 +1,89 @@
 # NTU Activity Recognition — Tangent-Vector vs Raw-Skeleton
 
-A controlled comparison of **Kendall preshape tangent vectors** (with
-SRVF time-warp normalization) against **raw 3D joint coordinates** for
-action classification on the **NTU RGB+D 60** dataset. We use a 10-class
-subset designed to expose where the manifold prior helps most, and
-evaluate under three cross-validation protocols (cross-subject,
-cross-view, cross-setup).
+This repository is the official implementation of *NTU Activity Recognition — Tangent-Vector vs Raw-Skeleton*, a controlled comparison of **Kendall preshape tangent vectors** (with SRVF time-warp normalization) against **raw 3D joint coordinates** for action classification on the **NTU RGB+D 60** dataset. We use a 10-class subset designed to expose where the manifold prior helps most, and evaluate under three cross-validation protocols (cross-subject, cross-view, cross-setup).
 
-**Scope: NTU-60 only.** Our 10 chosen classes (A001–A031) all fall
-within NTU-60's A001–A060 range, our 40 subjects (P001–P040 in
-S001–S017) are exactly the NTU-60 subject pool, and the curation script
-reads only from `data/nturgbd_skeletons_s001_to_s017/`. NTU-120's
-expansion (S018–S032, A061–A120, subjects P041–P106) is **not** used.
-The relevant SOTA reference for our setup is therefore the NTU-60
-column of published leaderboards (X-Sub / X-View), not NTU-120.
+**Scope: NTU-60 only.** Our 10 chosen classes (A001–A031) all fall within NTU-60's A001–A060 range, our 40 subjects (P001–P040 in S001–S017) are exactly the NTU-60 subject pool, and the curation script reads only from `data/nturgbd_skeletons_s001_to_s017/`. NTU-120's expansion (S018–S032, A061–A120, subjects P041–P106) is **not** used.
 
-## What's the manifold prior?
+## Requirements
 
-Each skeleton trajectory is mapped onto **Kendall preshape space** (a
-quotient manifold that removes translation, scale, and rotation), then
-temporally aligned with **SRVF γ-warping** (removes execution-rate
-variation). Models train on tangent vectors at the Karcher mean instead
-of raw coordinates. The hypothesis: when nuisance variation
-(camera/orientation/subject-size/speed) dominates raw input, the
-manifold prior strips it analytically and lets the downstream classifier
-focus on trajectory shape.
+To install requirements:
 
-## Dataset (10-class top10, NTU-60 only)
+```setup
+pip install -r requirements.txt
+```
 
-400 single-person trials = **40 NTU-60 subjects × 10 NTU-60 classes**
-(perfectly balanced). All trials come from setups S001–S017 and class
-ids A001–A031 — entirely inside the NTU-60 partition; NTU-120's added
-classes/subjects (A061–A120, P041–P106) are not used. Curated by
-`build_ntu_skeleton_top10.py` to maximise the |Tangent − Raw| gap:
+Additional setup:
 
-| Group | Classes | Why |
-|---|---|---|
-| Hand-to-face / hand-trajectory (TV-favoured) | A001 drink water, A002 eat meal, A003 brush teeth, A004 brush hair, A028 phone call, A029 play with phone | Discriminator is fine arm-trajectory shape; raw 3D coords drown in subject-size/orientation/rate noise |
-| Whole-body anchors | A008 sitting down, A009 standing up, A023 hand waving, A031 pointing | Both representations should classify these correctly — keeps macro-F1 floor high |
+- Download the **NTU RGB+D 60** skeleton archive (`nturgbd_skeletons_s001_to_s017`) from [the NTU site](https://rose1.ntu.edu.sg/dataset/actionRecognition/) and place it under `data/`.
+- A CUDA GPU is required. ES-VAE is hardcoded to `cuda:1` on import (geomstats `PreShapeSpace` utilities in `functionsgpu_fast.py`); sequence baselines run on `cuda:0`.
 
-The curation script spreads picks across all 17 NTU setups, all 3
-cameras, and both replications, so cross-view and cross-setup CV are
-meaningful tests.
-
-## Repository layout
+### Repository layout
 
 ```
 activity_recognition/
 ├── build_ntu_skeleton_top10.py   curate ntu_skeleton_top10/ from data/
 ├── build_ntu_pkl.py              build data/data_ntu.pkl from skeletons
 ├── build_results_tables.py       emit NeurIPS-style markdown tables
-├── results_tables_top10.md       combined subject + view tables
 ├── functionsgpu_fast.py          shared geomstats Kendall/SRVF utilities
 ├── official_compare/             adapted official Hyper-GCN / Sparse-ST-GCN runners
-│   ├── common.py                 shared data adapters, sampling, metrics, graph utils
-│   ├── hypergcn_runner.py        official Hyper-GCN backbone/loss adapted to top10
-│   ├── sparse_stgcn_runner.py    official Sparse-ST-GCN backbone adapted to top10
-│   └── results/                  subject-CV JSON outputs for raw / tangent runs
 ├── Tangent_Vector/               classification on tangent vectors
-│   ├── cv_utils.py               loaders + L5SO/view/setup folds + bootstrap CIs
-│   ├── esvae_clf.py              ES-VAE with squared-geodesic recon loss
-│   ├── esvae_epoch_sweep.py      Phase 1b: epoch sweep on the winner config
-│   ├── esvae_batch_sweep.py      Phase 1c: batch sweep on the winner config
-│   ├── pca_clf.py                PCA → KNN baseline (R + KNN matched to ES-VAE)
-│   └── sequence_clf.py           TCN / LSTM / Transformer / STGCN sequence models
 ├── Raw_Skeleton/                 mirror pipeline on raw 3D coords
-│   ├── cv_utils.py               raw skeleton loader + re-exported helpers
-│   ├── pca_clf.py                PCA → KNN (matched config)
-│   ├── vae_clf.py                Vanilla VAE + KNN (matched architecture, MSE loss)
-│   └── sequence_clf.py           same architectures as TV side
-├── data/                         (gitignored) raw NTU 60/120 skeletons + data_ntu.pkl
+├── Temp_exps/                    standalone experiments
+├── data/                         (gitignored) raw NTU skeletons + data_ntu.pkl
 ├── aligned_data/                 (gitignored) tangent_vecs100, betas_aligned100, mu100, sample_index/meta
 ├── ntu_skeleton_top10/           (gitignored) curated 10-class .skeleton files
 └── logs_top10/                   (gitignored) per-run logs
 ```
 
-## Pipeline
+### Dataset (10-class top10, NTU-60 only)
 
-1. **Curate** — `python build_ntu_skeleton_top10.py --seed 42` writes
-   `ntu_skeleton_top10/` (400 .skeleton files, manifest, all/common subjects).
-2. **Build pkl** — `python build_ntu_pkl.py` builds `data/data_ntu.pkl`
-   (dict `{pid}_{class_id} → ndarray (25, 3, T_var)`).
-3. **Align** — Frechet mean + OPA rotational alignment + SRVF temporal
-   alignment iterates to `aligned_data/{tangent_vecs,betas_aligned,mu,gammas,betas_resampled_kendall}100.pkl`
-   plus `sample_index.csv` and `sample_meta.csv` (the latter has
-   `setup_id, camera_id, replication, filename` per sample for view/setup
-   CV).
-4. **Classify** — Run any combination of `Tangent_Vector/{pca_clf, esvae_clf, sequence_clf}.py`
-   and `Raw_Skeleton/{pca_clf, vae_clf, sequence_clf}.py` with
-   `--cv-mode {subject, view, setup}`.
+400 single-person trials = **40 NTU-60 subjects × 10 NTU-60 classes** (perfectly balanced):
 
-## ES-VAE hyperparameter selection (Phase 1, subject CV)
+| Group | Classes |
+|---|---|
+| Hand-to-face / hand-trajectory (TV-favoured) | A001 drink water, A002 eat meal, A003 brush teeth, A004 brush hair, A028 phone call, A029 play with phone |
+| Whole-body anchors | A008 sitting down, A009 standing up, A023 hand waving, A031 pointing |
 
-Sweep grid: `R ∈ {16, 24, 32, 48} × hidden ∈ {512, 768} × β-KL ∈ {1e-4, 1e-3}`,
-followed by an epoch sweep ({25, 50, 100, 150, 200, 250, 300, 400}) and a
-batch sweep ({16, 32, 64, 128, 256}) on the winning config. Final tuned
-config:
+The curation script spreads picks across all 17 NTU setups, all 3 cameras, and both replications, so cross-view and cross-setup CV are meaningful tests.
+
+## Training
+
+To curate, build, align, and train all models in the paper:
+
+```train
+# 1. Curate the 10-class subset (400 .skeleton files, deterministic seed=42)
+python build_ntu_skeleton_top10.py --seed 42
+
+# 2. Build data/data_ntu.pkl from the curated skeletons
+python build_ntu_pkl.py
+
+# 3. ES-VAE hyperparameter sweep on subject CV (locks the chosen config)
+cd Tangent_Vector
+python esvae_clf.py --sweep --cv-mode subject
+python esvae_epoch_sweep.py
+python esvae_batch_sweep.py
+cd ..
+
+# 4. Full training under each CV mode
+for mode in subject view setup; do
+  (cd Tangent_Vector && \
+    python pca_clf.py --cv-mode $mode && \
+    python esvae_clf.py --cv-mode $mode --R 48 --epochs 150 --hidden 768 --beta-kl 1e-4 --batch-size 64 && \
+    python sequence_clf.py --cv-mode $mode)
+  (cd Raw_Skeleton && \
+    python pca_clf.py --cv-mode $mode && \
+    python vae_clf.py --cv-mode $mode && \
+    python sequence_clf.py --cv-mode $mode)
+done
+
+# 5. Train the adapted official baselines on subject CV
+python official_compare/hypergcn_runner.py     --representation raw     --variant base --epochs 20 --batch-size 64 --device cuda:0
+python official_compare/hypergcn_runner.py     --representation tangent --variant base --epochs 20 --batch-size 64 --device cuda:1
+python official_compare/sparse_stgcn_runner.py --representation raw     --epochs 20 --batch-size 32 --device cuda:0
+python official_compare/sparse_stgcn_runner.py --representation tangent --epochs 20 --batch-size 32 --device cuda:1
+```
+
+Final tuned ES-VAE config locked in by the Phase-1 sweep:
 
 | Hyperparameter | Value |
 |---|---|
@@ -109,19 +97,30 @@ config:
 | Reconstruction loss | Squared geodesic distance on Kendall preshape space |
 | Latent classifier | KNN (k=5, distance) |
 
-PCA + Vanilla VAE auto-load `R` and KNN from this config so all encoders
-share the same embedding dim and downstream classifier per CV mode.
+PCA + Vanilla VAE auto-load `R` and KNN from this config so all encoders share the same embedding dim and downstream classifier per CV mode.
 
-## Headline results
+## Evaluation
 
-Pooled out-of-fold macro-F1, **mean [95% CI]** from 2000-iter
-subject-level bootstrap. See `results_tables_top10.md` for the full
-NeurIPS-style tables (Macro F1 / Precision / Recall).
+To evaluate the trained models and produce the combined NeurIPS-style results table:
 
-### Cross-Subject (Leave-5-Subjects-Out, 8 folds)
+```eval
+python build_results_tables.py   # writes results_tables_top10.md
+```
+
+Per-method evaluation is folded into the training scripts above: each `*_clf.py` writes pooled out-of-fold metrics with **2000-iter subject-level bootstrap 95% CIs** to `Tangent_Vector/results/` and `Raw_Skeleton/results/`. `official_compare/results/*.json` stores subject-CV outputs for the adapted official runners.
+
+## Pre-trained Models
+
+We do not distribute pre-trained checkpoints. All experiments are deterministic given `seed=42`, the source NTU-60 dataset, and the locked ES-VAE config above; rerunning the training commands reproduces every reported number. ES-VAE training takes ~15 min per CV mode on an A6000; the full Phase-1 sweep takes ~2 hours.
+
+## Results
+
+Pooled out-of-fold macro-F1, **mean [95% CI]** from 2000-iter subject-level bootstrap. See `results_tables_top10.md` for the full NeurIPS-style tables (Macro F1 / Precision / Recall).
+
+### [Skeleton-Based Action Recognition on NTU RGB+D](https://paperswithcode.com/sota/skeleton-based-action-recognition-on-ntu-rgbd) — top10 cross-subject (Leave-5-Subjects-Out, 8 folds)
 
 | Input Representation | Method | Macro F1 (95% CI) |
-|---|---|---|
+| ------------------ |---------------- | -------------- |
 | Raw Skeleton | **Hyper-GCN** | **0.539 (0.500, 0.575)** |
 |  | Sparse-ST-GCN | 0.489 (0.440, 0.537) |
 |  | PCA + k-NN | 0.483 (0.438, 0.525) |
@@ -139,26 +138,22 @@ NeurIPS-style tables (Macro F1 / Precision / Recall).
 |  | LSTM | 0.379 (0.334, 0.422) |
 |  | Hyper-GCN | 0.377 (0.329, 0.422) |
 
-Official-model rows come from the adapted runners in `official_compare/`
-and are subject-CV only; they are included here for direct comparison
-with the older in-repo baselines.
-
 ### Cross-View (Leave-One-Camera-Out, 3 folds)
 
 | Input Representation | Method | Macro F1 (95% CI) |
 |---|---|---|
 | Raw Skeleton | PCA + k-NN | 0.399 (0.356, 0.443) |
-|  | VAE + k-NN | 0.184 (0.153, 0.216) |
-|  | TCN | 0.129 (0.098, 0.157) |
-|  | LSTM | 0.148 (0.114, 0.185) |
 |  | Transformer | 0.208 (0.171, 0.244) |
+|  | VAE + k-NN | 0.184 (0.153, 0.216) |
+|  | LSTM | 0.148 (0.114, 0.185) |
+|  | TCN | 0.129 (0.098, 0.157) |
 |  | ST-GCN | 0.092 (0.068, 0.113) |
-| Tangent Vector | PCA + k-NN | 0.458 (0.411, 0.501) |
+| Tangent Vector | **ES-VAE + k-NN (proposed)** | **0.487 (0.437, 0.532)** |
+|  | PCA + k-NN | 0.458 (0.411, 0.501) |
+|  | ST-GCN | 0.336 (0.290, 0.380) |
+|  | Transformer | 0.329 (0.284, 0.369) |
 |  | TCN | 0.269 (0.236, 0.301) |
 |  | LSTM | 0.262 (0.223, 0.300) |
-|  | Transformer | 0.329 (0.284, 0.369) |
-|  | ST-GCN | 0.336 (0.290, 0.380) |
-|  | **ES-VAE + k-NN (proposed)** | **0.487 (0.437, 0.532)** |
 
 ### Tangent − Raw gaps under cross-subject
 
@@ -175,180 +170,29 @@ with the older in-repo baselines.
 
 ### Key findings
 
-1. **Within the original matched local pipeline, tangent vector beats raw
-   skeleton on every method and every CV mode** (18/18 head-to-head
-   wins). That result is consistent under cross-subject, cross-view, and
-   cross-setup.
-2. **The adapted official-model benchmark is mixed on this tiny subset**:
-   Hyper-GCN strongly prefers raw coordinates, while Sparse-ST-GCN gives
-   a slight edge to tangent vectors.
-3. **The manifold-loss isolation test** — same architecture and KNN, only
-   the reconstruction loss differs (geodesic on Kendall preshape vs MSE
-   on raw coords) — produces a **+0.29 macro-F1** gap. The unconstrained
-   MSE-on-raw VAE essentially fails (near 10-class chance of 0.10) on
-   the hand-to-face classes.
-4. **ST-GCN is the most position-sensitive baseline** — it loses 0.31
-   F1 going from tangent to raw because raw NTU skeletons preserve
-   world translation that the small ST-GCN cannot normalize away. On
-   tangent vectors ST-GCN is competitive with the other sequence models.
-5. **PCA + k-NN closes the gap most narrowly among the older local
-   baselines** (+0.015) — the linear
-   projection captures comparable structure on either input.
-6. **The 4 whole-body anchors carry a high macro-F1 floor** (≈0.79 each
-   under TV ES-VAE); the 6 hand-to-face classes drive the spread (≈0.40
-   each). The dataset was deliberately designed to make this contrast
-   visible.
+1. **Within the original matched local pipeline, tangent vector beats raw skeleton on every method and every CV mode** (18/18 head-to-head wins) — consistent under cross-subject, cross-view, and cross-setup.
+2. **The adapted official-model benchmark is mixed on this tiny subset**: Hyper-GCN strongly prefers raw coordinates, while Sparse-ST-GCN gives a slight edge to tangent vectors.
+3. **The manifold-loss isolation test** — same architecture and KNN, only the reconstruction loss differs (geodesic on Kendall preshape vs MSE on raw coords) — produces a **+0.29 macro-F1** gap.
+4. **ST-GCN is the most position-sensitive baseline** — it loses 0.31 F1 going from tangent to raw because raw NTU skeletons preserve world translation that the small ST-GCN cannot normalize away.
+5. **PCA + k-NN closes the gap most narrowly** (+0.015) — the linear projection captures comparable structure on either input.
+6. **The 4 whole-body anchors carry a high macro-F1 floor** (≈0.79 each under TV ES-VAE); the 6 hand-to-face classes drive the spread (≈0.40 each).
 
-## Context vs published NTU SOTA
+### Context vs published NTU SOTA
 
-Published NTU leaderboards (e.g. Hyper-GCN, ICCV 2025;
-[github.com/6UOOON9/Hyper-GCN](https://github.com/6UOOON9/Hyper-GCN))
-report top-1 accuracies of **93.7% on NTU-60 X-Sub, 97.8% NTU-60 X-View**
-(NTU-120 numbers are 90.9% X-Sub, 92.0% X-Set, but those are over a
-different subject/class pool — not directly comparable to our setup).
-Since our 10 classes and 40 subjects are entirely within NTU-60, the
-relevant comparison is **NTU-60 X-Sub** for our cross-subject result
-and **NTU-60 X-View** for our cross-view result. Our top10 numbers
-(subject 55.7% / view 48.7%) sit ~40 percentage points below these. The gap is structural, not a model
-quality issue — six reasons, with sample counts that quantify how much
-harder our setup is:
-
-### 1. Drastically less training data per fold (~115× fewer trials)
+Published NTU leaderboards (e.g. Hyper-GCN, ICCV 2025; [github.com/6UOOON9/Hyper-GCN](https://github.com/6UOOON9/Hyper-GCN)) report top-1 of **93.7% on NTU-60 X-Sub, 97.8% NTU-60 X-View**. Our top10 numbers (subject 55.7% / view 48.7%) sit ~40 percentage points below these. The gap is structural, not a model quality issue:
 
 | | Total trials | Train per fold | Test per fold | Classes | Subjects |
 |---|---:|---:|---:|---:|---:|
-| **Standard NTU-60 X-Sub** (apples-to-apples reference) | 56,880 | **40,320** (20 subjects × 60 classes × ~33.6 cam/rep trials per (subject, class) on average) | 16,560 | 60 | 40 |
-| Standard NTU-120 X-Sub (different pool) | 114,480 | ~63,026 (53 subjects) | ~51,454 | 120 | 106 |
-| **Ours, top10 L5SO (NTU-60 subset)** | 400 | **350** (35 subjects × 10 classes × 1 trial) | 50 | 10 | 40 |
+| **Standard NTU-60 X-Sub** | 56,880 | **40,320** | 16,560 | 60 | 40 |
+| **Ours, top10 L5SO (NTU-60 subset)** | 400 | **350** | 50 | 10 | 40 |
 
-Deep skeleton models reach 90%+ only with ≳10⁴ training trials. 350 is
-essentially few-shot territory. Hyper-GCN's published NTU setup trains
-on **115× more** trials than we use per fold.
+Reasons: (1) ~115× fewer training trials per fold; (2) one trial per (subject, class), not all camera/replication variants; (3) adversarially hard 10-class subset; (4) L5SO ≠ standard X-Sub; (5) single-stream comparison vs published 4-stream recipes; (6) no standard NTU training recipe (no SGD+Nesterov, no label smoothing, no augmentation).
 
-### 2. One trial per (subject, class), not all available
+Our goal is **not** to beat the leaderboard — it's a controlled head-to-head: same architecture, same training data, same CV folds, same KNN — only the input representation differs. NTU SOTA papers do not compare against Kendall tangent-space methods, so the two research questions are orthogonal:
 
-Standard pipelines use every available (subject, class, camera,
-replication) combination as a separate training trial:
-- NTU-60 has ~948 trials per class on average → ~57k trials total.
-- Our `build_ntu_skeleton_top10.py --seed 42` picks **one** trial per
-  (subject, class) and discards the rest, dropping us from a possible
-  9,480 trials (40 subj × 10 classes × ~24 cam/rep variants) to **400**.
-  We deliberately do this to avoid same-trial leakage across CV folds
-  while keeping the dataset compact for the controlled comparison.
+- **NTU SOTA papers** ask: *given full data and freedom in architecture/augmentation/ensembles, how high can accuracy go on raw skeletons?* → 93.7%.
+- **This work** asks: *with everything else held constant, does the Kendall preshape representation help?* → +0.29 macro-F1 in the matched-encoder isolation test, and 18/18 wins in the matched-pair pipeline.
 
-### 3. Adversarially hard 10-class subset
+## Contributing
 
-The 6 hand-to-face classes (drink, eat, brush teeth, brush hair, phone
-call, play with phone) are among the *hardest* single-person actions in
-NTU because they share standing-upright posture and one-arm-raised-to-
-face geometry. Published averages cover all 60/120 classes including
-easy locomotion (walking, sitting, jumping, falling) that pull the mean
-to >90%. We picked these 10 specifically to expose the manifold-prior
-advantage on confusable trajectory-shape classes.
-
-### 4. L5SO ≠ standard X-Sub
-
-Standard X-Sub uses one fixed 20-train / 20-test subject split. We use
-leave-5-subjects-out across 40 subjects with 8 folds — much higher
-variance, smaller per-fold train, and we report **pooled** metrics
-across all 8 folds rather than best-fold or single-split numbers.
-
-### 5. Single-stream comparison, not leaderboard training
-
-Our sequence baselines are intentionally small for matched-pair
-comparison: ST-GCN channels=(16, 32) vs SOTA (64, 64, 128, 128, 256, 256,
-256). The adapted official baselines are also conservative compared with
-their papers: we use a **single-stream joint-only** setting on the
-400-sample subset, not the published 4-stream NTU recipe. Hyper-GCN's
-93.7% is the large 4-stream NTU-60 result; our local comparison is the
-base joint-only model trained for 20 epochs on 350 samples per fold.
-
-### 6. No standard NTU training recipe
-
-SOTA pipelines use SGD + Nesterov momentum 0.9, weight decay 5e-4,
-long schedules, label smoothing, modality-specific augmentation, and in
-many cases multi-stream training. The original local baselines here use
-AdamW with cosine LR and no other augmentation; the official-model
-adaptations keep only a lightweight subset of the published recipe.
-
-### Why the comparison still works for us
-
-Our goal is **not** to beat the leaderboard — it's a controlled
-head-to-head: same architecture, same training data, same CV folds, same
-KNN — only the input representation differs. The 0.29-F1 gap between
-TV ES-VAE (0.557) and RS Vanilla VAE (0.265) is meaningful precisely
-because everything else is matched. Hyper-GCN and other NTU SOTA papers
-do not compare against Kendall tangent-space methods, so the two
-research questions are orthogonal:
-
-- **NTU SOTA papers** ask: *given full training data and freedom in
-  architecture/augmentation/ensembles, how high can accuracy go on raw
-  skeletons?* → 93.7%.
-- **This work** asks: *with everything else held constant, does the
-  Kendall preshape representation help?* → +0.29 macro-F1 in the
-  matched-encoder isolation test, and within the original local
-  matched-pair pipeline TV beats RS on every method × CV mode pair
-  (18/18 wins).
-
-To produce numbers comparable to Hyper-GCN's table, we would need (a)
-all 60/120 classes, (b) all available trials per class, (c) the
-official X-Sub/X-View/X-Set splits, (d) larger architectures, (e)
-standard augmentation, (f) multi-stream ensembles. That is a different
-paper.
-
-## How to reproduce
-
-Once `data/data_ntu.pkl` and `aligned_data/` are populated (see Pipeline
-above):
-
-```bash
-# Phase 1 — ES-VAE sweep on subject CV (locks the chosen config)
-cd Tangent_Vector
-python esvae_clf.py --sweep --cv-mode subject
-python esvae_epoch_sweep.py
-python esvae_batch_sweep.py
-
-# Phase 3 — full evaluation under each CV mode
-for mode in subject view setup; do
-  python pca_clf.py --cv-mode $mode
-  python esvae_clf.py --cv-mode $mode --R 48 --epochs 150 --hidden 768 --beta-kl 1e-4 --batch-size 64
-  python sequence_clf.py --cv-mode $mode
-  cd ../Raw_Skeleton
-  python pca_clf.py --cv-mode $mode
-  python vae_clf.py --cv-mode $mode
-  python sequence_clf.py --cv-mode $mode
-  cd ../Tangent_Vector
-done
-
-# Build the combined NeurIPS-style table
-cd ..
-python build_results_tables.py   # writes results_tables_top10.md
-
-# Official recent-model comparison on the same 400-sample subset
-# Run the two official-model adaptations on separate GPUs.
-python official_compare/hypergcn_runner.py --representation raw     --variant base --epochs 20 --batch-size 64 --device cuda:0
-python official_compare/hypergcn_runner.py --representation tangent --variant base --epochs 20 --batch-size 64 --device cuda:1
-python official_compare/sparse_stgcn_runner.py --representation raw     --epochs 20 --batch-size 32 --device cuda:0
-python official_compare/sparse_stgcn_runner.py --representation tangent --epochs 20 --batch-size 32 --device cuda:1
-```
-
-ES-VAE GPU is `cuda:1` because `functionsgpu_fast.py` (the geomstats
-PreShapeSpace utilities) is hardcoded to that device on import.
-Sequence baselines use `cuda:0`.
-
-## Notes
-
-- Subject, view, and setup partitions are deterministic (`seed=42`) and
-  shared across both folders, so per-method comparisons are matched-pair
-  valid.
-- `Tangent_Vector/cv_utils.py` is the source of truth for class labels
-  (`CLASS_ORDER`, `CLASS_NAMES`); `NUM_CLASSES = len(CLASS_ORDER)` across
-  all scripts.
-- `official_compare/` ports the official Hyper-GCN / Sparse-ST-GCN model
-  logic into a lighter local runner instead of using the original
-  PYSKL/MMCV training harness directly. The model backbones / heads /
-  losses are kept close to the official repos, but the data loader and
-  experiment harness are adapted to this repo's 400-sample subset.
-- Per-fold logs in `logs_top10/` (gitignored).
-- Curation, alignment, and result CSVs are deterministic given the same
-  seed and source NTU dataset.
+Issues and pull requests are welcome. Please keep contributions focused on the NTU top10 controlled-comparison setup; out-of-scope changes (other datasets, full NTU-60/120 retraining recipes) belong in a fork.

@@ -1,106 +1,64 @@
 # Tangent-Vector Action Classification (NTU 10-class top10)
 
-This folder contains the aligned-tangent classification pipeline. We classify
-**10 NTU actions** using **subject-level leave-5-subjects-out (L5SO)
-cross-validation** over 40 common subjects, plus **cross-view** (3 cameras)
-and **cross-setup** (17 NTU setups) generalisation tests.
+This folder is the official implementation of the **tangent-vector** half of the matched-pair NTU top10 study. We classify **10 NTU actions** using **subject-level leave-5-subjects-out (L5SO) cross-validation** over 40 common subjects, plus **cross-view** (3 cameras) and **cross-setup** (17 NTU setups) generalisation tests, on **Kendall preshape tangent vectors** computed at the Karcher mean.
 
-The 10-class set is curated by `../build_ntu_skeleton_top10.py` to maximise
-the |Tangent − Raw| performance gap: 6 hand-to-face / hand-trajectory
-classes (manifold prior wins) and 4 whole-body anchor classes (both
-representations should classify correctly).
+The 10-class set is curated by `../build_ntu_skeleton_top10.py` to maximise the |Tangent − Raw| performance gap: 6 hand-to-face / hand-trajectory classes (manifold prior wins) and 4 whole-body anchor classes (both representations should classify correctly).
 
 | Class | Type |
 |---|---|
 | A001 drink water, A002 eat meal, A003 brush teeth, A004 brush hair, A028 phone call, A029 play with phone | hand-to-face (TV-favoured) |
 | A008 sitting down, A009 standing up, A023 hand waving, A031 pointing to something | whole-body anchors |
 
-## Inputs
+## Requirements
 
-All scripts read from `../aligned_data/`:
+Install dependencies from the repo root:
+
+```setup
+pip install -r ../requirements.txt
+```
+
+Inputs are read from `../aligned_data/`, populated by the alignment pipeline at the repo root:
 
 | File | Shape | Purpose |
 |---|---|---|
 | `tangent_vecs100.pkl` | `(25 landmarks, 3 xyz, 100 timesteps, 400 samples)` | Tangent vectors at the Karcher mean `mu100` |
 | `betas_aligned100.pkl` | list of 400 × `(25, 3, 100)` | Aligned manifold curves (target for ES-VAE geodesic loss) |
 | `mu100.pkl` | `(25, 3, 100)` | Karcher mean shape |
-| `sample_index.csv`, `sample_meta.csv` | 400 rows | Index → (person_id, class_id, setup_id, camera_id, replication, filename) mapping |
+| `sample_index.csv`, `sample_meta.csv` | 400 rows | Index → (person_id, class_id, setup_id, camera_id, replication, filename) |
 
 400 samples = 40 subjects × 10 classes (perfectly balanced).
 
-## Cross-validation protocols
+ES-VAE GPU is `cuda:1` because `../functionsgpu_fast.py` (geomstats `PreShapeSpace`) is hardcoded to that device on import. Sequence baselines use `cuda:0`.
+
+### Cross-validation protocols
 
 `cv_utils.get_folds_and_axis(mode, ...)` selects the fold scheme:
 
-- **subject** — `leave_5_subjects_out_folds(seed=42)`: deterministic shuffle
-  of the 40 subjects, partitioned into **8 folds** of 5 each.
-- **view** — `cross_view_folds`: leave-one-camera-out, **3 folds**
-  (C001 / C002 / C003). Each fold's test set is one camera id.
-- **setup** — `cross_setup_folds`: leave-one-NTU-setup-out, **17 folds**
-  (S001…S017). Stronger generalisation test — setups differ in room
-  geometry, camera placement, lighting.
+- **subject** — `leave_5_subjects_out_folds(seed=42)`: deterministic shuffle of the 40 subjects, partitioned into **8 folds** of 5 each.
+- **view** — leave-one-camera-out, **3 folds** (C001 / C002 / C003).
+- **setup** — leave-one-NTU-setup-out, **17 folds** (S001…S017).
 
-All metrics are pooled across folds and reported with **subject-level
-bootstrap 95% CIs** (2000 resamples). Macro-F1 is the headline.
+All metrics are pooled across folds and reported with **subject-level bootstrap 95% CIs** (2000 resamples). Macro-F1 is the headline.
 
-## Files
-
-### Scripts
-- `cv_utils.py` — `load_data`, `leave_5_subjects_out_folds`, `cross_view_folds`,
-  `cross_setup_folds`, `get_folds_and_axis`, `subject_bootstrap_ci_class`,
-  `classwise_report`. `CLASS_ORDER` and `CLASS_NAMES` define the 10-class
-  label space; `NUM_CLASSES = len(CLASS_ORDER)` is auto-derived everywhere.
-- `esvae_clf.py` — ES-VAE with squared-geodesic-distance reconstruction.
-  `--sweep` runs the (R × hidden × β-KL) grid; `--cv-mode {subject,view,setup}`
-  selects the fold scheme. Writes `results/esvae_clf_config{,_xview,_xsetup}.json`
-  and `results/best_knn_cfg{,_xview,_xsetup}.json` so PCA / Vanilla VAE can
-  match.
-- `esvae_epoch_sweep.py` — Phase 1b: epoch sweep (25/50/100/150/200/250/300/400)
-  on the winning (R, hidden, β) config; writes `results/esvae_epoch_sweep.csv`.
-- `esvae_batch_sweep.py` — Phase 1c: batch-size sweep (16/32/64/128/256) at
-  the best epoch from 1b; writes `results/esvae_batch_sweep.csv` and updates
-  `esvae_clf_config.json` with the final tuned config.
-- `pca_clf.py` — PCA on tangent vectors → KNN. Auto-loads R from
-  `esvae_clf_config{,_xview,_xsetup}.json` and KNN from
-  `best_knn_cfg{,_xview,_xsetup}.json` so PCA matches the ES-VAE-chosen
-  embedding dim and KNN per CV mode.
-- `sequence_clf.py` — TCN / LSTM / Transformer / STGCN on the 75-channel
-  (=25×3) tangent-vector sequence. Architectures match `Raw_Skeleton/sequence_clf.py`
-  exactly; only the input differs.
-
-### Outputs (`results/`)
-- Per-CV-mode metrics with suffix `{,_xview,_xsetup}`:
-  - `esvae_clf_metrics*.csv`, `esvae_clf_classwise*.csv`, `esvae_clf_config*.json`
-  - `pca_clf_metrics*.csv`, `pca_clf_classwise_best*.csv`, `pca_clf_oof*.json`
-  - `sequence_clf_metrics*.csv`, `sequence_clf_classwise_best*.csv`
-  - `best_knn_cfg*.json`
-- Sweep outputs: `esvae_sweep.csv`, `esvae_epoch_sweep.csv`, `esvae_batch_sweep.csv`.
-- Logs: `*.log` (per-fold prints).
-
-## How to run
+## Training
 
 From `Tangent_Vector/`:
 
-```bash
-# Phase 1: ES-VAE hyperparameter sweep (subject CV) — locks the chosen config.
+```train
+# Phase 1 — ES-VAE hyperparameter sweep (subject CV) — locks the chosen config
 python esvae_clf.py --sweep --cv-mode subject
 python esvae_epoch_sweep.py
 python esvae_batch_sweep.py
 
-# Phase 3 — full evaluation under each CV mode (uses tuned config).
+# Phase 3 — full training under each CV mode (uses tuned config)
 python pca_clf.py        --cv-mode subject     # then --cv-mode view, setup
 python esvae_clf.py      --cv-mode subject --R 48 --epochs 150 --hidden 768 --beta-kl 1e-4 --batch-size 64
 python sequence_clf.py   --cv-mode subject
 ```
 
-The combined NeurIPS-style results table for both subject and view
-modes is at `../results_tables_top10.md`, generated by
-`../build_results_tables.py`.
+`esvae_clf.py --sweep` writes `results/esvae_clf_config{,_xview,_xsetup}.json` and `results/best_knn_cfg{,_xview,_xsetup}.json` so PCA / Vanilla VAE in the matched `Raw_Skeleton/` pipeline can auto-match the ES-VAE-chosen embedding dim and KNN per CV mode.
 
-## Best ES-VAE configuration (locked in by Phase 1 sweep)
-
-Selected by `esvae_clf.py --sweep` → `esvae_epoch_sweep.py` → `esvae_batch_sweep.py`
-on subject CV (highest pooled Macro-F1):
+### Best ES-VAE configuration (locked in by Phase 1 sweep)
 
 | Hyperparameter | Value |
 |---|---|
@@ -116,16 +74,37 @@ on subject CV (highest pooled Macro-F1):
 | Reconstruction loss | Squared geodesic distance on Kendall preshape space (via `exp_gpu_batch`) |
 | Latent classifier | KNN (k=5, weights="distance") on subject CV |
 
-The sweep grid swept R ∈ {16, 24, 32, 48} × hidden ∈ {512, 768} ×
-β-KL ∈ {1e-4, 1e-3}. Bigger R + bigger hidden + smaller β consistently
-won. Epochs ≥ 150 plateau (250–400 mildly overfit). Batch size 64 wins;
-16/32 too noisy, 128/256 too smooth. KNN selection is per-CV-mode:
-subject → k=5 distance, view → k=5 distance, setup → k=1 uniform.
+Sweep grid: R ∈ {16, 24, 32, 48} × hidden ∈ {512, 768} × β-KL ∈ {1e-4, 1e-3}. Bigger R + bigger hidden + smaller β consistently won. Epochs ≥ 150 plateau (250–400 mildly overfit). Batch size 64 wins. KNN selection is per-CV-mode: subject → k=5 distance, view → k=5 distance, setup → k=1 uniform.
 
-## Headline comparison (cross-subject, L5SO, 8 folds)
+## Evaluation
 
-Pooled across 8 L5SO folds. Cells show **mean [95% CI]** from
-2000-iter subject bootstrap. Sorted by Macro-F1.
+Each `*_clf.py` script trains under a CV mode and writes pooled-OOF metrics with 2000-iter subject bootstrap CIs to `results/`:
+
+```eval
+python esvae_clf.py    --cv-mode subject --R 48 --epochs 150 --hidden 768 --beta-kl 1e-4 --batch-size 64
+python pca_clf.py      --cv-mode subject
+python sequence_clf.py --cv-mode subject
+```
+
+Outputs (`results/`), per CV mode with suffix `{,_xview,_xsetup}`:
+- `esvae_clf_metrics*.csv`, `esvae_clf_classwise*.csv`, `esvae_clf_config*.json`
+- `pca_clf_metrics*.csv`, `pca_clf_classwise_best*.csv`, `pca_clf_oof*.json`
+- `sequence_clf_metrics*.csv`, `sequence_clf_classwise_best*.csv`
+- `best_knn_cfg*.json`
+- Sweeps: `esvae_sweep.csv`, `esvae_epoch_sweep.csv`, `esvae_batch_sweep.csv`
+- Per-fold logs: `*.log`
+
+The combined NeurIPS-style results table (subject + view) lives at `../results_tables_top10.md`, generated by `../build_results_tables.py`.
+
+## Pre-trained Models
+
+No checkpoints are distributed. All training is deterministic given `seed=42` and the locked config above — rerunning the training commands reproduces every reported number. Phase-1 sweep ~75 min, epoch sweep ~30 min, batch sweep ~15 min, one CV-mode evaluation pass 5–15 min on an A6000.
+
+## Results
+
+### Skeleton-Based Action Recognition on NTU RGB+D — top10 cross-subject (L5SO, 8 folds)
+
+Pooled across 8 L5SO folds. Cells show **mean [95% CI]** from 2000-iter subject bootstrap. Sorted by Macro-F1.
 
 | Method | Macro-F1 | Macro Precision | Macro Recall |
 |---|---|---|---|
@@ -138,14 +117,9 @@ Pooled across 8 L5SO folds. Cells show **mean [95% CI]** from
 | LSTM | 0.379 [0.334, 0.422] | 0.392 [0.326, 0.468] | 0.420 [0.375, 0.465] |
 | Hyper-GCN | 0.377 [0.329, 0.422] | 0.435 [0.393, 0.486] | 0.380 [0.333, 0.427] |
 
-The `official_compare/` runners add two newer NTU-specialised backbones
-to the same subject-CV table. On tangent input, Sparse-ST-GCN remains
-competitive, but Hyper-GCN drops sharply; ES-VAE remains the strongest
-tangent-side model overall. Compared against their raw-input runs,
-Hyper-GCN drops by `0.1622` Macro-F1 on tangent while Sparse-ST-GCN
-gains `0.0113`.
+The `../official_compare/` runners add two newer NTU-specialised backbones to the same subject-CV table. On tangent input, Sparse-ST-GCN remains competitive but Hyper-GCN drops sharply; ES-VAE remains the strongest tangent-side model overall.
 
-## Cross-view (3 folds) and cross-setup (17 folds) summaries
+### Cross-view (3 folds) and cross-setup (17 folds)
 
 Cross-view (leave-one-camera-out):
 
@@ -158,18 +132,13 @@ Cross-view (leave-one-camera-out):
 | TCN | 0.269 [0.236, 0.301] |
 | LSTM | 0.262 [0.223, 0.300] |
 
-Cross-setup (leave-one-NTU-setup-out): ES-VAE 0.525, PCA-KNN 0.469,
-Transformer 0.423, STGCN 0.377, TCN 0.335, LSTM 0.364. See
-`results/*_xsetup.csv` for full CIs.
+Cross-setup (leave-one-NTU-setup-out): ES-VAE 0.525, PCA-KNN 0.469, Transformer 0.423, STGCN 0.377, TCN 0.335, LSTM 0.364. See `results/*_xsetup.csv` for full CIs.
 
-ES-VAE leads under all three protocols. View-mode is the hardest
-(only 3 folds, large test sets); setup-mode > subject for non-NN
-methods because of the larger train side per fold.
+ES-VAE leads under all three protocols. View-mode is the hardest (only 3 folds, large test sets); setup-mode > subject for non-NN methods because of the larger train side per fold.
 
-## Classwise performance — best model (ES-VAE, subject CV)
+### Classwise — best model (ES-VAE, subject CV)
 
-`sklearn.metrics.classification_report` on pooled OOF predictions across
-all 8 L5SO folds. Source: `results/esvae_clf_classwise.csv`.
+`sklearn.metrics.classification_report` on pooled OOF predictions across all 8 L5SO folds. Source: `results/esvae_clf_classwise.csv`.
 
 | Class | Precision | Recall | F1 | Support |
 |---|---:|---:|---:|---:|
@@ -184,21 +153,8 @@ all 8 L5SO folds. Source: `results/esvae_clf_classwise.csv`.
 | A023 hand waving | 0.735 | 0.625 | 0.676 | 40 |
 | A031 pointing | 0.821 | 0.800 | 0.810 | 40 |
 
-The 4 whole-body anchors average **F1 ≈ 0.79**; the 6 hand-to-face
-classes average **F1 ≈ 0.40**. The dataset was deliberately designed
-this way — the spread is the manifold-vs-raw signal.
+The 4 whole-body anchors average **F1 ≈ 0.79**; the 6 hand-to-face classes average **F1 ≈ 0.40**. The dataset was deliberately designed this way — the spread is the manifold-vs-raw signal.
 
-## Notes
+## Contributing
 
-- L5SO partition is deterministic (shuffle seed=42, then contiguous 5-subject
-  blocks). All models share the same fold splits, so per-method comparisons
-  are matched-pair valid.
-- `../official_compare/hypergcn_runner.py` and
-  `../official_compare/sparse_stgcn_runner.py` port official recent NTU
-  backbones into a local runner that can read this tangent representation
-  without the original PYSKL/MMCV dataset stack.
-- ES-VAE GPU is `cuda:1` because `functionsgpu_fast.py` (geomstats
-  PreShapeSpace utilities) is hardcoded to that device on import.
-- Per-fold prints are in `*.log` files for reproducibility.
-- Phase-1 sweep takes ~75 min; epoch sweep ~30 min; batch sweep ~15 min;
-  one CV-mode evaluation pass takes 5–15 min on an A6000.
+Contributions should preserve the matched-pair guarantee with `../Raw_Skeleton/` (same architectures, same fold splits, same KNN). Issues and pull requests are welcome at the repo root.
